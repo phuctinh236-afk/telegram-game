@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Xóc Đĩa VIP 1:1</title>
+    <title>Tài Xỉu Ab666 1:1</title>
     <style>
         * {
             box-sizing: border-box;
@@ -36,15 +36,35 @@
             overflow: hidden;
         }
 
-        /* TOP BAR: LOGO, MINI GAME, HŨ TIỀN, SLOT, SETTING */
+        /* TOP BAR: THOÁT, TIÊU ĐỀ AB666, MINI GAME, HŨ THƯỞNG, SLOT */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 10px;
-            background: rgba(0, 0, 0, 0.4);
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.5);
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             z-index: 10;
+        }
+
+        .top-left-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-btn {
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hall-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 0.5px;
         }
 
         .logo-box {
@@ -52,72 +72,68 @@
             flex-direction: column;
             align-items: center;
             background: radial-gradient(circle, #f39c12 0%, #c0392b 100%);
-            padding: 4px 8px;
-            border-radius: 8px;
+            padding: 2px 6px;
+            border-radius: 6px;
             border: 1px solid #ffd700;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-        .logo-text { font-size: 14px; font-weight: 900; font-style: italic; color: #fff; letter-spacing: 1px; text-shadow: 1px 1px 2px #000; }
-        .logo-sub { font-size: 8px; font-weight: bold; color: #ffeb3b; }
+        .logo-text { font-size: 11px; font-weight: 900; font-style: italic; color: #fff; }
+        .logo-sub { font-size: 7px; font-weight: bold; color: #ffeb3b; }
 
         .mini-game-btn {
             background: linear-gradient(135deg, #d35400, #e67e22);
-            border: 2px solid #f1c40f;
-            border-radius: 12px;
-            padding: 2px 6px;
+            border: 1px solid #f1c40f;
+            border-radius: 10px;
+            padding: 2px 5px;
             text-align: center;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
-        .mg-title { font-size: 8px; font-weight: bold; color: #fff; }
-        .mg-dice { font-size: 10px; }
+        .mg-title { font-size: 7px; font-weight: bold; color: #fff; }
+        .mg-dice { font-size: 9px; }
 
         .jackpot-box {
             background: linear-gradient(180deg, #5c2000, #2b0f00);
-            border: 2px solid #ffd700;
-            border-radius: 15px;
-            padding: 2px 12px;
+            border: 1px solid #ffd700;
+            border-radius: 12px;
+            padding: 2px 10px;
             text-align: center;
-            box-shadow: inset 0 0 8px rgba(255,215,0,0.6);
         }
-        .jp-title { font-size: 8px; color: #ffeb3b; font-weight: bold; }
-        .jp-amount { font-size: 12px; color: #2ecc71; font-weight: 900; }
+        .jp-title { font-size: 7px; color: #ffeb3b; font-weight: bold; }
+        .jp-amount { font-size: 11px; color: #2ecc71; font-weight: 900; }
 
         .slot-mini {
             background: linear-gradient(180deg, #1b3a26, #0d1f13);
-            border: 2px solid #f39c12;
-            border-radius: 8px;
-            padding: 2px 6px;
+            border: 1px solid #f39c12;
+            border-radius: 6px;
+            padding: 2px 5px;
             text-align: center;
         }
-        .slot-rate { font-size: 8px; color: #f1c40f; font-weight: bold; }
-        .slot-screen { font-size: 10px; background: #fff; color: #000; border-radius: 3px; padding: 1px 3px; font-weight: bold; }
+        .slot-rate { font-size: 7px; color: #f1c40f; font-weight: bold; }
+        .slot-screen { font-size: 9px; background: #fff; color: #000; border-radius: 2px; padding: 1px 2px; font-weight: bold; }
 
         .right-top-icons {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             align-items: center;
         }
         .icon-btn {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             background: #2c3e50;
             border: 1px solid #ffd700;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 11px;
+            font-size: 10px;
             cursor: pointer;
         }
 
-        /* BÀN XÓC ĐĨA OVAL CHÍNH */
+        /* BÀN TÀI XỈU OVAL CHÍNH */
         .table-arena {
             flex: 1;
             background: radial-gradient(circle, #0e4c28 0%, #062313 100%);
             position: relative;
             margin: 6px;
-            border-radius: 120px;
+            border-radius: 140px;
             border: 8px solid #1a3b22;
             box-shadow: inset 0 0 35px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
             display: flex;
@@ -129,7 +145,7 @@
         /* DEALER CHÍNH Ở GIỮA TRÊN */
         .dealer-center {
             position: absolute;
-            top: 4px;
+            top: 8px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -138,12 +154,12 @@
             z-index: 6;
         }
         .dealer-img {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: 2px solid #ffd700;
             background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100') center/cover;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
         /* 6 GHẾ NGƯỜI CHƠI XUNG QUANH BÀN */
@@ -154,17 +170,17 @@
             align-items: center;
             z-index: 5;
         }
-        .seat-1 { top: 8px; left: 15px; }
-        .seat-2 { top: 85px; left: 8px; }
-        .seat-3 { top: 165px; left: 8px; }
+        .seat-1 { top: 12px; left: 15px; }
+        .seat-2 { top: 90px; left: 8px; }
+        .seat-3 { top: 170px; left: 8px; }
 
-        .seat-4 { top: 8px; right: 15px; }
-        .seat-5 { top: 85px; right: 8px; }
-        .seat-6 { top: 165px; right: 8px; }
+        .seat-4 { top: 12px; right: 15px; }
+        .seat-5 { top: 90px; right: 8px; }
+        .seat-6 { top: 170px; right: 8px; }
 
         .seat-avt {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 2px solid #c0392b;
             background-size: cover;
@@ -178,28 +194,28 @@
             right: -3px;
             background: #f39c12;
             color: #000;
-            font-size: 7px;
+            font-size: 6px;
             font-weight: 900;
-            padding: 1px 3px;
+            padding: 1px 2px;
             border-radius: 3px;
             border: 1px solid #fff;
         }
         .seat-info-box {
-            font-size: 8px;
+            font-size: 7.5px;
             color: #fff;
             background: rgba(0,0,0,0.6);
-            padding: 1px 4px;
-            border-radius: 4px;
+            padding: 1px 3px;
+            border-radius: 3px;
             margin-top: 2px;
             text-align: center;
             white-space: nowrap;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* BÁT ĐĨA VÀ HIỆU ỨNG XÓC Ở GIỮA */
+        /* BÁT XỐC / HỘP ĐỰNG XÚC XẮC Ở GIỮA */
         .plate-area {
             position: absolute;
-            top: 36%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
             display: flex;
@@ -209,11 +225,11 @@
         }
 
         .plate-dish {
-            width: 90px;
-            height: 90px;
-            background: #ecf0f1;
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #e67e22, #d35400);
             border-radius: 50%;
-            border: 3px solid #d4af37;
+            border: 3px solid #ffd700;
             position: relative;
             display: flex;
             justify-content: center;
@@ -221,71 +237,26 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             cursor: pointer;
         }
-
-        /* Hiệu ứng xóc bát động */
-        .shaking {
-            animation: shakePlate 0.35s infinite ease-in-out;
-        }
-        @keyframes shakePlate {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(-4px, 3px) rotate(-3deg); }
-            50% { transform: translate(4px, -3px) rotate(3deg); }
-            75% { transform: translate(-2px, -2px) rotate(-2deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+        .bowl-icon {
+            font-size: 24px;
         }
 
-        .bowl-cover-hud {
-            position: absolute;
-            width: 82px;
-            height: 82px;
-            background: radial-gradient(circle, #b8860b, #4a2f13);
-            border-radius: 50%;
-            border: 2px solid #ffd700;
-            top: 1px;
-            left: 1px;
-            transition: all 0.5s ease;
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            z-index: 2;
-        }
-        .bowl-cover-hud.open {
-            transform: translateY(-60px) scale(0.8);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .coins-inside {
-            display: flex;
-            gap: 4px;
-            z-index: 1;
-        }
-        .coin-item {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-        .coin-item.red { background: #e74c3c; border: 1px solid #c0392b; }
-        .coin-item.white { background: #ecf0f1; border: 1px solid #bdc3c7; }
-
-        /* CÁC CỬA CƯỢC TRÊN BÀN */
+        /* CÁC CỬA CƯỢC TÀI XỈU CHÍNH TRÊN BÀN */
         .bets-layout {
-            margin-top: 150px;
+            margin-top: 145px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
+            gap: 6px;
             z-index: 4;
             width: 100%;
+            padding: 0 10px;
         }
 
         .bet-card {
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid #d4af37;
             border-radius: 6px;
-            padding: 6px 2px;
+            padding: 8px 2px;
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
@@ -293,14 +264,14 @@
         .bet-card:active { transform: scale(0.95); }
         .bet-card.selected { background: rgba(212, 175, 55, 0.4); box-shadow: 0 0 8px #d4af37; }
 
-        .bc-title { font-size: 9.5px; font-weight: bold; color: #ffd700; }
-        .bc-rate { font-size: 8px; color: #bdc3c7; margin-top: 1px; }
-        .bc-amount { font-size: 9px; color: #2ecc71; margin-top: 1px; font-weight: bold; }
+        .bc-title { font-size: 11px; font-weight: bold; color: #ffd700; }
+        .bc-rate { font-size: 8px; color: #bdc3c7; margin-top: 2px; }
+        .bc-amount { font-size: 9.5px; color: #2ecc71; margin-top: 2px; font-weight: bold; }
 
-        /* THANH DƯỚI: BẢNG LỊCH SỬ CẦU + 8 MỨC CƯỢC + VÍ */
+        /* THANH DƯỚI: LỊCH SỬ CẦU + VÍ + 5 MỨC CHIP MẶC ĐỊNH */
         .bottom-panel {
             background: #0b1526;
-            padding: 6px 8px;
+            padding: 6px 10px;
             border-top: 1px solid #1f2c47;
             display: flex;
             flex-direction: column;
@@ -322,9 +293,8 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
-            max-width: 150px;
         }
-        .hist-title { font-size: 8px; color: #ffd700; font-weight: bold; display: flex; justify-content: space-between; }
+        .hist-title { font-size: 8px; color: #ffd700; font-weight: bold; display: flex; gap: 15px; }
         .hist-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -338,7 +308,7 @@
         .h-dot.red { background: #e74c3c; }
         .h-dot.white { background: #ecf0f1; }
 
-        /* AVATAR NGƯỜI CHƠI GÓC DƯỚI & VÍ */
+        /* AVATAR NGƯỜI CHƠI CÁ NHÂN & VÍ */
         .user-profile-widget {
             display: flex;
             align-items: center;
@@ -349,8 +319,8 @@
             padding: 2px 8px 2px 2px;
         }
         .up-avatar {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 1px solid #ffd700;
             background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100') center/cover;
@@ -362,31 +332,27 @@
         .up-name { font-size: 8px; color: #fff; font-weight: bold; }
         .up-bal { font-size: 9px; color: #f1c40f; font-weight: bold; }
 
-        /* THANH CHỌN 8 MỨC CƯỢC 1 5 10 20 50 100 200 500 */
+        /* THANH CHỌN CHIP: 1K, 5K, 10K, 20K, 50K */
         .chips-row {
             display: flex;
-            gap: 4px;
+            gap: 8px;
             justify-content: center;
-            overflow-x: auto;
-            scrollbar-width: none;
         }
-        .chips-row::-webkit-scrollbar { display: none; }
 
         .chip-btn {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2c3e50, #1a252f);
             border: 2px dashed #bdc3c7;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 9px;
+            font-size: 9.5px;
             font-weight: bold;
             color: #fff;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            flex-shrink: 0;
             transition: 0.2s;
         }
         .chip-btn.active {
@@ -395,24 +361,6 @@
             transform: scale(1.15);
             box-shadow: 0 0 10px #f39c12;
         }
-
-        /* NÚT THAO TÁC */
-        .action-buttons {
-            display: flex;
-            gap: 6px;
-        }
-        .btn-act {
-            flex: 1;
-            padding: 6px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            text-align: center;
-        }
-        .btn-clear { background: #c0392b; color: #fff; }
-        .btn-confirm { background: #27ae60; color: #fff; }
     </style>
 </head>
 <body>
@@ -420,6 +368,11 @@
     <div class="game-container">
         <!-- TOP BAR -->
         <div class="top-bar">
+            <div class="top-left-group">
+                <span class="close-btn">&#10005;</span>
+                <span class="hall-title">Ab666</span>
+            </div>
+
             <div class="logo-box">
                 <span class="logo-text">iWIN</span>
                 <span class="logo-sub">SSS</span>
@@ -432,7 +385,7 @@
 
             <div class="jackpot-box">
                 <div class="jp-title">HŨ THƯỞNG</div>
-                <div class="jp-amount" id="jackpotVal">6,399,700</div>
+                <div class="jp-amount">6,399,700</div>
             </div>
 
             <div class="slot-mini">
@@ -446,7 +399,7 @@
             </div>
         </div>
 
-        <!-- BÀN XÓC ĐĨA TRUNG TÂM -->
+        <!-- BÀN TÀI XỈU TRUNG TÂM -->
         <div class="table-arena">
             <!-- Dealer chính -->
             <div class="dealer-center">
@@ -458,7 +411,7 @@
                 <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100')">
                     <div class="vip-tag">VIP2</div>
                 </div>
-                <div class="seat-info-box">hieunghia<br>13,57M</div>
+                <div class="seat-info-box">hleunghia<br>13,57M</div>
             </div>
 
             <div class="seat seat-2">
@@ -496,48 +449,42 @@
                 <div class="seat-info-box">donkihote<br>55,72M</div>
             </div>
 
-            <!-- Bát đĩa xóc đĩa ở giữa bàn -->
+            <!-- Bát đĩa Tài Xỉu ở giữa bàn -->
             <div class="plate-area">
-                <div class="plate-dish" onclick="toggleBowl()">
-                    <div class="bowl-cover-hud" id="bowlCover">🍲</div>
-                    <div class="coins-inside">
-                        <div class="coin-item red"></div>
-                        <div class="coin-item red"></div>
-                        <div class="coin-item white"></div>
-                        <div class="coin-item white"></div>
-                    </div>
+                <div class="plate-dish">
+                    <div class="bowl-icon">🍲</div>
                 </div>
             </div>
 
-            <!-- Các cửa cược trên bàn -->
+            <!-- Các cửa cược chính (CHẴN, LẺ, 4 ĐỎ, 4 TRẮNG) -->
             <div class="bets-layout">
-                <div class="bet-card" id="cardChan" onclick="placeBet('CHAN')">
+                <div class="bet-card">
                     <div class="bc-title">CHẴN</div>
                     <div class="bc-rate">1:0.96</div>
-                    <div class="bc-amount" id="amtChan">0</div>
+                    <div class="bc-amount">0</div>
                 </div>
-                <div class="bet-card" id="cardLe" onclick="placeBet('LE')">
+                <div class="bet-card">
                     <div class="bc-title">LẺ</div>
                     <div class="bc-rate">1:0.96</div>
-                    <div class="bc-amount" id="amtLe">0</div>
+                    <div class="bc-amount">0</div>
                 </div>
-                <div class="bet-card" id="card4Do" onclick="placeBet('4DO')">
+                <div class="bet-card">
                     <div class="bc-title">4 ĐỎ</div>
                     <div class="bc-rate">1:12</div>
-                    <div class="bc-amount" id="amt4Do">0</div>
+                    <div class="bc-amount">0</div>
                 </div>
-                <div class="bet-card" id="card4Trang" onclick="placeBet('4TRANG')">
+                <div class="bet-card">
                     <div class="bc-title">4 TRẮNG</div>
                     <div class="bc-rate">1:12</div>
-                    <div class="bc-amount" id="amt4Trang">0</div>
+                    <div class="bc-amount">0</div>
                 </div>
             </div>
         </div>
 
-        <!-- BOTTOM PANEL: LỊCH SỬ + AVATAR CÁ NHÂN + 8 MỨC CHIP + NÚT -->
+        <!-- BOTTOM PANEL: LỊCH SỬ + VÍ + THANH CHỌN CHIP 1K-50K -->
         <div class="bottom-panel">
             <div class="row-tool">
-                <!-- Lịch sử cầu chẵn lẻ -->
+                <!-- Lịch sử cầu -->
                 <div class="history-box">
                     <div class="hist-title"><span>KẾT QUẢ</span><span>COPY</span></div>
                     <div class="hist-grid">
@@ -546,21 +493,33 @@
                     </div>
                 </div>
 
-                <!-- Avatar người chơi hiện tại & ví -->
+                <!-- Avatar người chơi & số dư ví -->
                 <div class="user-profile-widget">
                     <div class="up-avatar"></div>
                     <div class="up-info">
                         <span class="up-name">sauriengch...</span>
-                        <span class="up-bal" id="gameBalance">đ1,500,000</span>
+                        <span class="up-bal">đ1,500,000</span>
                     </div>
                 </div>
             </div>
 
-            <!-- 8 Mức cược theo yêu cầu: 1, 5, 10, 20, 50, 100, 200, 500 (K) -->
+            <!-- 5 Mức cược theo hình ảnh: 1K, 5K, 10K, 20K, 50K -->
             <div class="chips-row">
-                <div class="chip-btn active" onclick="selectChip(1000, this)">1K</div>
-                <div class="chip-btn" onclick="selectChip(5000, this)">5K</div>
-                <div class="chip-btn" onclick="selectChip(10000, this)">10K</div>
-                <div class="chip-btn" onclick="selectChip(20000, this)">20K</div>
-                <div class="chip-btn" onclick="selectChip(50000, this)">50K</div>
- 
+                <div class="chip-btn active" onclick="selectChip(this)">1K</div>
+                <div class="chip-btn" onclick="selectChip(this)">5K</div>
+                <div class="chip-btn" onclick="selectChip(this)">10K</div>
+                <div class="chip-btn" onclick="selectChip(this)">20K</div>
+                <div class="chip-btn" onclick="selectChip(this)">50K</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectChip(el) {
+            document.querySelectorAll('.chip-btn').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+                                                       </html>
+                                                       
