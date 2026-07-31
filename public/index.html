@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -33,6 +33,7 @@
             flex-direction: column;
             position: relative;
             box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
         /* HEADER */
@@ -43,6 +44,7 @@
             padding: 12px 15px;
             background: #1a2232;
             border-bottom: 1px solid #2a364f;
+            z-index: 10;
         }
         .header-left {
             display: flex;
@@ -63,6 +65,101 @@
             text-decoration: none;
             display: inline-block;
         }
+
+        /* SIDEBAR MENU (MENU 3 GẠCH TRƯỢT) */
+        .sidebar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        .sidebar {
+            position: absolute;
+            top: 0;
+            left: -85%;
+            width: 85%;
+            height: 100%;
+            background: #121824;
+            z-index: 101;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-right: 1px solid #2a364f;
+        }
+        .sidebar.show { left: 0; }
+
+        .sidebar-header {
+            background: #1a2232;
+            padding: 15px;
+            border-bottom: 1px solid #2a364f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-user-box {
+            background: #1d2636;
+            border: 1px solid #c5a059;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px;
+        }
+        .user-info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .user-avatar { width: 40px; height: 40px; background: #c5a059; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; }
+        .user-details .username { font-weight: bold; font-size: 14px; color: #fff; }
+        .user-details .sub-text { font-size: 11px; color: #c5a059; cursor: pointer; }
+        .wallet-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #2a364f; padding-top: 8px; }
+        .wallet-balance .balance-title { font-size: 10px; color: #8395a7; }
+        .wallet-balance .balance-val { font-size: 14px; font-weight: bold; color: #d4af37; }
+
+        .sidebar-search {
+            margin: 0 12px 12px 12px;
+            background: #1a2232;
+            border: 1px solid #2a364f;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            gap: 8px;
+        }
+        .sidebar-search input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .sidebar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 0 12px 12px 12px;
+        }
+        .sidebar-grid-item {
+            background: #1a2232;
+            border: 1px solid #2a364f;
+            border-radius: 8px;
+            padding: 12px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .sidebar-grid-item span:first-child { font-size: 18px; }
 
         /* SCREENS */
         .screen {
@@ -93,10 +190,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 0 15px;
         }
         .dots-row {
             position: absolute;
@@ -185,7 +284,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 26px;
             position: relative;
         }
         .game-title {
@@ -220,19 +319,75 @@
         <!-- HEADER CHUNG -->
         <div class="header">
             <div class="header-left">
-                <span class="menu-icon">☰</span>
+                <span class="menu-icon" onclick="toggleSidebar()">☰</span>
                 <span class="logo-text">MEGA CASINO WORLD</span>
             </div>
             <a href="https://t.me/pphuc8386" target="_blank" class="cskh-btn">💬 CSKH</a>
+        </div>
+
+        <!-- SIDEBAR MENU TRƯỢT BÊN TRÁI -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar" id="sidebarMenu">
+            <div class="sidebar-header">
+                <span class="logo-text">MEGA CASINO WORLD</span>
+                <span style="font-size: 18px; cursor: pointer; color: #fff;" onclick="toggleSidebar()">✕</span>
+            </div>
+
+            <!-- Khung thông tin cá nhân -->
+            <div class="sidebar-user-box">
+                <div class="user-info-row">
+                    <div class="user-avatar">🪙</div>
+                    <div class="user-details">
+                        <div class="username">Phun Cam Kiu</div>
+                        <div class="sub-text" onclick="alert('Xem trang hồ sơ cá nhân')">Hồ sơ &gt;</div>
+                    </div>
+                </div>
+                <div class="wallet-row">
+                    <div class="wallet-balance">
+                        <div class="balance-title">Ví chính 🔄</div>
+                        <div class="balance-val">đ0,37</div>
+                    </div>
+                    <div style="background: rgba(197, 160, 89, 0.2); border: 1px solid #c5a059; border-radius: 6px; padding: 6px 10px; color: #c5a059; font-size: 14px; cursor: pointer;" onclick="alert('Đã làm mới số dư')">💳</div>
+                </div>
+            </div>
+
+            <!-- Ô tìm kiếm trong menu -->
+            <div class="sidebar-search">
+                <span>🔍</span>
+                <input type="text" placeholder="Tìm kiếm trò chơi">
+            </div>
+
+            <!-- Các nút danh mục trong sidebar -->
+            <div class="sidebar-grid">
+                <a href="deposit.html" class="sidebar-grid-item"><span>💳</span><span>Nạp tiền</span></a>
+                <a href="#" onclick="alert('Chức năng Rút tiền đang bảo trì')" class="sidebar-grid-item"><span>🏧</span><span>Rút tiền</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🔥</span><span>HOT</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🐓</span><span>Đá Gà</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🎰</span><span>Slots</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>♠️</span><span>Casino</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🀄</span><span>Game bài</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🐟</span><span>Bắn Cá</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🎱</span><span>Xổ Số</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>⚽</span><span>Thể Thao</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🚀</span><span>Crash</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🕹️</span><span>Arcade</span></a>
+            </div>
+
+            <!-- Nút phụ bên dưới menu -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 12px 20px 12px;">
+                <div class="sidebar-grid-item" onclick="alert('Khuyến mãi đặc biệt')"><span>🎁</span><span>Khuyến mãi</span></div>
+                <div class="sidebar-grid-item" onclick="alert('Câu lạc bộ VIP')"><span>👑</span><span>VIP</span></div>
+                <a href="deposit.html" class="sidebar-grid-item"><span>📥</span><span>Tải xuống</span></a>
+            </div>
         </div>
 
         <!-- MÀN HÌNH TRANG CHỦ (LOBBY) -->
         <div id="screen-home" class="screen">
             <div class="banner-container">
                 <div class="banner-slide" id="slider">
-                    <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
+                    <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
                     <div class="banner-item" style="background: linear-gradient(135deg, #27ae60, #16a085);">🎲 BÀN TÀI XỈU VIP - HOÀN CƯỢC 1.5% 🎲</div>
-                    <div class="banner-item" style="background: linear-gradient(135deg, #2980b9, #8e44ad);">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
+                    <div class="banner-item" style="background: linear-gradient(135deg, #2980b9, #8e44ad);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
                 </div>
                 <div class="dots-row">
                     <div class="dot active"></div>
@@ -275,7 +430,7 @@
             </div>
         </div>
 
-        <!-- FOOTER NAVIGATION (LIÊN KẾT TRỰC TIẾP QUA DEPOSIT.HTML) -->
+        <!-- FOOTER NAVIGATION -->
         <div class="footer-nav">
             <a href="index.html" class="footer-btn active">
                 <span class="footer-icon">🏠</span>
@@ -289,7 +444,7 @@
                 <span class="footer-icon">💳</span>
                 <span>Nạp tiền</span>
             </a>
-            <div class="footer-btn" onclick="alert('Tài khoản thành viên VIP')">
+            <div class="footer-btn" onclick="toggleSidebar()">
                 <span class="footer-icon">👤</span>
                 <span>Tài khoản</span>
             </div>
@@ -297,6 +452,13 @@
     </div>
 
     <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
         function switchTab(el) {
             document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
@@ -314,4 +476,5 @@
         }, 3500);
     </script>
 </body>
-</html>
+                                                                           </html>
+                                                                           
