@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+            <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -345,7 +345,7 @@
                 <div class="wallet-row">
                     <div class="wallet-balance">
                         <div class="balance-title">Ví chính chung 🔄</div>
-                        <div class="balance-val" id="sidebarBalance">đ1,500,000</div>
+                        <div class="balance-val" id="sidebarBalance">đ0</div>
                     </div>
                     <div style="background: rgba(197, 160, 89, 0.2); border: 1px solid #c5a059; border-radius: 6px; padding: 6px 10px; color: #c5a059; font-size: 14px; cursor: pointer;" onclick="refreshBalance()">💳</div>
                 </div>
@@ -454,8 +454,9 @@
     <script>
         function updateBalanceDisplay() {
             let currentBal = localStorage.getItem('user_balance');
+            // Chỉ gán 1.500.000đ khi hoàn toàn chưa tồn tại dữ liệu trong bộ nhớ
             if (currentBal === null) {
-                currentBal = 1500000; // Mặc định 1.5 triệu dùng chung
+                currentBal = 1500000;
                 localStorage.setItem('user_balance', currentBal);
             } else {
                 currentBal = parseInt(currentBal);
@@ -496,5 +497,4 @@
         window.onload = updateBalanceDisplay;
     </script>
 </body>
-                    </html>
-                    
+</html>
