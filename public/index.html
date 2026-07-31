@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -67,13 +67,10 @@
         /* SCREENS */
         .screen {
             flex: 1;
-            display: none;
+            display: flex;
             flex-direction: column;
             overflow-y: auto;
             background: #121824;
-        }
-        .screen.active {
-            display: flex;
         }
 
         /* BANNER */
@@ -178,6 +175,7 @@
             align-items: center;
             cursor: pointer;
             border: 1px solid #2a364f;
+            text-decoration: none;
         }
         .game-card:active { transform: scale(0.95); }
         .game-thumb {
@@ -202,143 +200,6 @@
             width: 100%;
         }
 
-        /* NẠP TIỀN SCREEN STYLES */
-        .wallet-header {
-            display: flex;
-            background: #1a2232;
-            padding: 10px;
-            gap: 10px;
-            border-bottom: 1px solid #2a364f;
-        }
-        .wallet-tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            background: #121824;
-            border: 1px solid #c5a059;
-            color: #c5a059;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .wallet-tab.active {
-            background: linear-gradient(135deg, #c5a059, #8c6732);
-            color: #fff;
-        }
-        .wallet-body {
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .section-box {
-            background: #1a2232;
-            border: 1px solid #2a364f;
-            border-radius: 8px;
-            padding: 12px;
-        }
-        .section-title {
-            color: #d4af37;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .pay-methods-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-        .pay-method-item {
-            background: #121824;
-            border: 1px solid #2a364f;
-            border-radius: 6px;
-            padding: 10px 6px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 11px;
-            color: #ccc;
-        }
-        .pay-method-item.active {
-            border-color: #d4af37;
-            background: rgba(212, 175, 55, 0.1);
-            color: #fff;
-        }
-        .pay-sub-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-        .pay-sub-item {
-            background: #121824;
-            border: 1px solid #2a364f;
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-            color: #d4af37;
-            font-weight: bold;
-        }
-        .pay-sub-item.active {
-            background: #d4af37;
-            color: #121824;
-        }
-        .amount-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        .amount-btn {
-            background: #121824;
-            border: 1px solid #2a364f;
-            border-radius: 6px;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 13px;
-            font-weight: bold;
-            color: #fff;
-            cursor: pointer;
-        }
-        .amount-input-box {
-            position: relative;
-            background: #121824;
-            border: 1px solid #2a364f;
-            border-radius: 6px;
-            padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .amount-input-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #fff;
-            font-size: 15px;
-            width: 70%;
-        }
-        .submit-deposit-btn {
-            width: 100%;
-            background: linear-gradient(to right, #d4af37, #aa7c11);
-            color: #121824;
-            font-weight: bold;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            cursor: pointer;
-            text-align: center;
-        }
-
         /* FOOTER */
         .footer-nav {
             display: flex;
@@ -348,7 +209,7 @@
             justify-content: space-around;
             align-items: center;
         }
-        .footer-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #8395a7; }
+        .footer-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #8395a7; text-decoration: none; }
         .footer-btn.active { color: #f39c12; }
         .footer-icon { font-size: 18px; }
     </style>
@@ -365,8 +226,8 @@
             <a href="https://t.me/pphuc8386" target="_blank" class="cskh-btn">💬 CSKH</a>
         </div>
 
-        <!-- MÀN HÌNH 1: TRANG CHỦ (LOBBY) -->
-        <div id="screen-home" class="screen active">
+        <!-- MÀN HÌNH TRANG CHỦ (LOBBY) -->
+        <div id="screen-home" class="screen">
             <div class="banner-container">
                 <div class="banner-slide" id="slider">
                     <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
@@ -395,10 +256,10 @@
 
             <div class="game-content">
                 <div class="game-grid">
-                    <div class="game-card" onclick="window.location.href='taixiu.html'">
+                    <a href="taixiu.html" class="game-card">
                         <div class="game-thumb" style="background: linear-gradient(135deg, #27ae60, #0e6251);">🎲</div>
                         <div class="game-title">Tài Xỉu VIP</div>
-                    </div>
+                    </a>
                     <div class="game-card"><div class="game-thumb">🐉</div><div class="game-title">Dragon Gems</div></div>
                     <div class="game-card"><div class="game-thumb">🍬</div><div class="game-title">Mithai Madness</div></div>
                     <div class="game-card"><div class="game-thumb">🦅</div><div class="game-title">Fortune Gods</div></div>
@@ -414,90 +275,21 @@
             </div>
         </div>
 
-        <!-- MÀN HÌNH 2: NẠP TIỀN -->
-        <div id="screen-deposit" class="screen">
-            <div class="wallet-header">
-                <div class="wallet-tab active">Nạp tiền</div>
-                <div class="wallet-tab" onclick="alert('Chức năng Rút tiền đang bảo trì')">Rút tiền</div>
-            </div>
-
-            <div class="wallet-body">
-                <div class="section-box">
-                    <div class="section-title">🎁 Khuyến mãi</div>
-                    <select style="width:100%; background:#121824; border:1px solid #2a364f; color:#fff; padding:8px; border-radius:6px; outline:none;">
-                        <option>Nạp Tiền Thông Thường</option>
-                        <option>Thưởng Nạp Đầu 100%</option>
-                    </select>
-                </div>
-
-                <div class="section-box">
-                    <div class="section-title">💳 Phương thức thanh toán</div>
-                    <div class="pay-methods-grid">
-                        <div class="pay-method-item active" onclick="selectPayMethod(this)">🏦 Ngân hàng đ...</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">📱 MOMOPAY</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">💛 ZaloPay</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">🔴 ViettelPay</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">💎 USDT TRC20</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">🟠 BTC</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">🔵 ETH</div>
-                        <div class="pay-method-item" onclick="selectPayMethod(this)">🎫 Thẻ Cào ĐT</div>
-                    </div>
-                </div>
-
-                <div class="section-box">
-                    <div class="section-title">⚙️ Cổng nạp / Kênh</div>
-                    <div class="pay-sub-grid">
-                        <div class="pay-sub-item active" onclick="selectSubPay(this)">HN-Pay1</div>
-                        <div class="pay-sub-item" onclick="selectSubPay(this)">O-Pay</div>
-                        <div class="pay-sub-item" onclick="selectSubPay(this)">D-Pay</div>
-                    </div>
-                </div>
-
-                <div class="section-box">
-                    <div class="section-title">💵 Số tiền Nạp (₫ 100,00 - ₫ 100.000,00)</div>
-                    <div class="amount-grid">
-                        <div class="amount-btn" onclick="setAmount(100)">100</div>
-                        <div class="amount-btn" onclick="setAmount(200)">200</div>
-                        <div class="amount-btn" onclick="setAmount(500)">500</div>
-                        <div class="amount-btn" onclick="setAmount(1000)">1.000</div>
-                        <div class="amount-btn" onclick="setAmount(2000)">2.000</div>
-                        <div class="amount-btn" onclick="setAmount(5000)">5.000</div>
-                        <div class="amount-btn" onclick="setAmount(10000)">10.000</div>
-                        <div class="amount-btn" onclick="setAmount(20000)">20.000</div>
-                        <div class="amount-btn" onclick="setAmount(50000)">50.000</div>
-                        <div class="amount-btn" onclick="setAmount(100000)">100.000</div>
-                    </div>
-                    <div class="amount-input-box">
-                        <input type="text" id="deposit-amount-input" placeholder="Nhập số tiền..." oninput="formatInputAmount(this)">
-                        <span style="color:#8395a7; font-size:12px;">1 = 1K</span>
-                    </div>
-                </div>
-
-                <div class="section-box" style="font-size:11px; color:#a4b0be; line-height:1.4;">
-                    <div class="section-title">⚠️ Nhắc nhở</div>
-                    Lưu ý: Để đẩy nhanh quá trình gửi tiền, vui lòng 1) nhập chính xác NỘI DUNG CHUYỂN KHOẢN được hiển thị trên màn hình. 2) Xóa 3 số 0 cuối cùng khi nhập số tiền gửi. Ví dụ: Nạp 1.000.000 VND, chỉ cần nhập 1.000 điểm.
-                </div>
-
-                <button class="submit-deposit-btn" onclick="submitDeposit()">Gửi</button>
-            </div>
-        </div>
-
-        <!-- FOOTER NAVIGATION -->
+        <!-- FOOTER NAVIGATION (LIÊN KẾT TRỰC TIẾP QUA DEPOSIT.HTML) -->
         <div class="footer-nav">
-            <div class="footer-btn active" onclick="switchScreen('home', this)">
+            <a href="index.html" class="footer-btn active">
                 <span class="footer-icon">🏠</span>
                 <span>Trang chủ</span>
-            </div>
-            <div class="footer-btn" onclick="alert('Vui lòng vào sảnh Tài Xỉu hoặc xem thông báo sự kiện!')">
+            </a>
+            <div class="footer-btn" onclick="alert('Xem thông báo sự kiện khuyến mãi!')">
                 <span class="footer-icon">🎁</span>
                 <span>Khuyến mãi</span>
             </div>
-            <!-- ĐÃ SỬA: Nút Nạp tiền được gán sự kiện trực tiếp bằng cả HTML và JS bên dưới -->
-            <div class="footer-btn" id="btn-goto-deposit">
+            <a href="deposit.html" class="footer-btn">
                 <span class="footer-icon">💳</span>
                 <span>Nạp tiền</span>
-            </div>
-            <div class="footer-btn" onclick="alert('Tài khoản: Thành viên VIP\nCSKH: @pphuc8386')">
+            </a>
+            <div class="footer-btn" onclick="alert('Tài khoản thành viên VIP')">
                 <span class="footer-icon">👤</span>
                 <span>Tài khoản</span>
             </div>
@@ -510,8 +302,16 @@
             el.classList.add('active');
         }
 
-        function switchScreen(screenName, btnEl) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.footer-btn').forEach(b => b.classList.remove('active'));
-
-    
+        let slideIndex = 0;
+        const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('.dot');
+        setInterval(() => {
+            if(slider) {
+                slideIndex = (slideIndex + 1) % 3;
+                slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
+            }
+        }, 3500);
+    </script>
+</body>
+</html>
