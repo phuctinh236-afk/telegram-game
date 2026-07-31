@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mega Casino World - Lobby & Tài Xỉu</title>
+    <title>Mega Casino World - Lobby</title>
     <style>
         * {
             box-sizing: border-box;
@@ -200,194 +200,71 @@
         .footer-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #8395a7; }
         .footer-btn.active { color: #f39c12; }
         .footer-icon { font-size: 18px; }
-
-        /* MÀN HÌNH BÀN CHƠI TÀI XỈU VIP (ĐƯA RA NGOÀI LÀM LỚP PHỦ TUYỆT ĐỐI) */
-        #taixiu-screen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #0b0704;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-        }
-        .back-lobby-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #c0392b;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10000;
-        }
-
-        /* NẮP 3D CHUẨN XÁC GIỐNG ẢNH */
-        .bowl-3d {
-            position: absolute;
-            top: -38px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 72px;
-            height: 60px;
-            background: radial-gradient(circle at 35% 35%, #8d5b35 0%, #4a2912 60%, #200f05 100%);
-            border: 2.5px solid #d4af37;
-            border-radius: 50% 50% 10px 10px;
-            box-shadow: 0 10px 15px rgba(0,0,0,0.8), inset 0 3px 5px rgba(255,255,255,0.2), inset 0 -5px 10px rgba(0,0,0,0.9);
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
-            z-index: 25;
-        }
-        .bowl-3d::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 11px;
-            background: radial-gradient(circle at 30% 30%, #f3e5ab 0%, #c5a059 70%, #5d4016 100%);
-            border-radius: 50%;
-            border: 1px solid #30180a;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.6);
-        }
-        .bowl-3d.open {
-            transform: translate(65px, -50px) rotate(25deg);
-            opacity: 0;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <!-- LOBBY CHÍNH -->
-        <div id="lobby-screen" style="display: flex; flex-direction: column; height: 100%;">
-            <div class="header">
-                <div class="header-left">
-                    <span class="menu-icon">☰</span>
-                    <span class="logo-text">MEGA CASINO WORLD</span>
-                </div>
-                <div class="cskh-btn">💬 CSKH</div>
+        <div class="header">
+            <div class="header-left">
+                <span class="menu-icon">☰</span>
+                <span class="logo-text">MEGA CASINO WORLD</span>
             </div>
+            <div class="cskh-btn">💬 CSKH</div>
+        </div>
 
-            <div class="banner-container">
-                <div class="banner-slide" id="slider">
-                    <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
-                    <div class="banner-item" style="background: linear-gradient(135deg, #27ae60, #16a085);">🎲 BÀN TÀI XỈU VIP - HOÀN CƯỢC 1.5% 🎲</div>
-                    <div class="banner-item" style="background: linear-gradient(135deg, #2980b9, #8e44ad);">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
-                </div>
-                <div class="dots-row">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
+        <div class="banner-container">
+            <div class="banner-slide" id="slider">
+                <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
+                <div class="banner-item" style="background: linear-gradient(135deg, #27ae60, #16a085);">🎲 BÀN TÀI XỈU VIP - HOÀN CƯỢC 1.5% 🎲</div>
+                <div class="banner-item" style="background: linear-gradient(135deg, #2980b9, #8e44ad);">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
             </div>
-
-            <div class="notice-bar">
-                <span>📢</span>
-                <span>Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...</span>
-            </div>
-
-            <div class="nav-tabs">
-                <div class="tab-item active" onclick="switchTab(this)"><span class="tab-icon">🔥</span><span class="tab-name">HOT</span></div>
-                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🐓</span><span class="tab-name">ĐÁ GÀ</span></div>
-                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🎰</span><span class="tab-name">Slots</span></div>
-                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">♠️</span><span class="tab-name">Casino</span></div>
-                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🎮</span><span class="tab-name">Game Bài</span></div>
-            </div>
-
-            <div class="game-content">
-                <div class="game-grid">
-                    <div class="game-card" onclick="moTaiXiu()">
-                        <div class="game-thumb" style="background: linear-gradient(135deg, #27ae60, #0e6251);">🎲</div>
-                        <div class="game-title">Tài Xỉu VIP</div>
-                    </div>
-                    <div class="game-card"><div class="game-thumb">🐉</div><div class="game-title">Dragon Gems</div></div>
-                    <div class="game-card"><div class="game-thumb">🍬</div><div class="game-title">Mithai Madness</div></div>
-                    <div class="game-card"><div class="game-thumb">🦅</div><div class="game-title">Fortune Gods</div></div>
-                    <div class="game-card"><div class="game-thumb">👑</div><div class="game-title">NCVIP Super</div></div>
-                    <div class="game-card"><div class="game-thumb">🃏</div><div class="game-title">Ultra Ace</div></div>
-                    <div class="game-card"><div class="game-thumb">⚡</div><div class="game-title">NCVIP Gates</div></div>
-                    <div class="game-card"><div class="game-thumb">🦜</div><div class="game-title">NC Bountiful</div></div>
-                    <div class="game-card"><div class="game-thumb">🀄</div><div class="game-title">Mahjong Ways</div></div>
-                    <div class="game-card"><div class="game-thumb">💰</div><div class="game-title">Pinata Wins</div></div>
-                    <div class="game-card"><div class="game-thumb">🦈</div><div class="game-title">Jackpot Fish</div></div>
-                    <div class="game-card"><div class="game-thumb">🎡</div><div class="game-title">Crazy Time</div></div>
-                </div>
-            </div>
-
-            <div class="footer-nav">
-                <div class="footer-btn active"><span class="footer-icon">🏠</span><span>Trang chủ</span></div>
-                <div class="footer-btn"><span class="footer-icon">🎁</span><span>Khuyến mãi</span></div>
-                <div class="footer-btn"><span class="footer-icon">💳</span><span>Nạp tiền</span></div>
-                <div class="footer-btn"><span class="footer-icon">👤</span><span>Tài khoản</span></div>
+            <div class="dots-row">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
         </div>
-    </div>
 
-    <!-- MÀN HÌNH BÀN CHƠI TÀI XỈU (ĐẶT ĐỘC LẬP NGOÀI CÙNG ĐỂ KHÔNG BỊ KHÓA KHUNG) -->
-    <div id="taixiu-screen">
-        <button class="back-lobby-btn" onclick="veLobby()">⬅ Quay lại Lobby</button>
-        
-        <div style="width:100%; max-width:400px; background: linear-gradient(135deg, #2b1d0c 0%, #110b04 100%); border: 3px solid #8c6732; border-radius: 20px; display: flex; flex-direction: column; align-items: center; padding: 10px; position: relative;">
-            
-            <div style="width:100%; background: rgba(0,0,0,0.7); padding: 4px; border-radius: 6px; font-size: 11px; text-align: center; border: 1px solid #c5a059; margin-bottom: 8px;">
-                Chúc mừng <span style="color:#50e677; font-weight:bold;">ManhCuong</span> thắng <span style="color:#ffcc00; font-weight:bold;">1,467,283</span>
-            </div>
+        <div class="notice-bar">
+            <span>📢</span>
+            <span>Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...</span>
+        </div>
 
-            <div style="width:100%; height: 310px; background: radial-gradient(ellipse at center, #145a32 0%, #092e1b 100%); border: 6px solid #4a2e12; border-radius: 150px; position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 10px;">
-                
-                <!-- Cửa TÀI -->
-                <div id="box-tai" onclick="chonCua('tai')" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; width:100px;">
-                    <div style="font-size:24px; font-weight:bold; color:#ffcc00; text-shadow:0 2px 4px rgba(0,0,0,0.8);">TÀI</div>
-                    <div id="money-tai" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:14px; font-weight:bold; width:85px; text-align:center;">0</div>
+        <div class="nav-tabs">
+            <div class="tab-item active" onclick="switchTab(this)"><span class="tab-icon">🔥</span><span class="tab-name">HOT</span></div>
+            <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🐓</span><span class="tab-name">ĐÁ GÀ</span></div>
+            <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🎰</span><span class="tab-name">Slots</span></div>
+            <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">♠️</span><span class="tab-name">Casino</span></div>
+            <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🎮</span><span class="tab-name">Game Bài</span></div>
+        </div>
+
+        <div class="game-content">
+            <div class="game-grid">
+                <!-- Bấm vào đây sẽ chuyển hướng mượt mà sang trang taixiu.html -->
+                <div class="game-card" onclick="window.location.href='taixiu.html'">
+                    <div class="game-thumb" style="background: linear-gradient(135deg, #27ae60, #0e6251);">🎲</div>
+                    <div class="game-title">Tài Xỉu VIP</div>
                 </div>
-
-                <!-- Bát úp 3D & Xúc xắc -->
-                <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 5;">
-                    <div style="width: 75px; height: 75px; background: #2a180c; border: 3px solid #d4af37; border-radius: 50%; display: flex; justify-content: center; align-items: center; gap: 3px; position: relative;">
-                        
-                        <!-- Nắp 3D -->
-                        <div class="bowl-3d" id="bowl-cover"></div>
-
-                        <div class="dice" id="d1" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚀</div>
-                        <div class="dice" id="d2" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚁</div>
-                        <div class="dice" id="d3" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚂</div>
-                    </div>
-                    <div style="margin-top:4px; background:#111; border:1px solid #d4af37; border-radius:12px; padding:1px 8px; font-size:12px; color:#ffcc00; font-weight:bold;"><span id="timer">20</span>s</div>
-                    <div id="status-label" style="font-size:10px; color:#50e677; font-weight:bold; margin-top:2px;">Đang mở cược</div>
-                </div>
-
-                <!-- Cửa XỈU -->
-                <div id="box-xiu" onclick="chonCua('xiu')" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; width:100px;">
-                    <div style="font-size:24px; font-weight:bold; color:#ff9f43; text-shadow:0 2px 4px rgba(0,0,0,0.8);">XỈU</div>
-                    <div id="money-xiu" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:14px; font-weight:bold; width:85px; text-align:center;">0</div>
-                </div>
-
+                <div class="game-card"><div class="game-thumb">🐉</div><div class="game-title">Dragon Gems</div></div>
+                <div class="game-card"><div class="game-thumb">🍬</div><div class="game-title">Mithai Madness</div></div>
+                <div class="game-card"><div class="game-thumb">🦅</div><div class="game-title">Fortune Gods</div></div>
+                <div class="game-card"><div class="game-thumb">👑</div><div class="game-title">NCVIP Super</div></div>
+                <div class="game-card"><div class="game-thumb">🃏</div><div class="game-title">Ultra Ace</div></div>
+                <div class="game-card"><div class="game-thumb">⚡</div><div class="game-title">NCVIP Gates</div></div>
+                <div class="game-card"><div class="game-thumb">🦜</div><div class="game-title">NC Bountiful</div></div>
+                <div class="game-card"><div class="game-thumb">🀄</div><div class="game-title">Mahjong Ways</div></div>
+                <div class="game-card"><div class="game-thumb">💰</div><div class="game-title">Pinata Wins</div></div>
+                <div class="game-card"><div class="game-thumb">🦈</div><div class="game-title">Jackpot Fish</div></div>
+                <div class="game-card"><div class="game-thumb">🎡</div><div class="game-title">Crazy Time</div></div>
             </div>
+        </div>
 
-            <!-- Phỉnh chọn -->
-            <div style="display: flex; justify-content: center; gap: 6px; width: 100%; margin-bottom: 10px;">
-                <div class="chip" onclick="chonChip(1000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer; border:2px solid #fff;">1K</div>
-                <div class="chip" onclick="chonChip(5000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">5K</div>
-                <div class="chip" onclick="chonChip(10000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">10K</div>
-                <div class="chip" onclick="chonChip(15000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">15K</div>
-                <div class="chip" onclick="chonChip(20000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">20K</div>
-                <div class="chip" onclick="chonChip(30000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">30K</div>
-            </div>
-
-            <!-- Nút điều khiển -->
-            <div style="display: flex; justify-content: center; gap: 12px; width: 100%;">
-                <button onclick="huyCuoc()" style="width:140px; height:40px; border-radius:6px; font-size:14px; font-weight:bold; background:linear-gradient(to bottom, #c0392b, #641e16); color:white; border:1px solid #e74c3c; cursor:pointer;">Cancel</button>
-                <button onclick="xacNhan()" style="width:140px; height:40px; border-radius:6px; font-size:14px; font-weight:bold; background:linear-gradient(to bottom, #27ae60, #145a32); color:white; border:1px solid #50e677; cursor:pointer;">Bet</button>
-            </div>
-
+        <div class="footer-nav">
+            <div class="footer-btn active"><span class="footer-icon">🏠</span><span>Trang chủ</span></div>
+            <div class="footer-btn"><span class="footer-icon">🎁</span><span>Khuyến mãi</span></div>
+            <div class="footer-btn"><span class="footer-icon">💳</span><span>Nạp tiền</span></div>
+            <div class="footer-btn"><span class="footer-icon">👤</span><span>Tài khoản</span></div>
         </div>
     </div>
 
@@ -405,6 +282,6 @@
             slider.style.transform = `translateX(-${slideIndex * 100}%)`;
             dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
         }, 3500);
-
-        function moTaiXiu() { 
-  
+    </script>
+</body>
+</html>
