@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tài Xỉu Ab666 1:1</title>
+    <title>Tài Xỉu Ab666 - Update</title>
     <style>
         * {
             box-sizing: border-box;
@@ -36,7 +36,7 @@
             overflow: hidden;
         }
 
-        /* TOP BAR: THOÁT, TIÊU ĐỀ AB666, MINI GAME, HŨ THƯỞNG, SLOT */
+        /* TOP BAR */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -66,18 +66,6 @@
             color: #fff;
             letter-spacing: 0.5px;
         }
-
-        .logo-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: radial-gradient(circle, #f39c12 0%, #c0392b 100%);
-            padding: 2px 6px;
-            border-radius: 6px;
-            border: 1px solid #ffd700;
-        }
-        .logo-text { font-size: 11px; font-weight: 900; font-style: italic; color: #fff; }
-        .logo-sub { font-size: 7px; font-weight: bold; color: #ffeb3b; }
 
         .mini-game-btn {
             background: linear-gradient(135deg, #d35400, #e67e22);
@@ -127,7 +115,7 @@
             cursor: pointer;
         }
 
-        /* BÀN TÀI XỈU OVAL CHÍNH */
+        /* BÀN TÀI XỈU OVAL */
         .table-arena {
             flex: 1;
             background: radial-gradient(circle, #0e4c28 0%, #062313 100%);
@@ -142,7 +130,6 @@
             padding: 10px;
         }
 
-        /* DEALER CHÍNH Ở GIỮA TRÊN */
         .dealer-center {
             position: absolute;
             top: 8px;
@@ -162,7 +149,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* 6 GHẾ NGƯỜI CHƠI XUNG QUANH BÀN */
+        /* GHẾ NGƯỜI CHƠI (ẨN NẾU TRỐNG) */
         .seat {
             position: absolute;
             display: flex;
@@ -170,10 +157,11 @@
             align-items: center;
             z-index: 5;
         }
+        .seat.hidden { display: none !important; }
+
         .seat-1 { top: 12px; left: 15px; }
         .seat-2 { top: 90px; left: 8px; }
         .seat-3 { top: 170px; left: 8px; }
-
         .seat-4 { top: 12px; right: 15px; }
         .seat-5 { top: 90px; right: 8px; }
         .seat-6 { top: 170px; right: 8px; }
@@ -212,7 +200,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* BÁT XỐC / HỘP ĐỰNG XÚC XẮC Ở GIỮA */
         .plate-area {
             position: absolute;
             top: 45%;
@@ -237,11 +224,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             cursor: pointer;
         }
-        .bowl-icon {
-            font-size: 24px;
-        }
+        .bowl-icon { font-size: 24px; }
 
-        /* CÁC CỬA CƯỢC TÀI XỈU CHÍNH TRÊN BÀN */
         .bets-layout {
             margin-top: 145px;
             display: grid;
@@ -262,13 +246,11 @@
             transition: 0.2s;
         }
         .bet-card:active { transform: scale(0.95); }
-        .bet-card.selected { background: rgba(212, 175, 55, 0.4); box-shadow: 0 0 8px #d4af37; }
-
         .bc-title { font-size: 11px; font-weight: bold; color: #ffd700; }
         .bc-rate { font-size: 8px; color: #bdc3c7; margin-top: 2px; }
         .bc-amount { font-size: 9.5px; color: #2ecc71; margin-top: 2px; font-weight: bold; }
 
-        /* THANH DƯỚI: LỊCH SỬ CẦU + VÍ + 5 MỨC CHIP MẶC ĐỊNH */
+        /* BOTTOM PANEL */
         .bottom-panel {
             background: #0b1526;
             padding: 6px 10px;
@@ -284,7 +266,7 @@
             align-items: center;
         }
 
-        /* Lịch sử cầu góc trái */
+        /* Lịch sử ván thật */
         .history-box {
             background: #070e1a;
             border: 1px solid #1f2c47;
@@ -294,7 +276,15 @@
             flex-direction: column;
             gap: 2px;
         }
-        .hist-title { font-size: 8px; color: #ffd700; font-weight: bold; display: flex; gap: 15px; }
+        .hist-title { 
+            font-size: 8px; 
+            color: #ffd700; 
+            font-weight: bold; 
+            display: flex; 
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .hist-title span:hover { color: #2ecc71; }
         .hist-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -308,7 +298,7 @@
         .h-dot.red { background: #e74c3c; }
         .h-dot.white { background: #ecf0f1; }
 
-        /* AVATAR NGƯỜI CHƠI CÁ NHÂN & VÍ */
+        /* USER PROFILE & INDEX MONEY */
         .user-profile-widget {
             display: flex;
             align-items: center;
@@ -332,7 +322,6 @@
         .up-name { font-size: 8px; color: #fff; font-weight: bold; }
         .up-bal { font-size: 9px; color: #f1c40f; font-weight: bold; }
 
-        /* THANH CHỌN CHIP: 1K, 5K, 10K, 20K, 50K */
         .chips-row {
             display: flex;
             gap: 8px;
@@ -361,21 +350,101 @@
             transform: scale(1.15);
             box-shadow: 0 0 10px #f39c12;
         }
+
+        /* KHUNG CHAT MODAL */
+        .chat-modal {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
+            background: #0f1c2e;
+            border-top: 2px solid #ffd700;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .chat-modal.active { transform: translateY(0); }
+        .chat-header {
+            padding: 8px 12px;
+            background: #09121d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2c47;
+            font-size: 11px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 9.5px;
+        }
+        .chat-msg { background: rgba(255,255,255,0.07); padding: 4px 8px; border-radius: 6px; word-break: break-word; }
+        .chat-msg span { color: #f1c40f; font-weight: bold; }
+        
+        .emoji-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            padding: 6px;
+            background: #070e1a;
+            max-height: 90px;
+            overflow-y: auto;
+            border-top: 1px solid #1f2c47;
+        }
+        .emoji-item {
+            font-size: 14px;
+            cursor: pointer;
+            padding: 2px;
+            transition: 0.1s;
+        }
+        .emoji-item:active { transform: scale(1.3); }
+
+        .chat-input-row {
+            display: flex;
+            padding: 6px;
+            background: #09121d;
+            gap: 6px;
+            border-top: 1px solid #1f2c47;
+        }
+        .chat-input {
+            flex: 1;
+            background: #030811;
+            border: 1px solid #1f2c47;
+            border-radius: 4px;
+            padding: 5px 8px;
+            color: #fff;
+            font-size: 10px;
+        }
+        .chat-send-btn {
+            background: #f39c12;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            padding: 0 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
 
     <div class="game-container">
-        <!-- TOP BAR -->
+        <!-- TOP BAR (Đã xóa logo iWIN) -->
         <div class="top-bar">
             <div class="top-left-group">
-                <span class="close-btn">&#10005;</span>
+                <span class="close-btn" onclick="alert('Đã thoát bàn chơi!')">&#10005;</span>
                 <span class="hall-title">Ab666</span>
-            </div>
-
-            <div class="logo-box">
-                <span class="logo-text">iWIN</span>
-                <span class="logo-sub">SSS</span>
             </div>
 
             <div class="mini-game-btn">
@@ -394,132 +463,142 @@
             </div>
 
             <div class="right-top-icons">
-                <div class="icon-btn">👥</div>
-                <div class="icon-btn">💬</div>
+                <div class="icon-btn" onclick="alert('Danh sách người chơi online')">👥</div>
+                <div class="icon-btn" onclick="toggleChat()">💬</div>
             </div>
         </div>
 
-        <!-- BÀN TÀI XỈU TRUNG TÂM -->
+        <!-- BÀN TÀI XỈU -->
         <div class="table-arena">
-            <!-- Dealer chính -->
             <div class="dealer-center">
                 <div class="dealer-img"></div>
             </div>
 
-            <!-- 6 Ghế người chơi quanh bàn -->
-            <div class="seat seat-1">
+            <!-- GHẾ NGƯỜI CHƠI (Tự động ẩn nếu hasUser = false) -->
+            <div class="seat seat-1" id="seat-1">
                 <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100')">
                     <div class="vip-tag">VIP2</div>
                 </div>
                 <div class="seat-info-box">hleunghia<br>13,57M</div>
             </div>
 
-            <div class="seat seat-2">
+            <div class="seat seat-2" id="seat-2">
                 <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100')">
                     <div class="vip-tag">VIP3</div>
                 </div>
                 <div class="seat-info-box">vodanh99<br>9,81M</div>
             </div>
 
-            <div class="seat seat-3">
-                <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100')">
-                    <div class="vip-tag">VIP4</div>
-                </div>
-                <div class="seat-info-box">nahudiem<br>9,79M</div>
+            <div class="seat seat-3" id="seat-3">
+                <!-- Ghế trống ví dụ: ẩn đi -->
             </div>
 
-            <div class="seat seat-4">
+            <div class="seat seat-4" id="seat-4">
                 <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100')">
                     <div class="vip-tag">VIP6</div>
                 </div>
                 <div class="seat-info-box">Duyhung66<br>9,5M</div>
             </div>
 
-            <div class="seat seat-5">
+            <div class="seat seat-5" id="seat-5">
                 <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100')">
                     <div class="vip-tag">VIP6</div>
                 </div>
                 <div class="seat-info-box">Mangna<br>15,87M</div>
             </div>
 
-            <div class="seat seat-6">
+            <div class="seat seat-6" id="seat-6">
                 <div class="seat-avt" style="background-image: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100')">
                     <div class="vip-tag">VIP6</div>
                 </div>
                 <div class="seat-info-box">donkihote<br>55,72M</div>
             </div>
 
-            <!-- Bát đĩa Tài Xỉu ở giữa bàn -->
             <div class="plate-area">
                 <div class="plate-dish">
                     <div class="bowl-icon">🍲</div>
                 </div>
             </div>
 
-            <!-- Các cửa cược chính (CHẴN, LẺ, 4 ĐỎ, 4 TRẮNG) -->
             <div class="bets-layout">
                 <div class="bet-card">
                     <div class="bc-title">CHẴN</div>
                     <div class="bc-rate">1:0.96</div>
-                    <div class="bc-amount">0</div>
+                    <div class="bc-amount" id="bet-chan">0</div>
                 </div>
                 <div class="bet-card">
                     <div class="bc-title">LẺ</div>
                     <div class="bc-rate">1:0.96</div>
-                    <div class="bc-amount">0</div>
+                    <div class="bc-amount" id="bet-le">0</div>
                 </div>
                 <div class="bet-card">
                     <div class="bc-title">4 ĐỎ</div>
                     <div class="bc-rate">1:12</div>
-                    <div class="bc-amount">0</div>
+                    <div class="bc-amount" id="bet-4do">0</div>
                 </div>
                 <div class="bet-card">
                     <div class="bc-title">4 TRẮNG</div>
                     <div class="bc-rate">1:12</div>
-                    <div class="bc-amount">0</div>
+                    <div class="bc-amount" id="bet-4trang">0</div>
                 </div>
             </div>
         </div>
 
-        <!-- BOTTOM PANEL: LỊCH SỬ + VÍ + THANH CHỌN CHIP 1K-50K -->
+        <!-- BOTTOM PANEL -->
         <div class="bottom-panel">
             <div class="row-tool">
-                <!-- Lịch sử cầu -->
+                <!-- Lịch sử ván thật (Render tự động từ mảng kết quả thật) -->
                 <div class="history-box">
-                    <div class="hist-title"><span>KẾT QUẢ</span><span>COPY</span></div>
-                    <div class="hist-grid">
-                        <div class="h-dot red"></div><div class="h-dot white"></div><div class="h-dot red"></div><div class="h-dot white"></div><div class="h-dot red"></div><div class="h-dot red"></div>
-                        <div class="h-dot white"></div><div class="h-dot red"></div><div class="h-dot white"></div><div class="h-dot white"></div><div class="h-dot red"></div><div class="h-dot red"></div>
+                    <div class="hist-title">
+                        <span>KẾT QUẢ VÁN THẬT</span>
+                        <span onclick="copyHistory()">COPY</span>
                     </div>
+                    <div class="hist-grid" id="history-grid"></div>
                 </div>
 
-                <!-- Avatar người chơi & số dư ví -->
+                <!-- Tiền theo index tài khoản cá nhân -->
                 <div class="user-profile-widget">
                     <div class="up-avatar"></div>
                     <div class="up-info">
-                        <span class="up-name">sauriengch...</span>
-                        <span class="up-bal">đ1,500,000</span>
+                        <span class="up-name" id="user-name">sauriengch...</span>
+                        <span class="up-bal" id="user-balance">đ1,500,000</span>
                     </div>
                 </div>
             </div>
 
-            <!-- 5 Mức cược theo hình ảnh: 1K, 5K, 10K, 20K, 50K -->
             <div class="chips-row">
-                <div class="chip-btn active" onclick="selectChip(this)">1K</div>
-                <div class="chip-btn" onclick="selectChip(this)">5K</div>
-                <div class="chip-btn" onclick="selectChip(this)">10K</div>
-                <div class="chip-btn" onclick="selectChip(this)">20K</div>
-                <div class="chip-btn" onclick="selectChip(this)">50K</div>
+                <div class="chip-btn active" onclick="selectChip(this, 1000)">1K</div>
+                <div class="chip-btn" onclick="selectChip(this, 5000)">5K</div>
+                <div class="chip-btn" onclick="selectChip(this, 10000)">10K</div>
+                <div class="chip-btn" onclick="selectChip(this, 20000)">20K</div>
+                <div class="chip-btn" onclick="selectChip(this, 50000)">50K</div>
+            </div>
+        </div>
+
+        <!-- KHUNG CHAT MODAL (Hỗ trợ icon và tin nhắn) -->
+        <div class="chat-modal" id="chatModal">
+            <div class="chat-header">
+                <span>Kênh Chat Phòng Chơi</span>
+                <span style="cursor: pointer;" onclick="toggleChat()">&#10005;</span>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-msg"><span>System:</span> Chào mừng bạn đến với bàn chơi Tài Xỉu Ab666! Hãy chơi có trách nhiệm.</div>
+            </div>
+            <div class="emoji-picker" id="emojiPicker"></div>
+            <div class="chat-input-row">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn hoặc chọn icon...">
+                <button class="chat-send-btn" onclick="sendMessage()">GỬI</button>
             </div>
         </div>
     </div>
 
     <script>
-        function selectChip(el) {
-            document.querySelectorAll('.chip-btn').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-        }
-    </script>
-</body>
-                                                       </html>
-                                                       
+        // --- 1. QUẢN LÝ VÍ THEO INDEX ---
+        let userAccount = {
+            name: "sauriengch...",
+            balance: 1500000,
+            selectedChip: 1000
+        };
+
+        function updateWalletDisplay() {
+            document.getElementById('user-balance').innerText = "đ" + 
