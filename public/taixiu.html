@@ -103,7 +103,7 @@
             color: black;
             box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
-        .status-text { font-size: 16px; color: #ffcc00; }
+        .status-text { font-size: 16px; color: #ffcc00; height: 22px; }
 
         .bet-table {
             display: flex;
@@ -128,6 +128,7 @@
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
         .bet-box.selected { border-color: #50e677; box-shadow: 0 0 15px #50e677; }
+        .bet-box.disabled { opacity: 0.5; cursor: not-allowed; }
 
         .bet-title {
             font-size: 32px;
@@ -208,12 +209,12 @@
         }
         .btn-cancel {
             background: linear-gradient(to bottom, #d63031 0%, #8B0000 100%);
-            color: #ffffff !important; /* Chữ trắng sáng rõ nét */
+            color: #ffffff !important;
             box-shadow: 0 4px 0 #5a0000;
         }
         .btn-confirm {
             background: linear-gradient(to bottom, #27ae60 0%, #145a32 100%);
-            color: #ffffff !important; /* Chữ trắng sáng rõ nét */
+            color: #ffffff !important;
             box-shadow: 0 4px 0 #0b381e;
         }
         .btn:active {
@@ -229,16 +230,15 @@
             <span class="header-title">BÀN TÀI XỈU VIP</span>
         </div>
 
-        <!-- Thông báo người thắng trên 100K -->
         <div class="marquee-container" id="marquee-text">
             Chúc mừng <span class="highlight-win">VipPro99</span> thắng <span class="highlight-money">520,000</span>
         </div>
 
         <div class="dice-area">
             <div class="dice-row">
-                <div class="dice">🎲</div>
-                <div class="dice">🎲</div>
-                <div class="dice">🎲</div>
+                <div class="dice" id="d1">🎲</div>
+                <div class="dice" id="d2">🎲</div>
+                <div class="dice" id="d3">🎲</div>
             </div>
             <div class="status-text" id="status-label">(Đang chờ cược)</div>
         </div>
@@ -257,7 +257,7 @@
             </div>
         </div>
 
-        <div class="instruction-text">Vui lòng chọn Phính cược và cửa đặt!</div>
+        <div class="instruction-text" id="instruction">Vui lòng chọn Phính cược và cửa đặt!</div>
 
         <div class="chip-row">
             <div class="chip selected" onclick="chonChip(1000, this)">1K</div>
@@ -275,23 +275,46 @@
 
     <script>
         let phỉnhChọn = 1000;
-        let cửaChọn = null;
+        let cửaChọn = null; // 'xiu' hoặc 'tai'
         let cượcXiu = 0;
         let cượcTai = 0;
+        let timeLeft = 20;
+        let isBetting = true;
+
+        const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
         function chonChip(val, el) {
+            if (!isBetting) return;
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
             phỉnhChọn = val;
         }
 
         function chonCua(cửa) {
+            if (!isBetting) return;
+            // Nếu đã đặt bên kia rồi thì không cho chọn sang bên này trong ván này
+            if (cửaChọn !== null && cửaChọn !== cửa) {
+                alert("Bạn đã đặt cược ở cửa bên kia! Vui lòng đợi ván sau.");
+                return;
+            }
+
+            cửaChọn = cửa;
             document.querySelectorAll('.bet-box').forEach(b => b.classList.remove('selected'));
             document.getElementById('box-' + cửa).classList.add('selected');
-            cửaChọn = cửa;
+
+            // Khóa cửa ngược lại không cho bấm
+            if (cửa === 'xiu') {
+                document.getElementById('box-tai').classList.add('disabled');
+            } else {
+                document.getElementById('box-xiu').classList.add('disabled');
+            }
         }
 
         function xacNhan() {
+            if (!isBetting) {
+                alert("Đã hết thời gian cược!");
+                return;
+            }
             if (!cửaChọn) {
                 alert("Vui lòng chọn cửa Tài hoặc Xỉu!");
                 return;
@@ -303,28 +326,84 @@
                 cượcTai += phỉnhChọn;
                 document.getElementById('money-tai').innerText = cượcTai.toLocaleString();
             }
-            alert("Đã đặt cược thành công " + phỉnhChọn.toLocaleString() + " vào cửa " + cửaChọn.toUpperCase() + "!");
+            document.getElementById('status-label').innerText = "Đã đặt thành công!";
         }
 
         function huyCuoc() {
+            if (!isBetting) return;
             cượcXiu = 0;
             cượcTai = 0;
             cửaChọn = null;
             document.getElementById('money-xiu').innerText = '0';
             document.getElementById('money-tai').innerText = '0';
-            document.querySelectorAll('.bet-box').forEach(b => b.classList.remove('selected'));
-            alert("Đã hủy toàn bộ cược!");
+            document.querySelectorAll('.bet-box').forEach(b => {
+                b.classList.remove('selected');
+                b.classList.remove('disabled');
+            });
+            document.getElementById('status-label').innerText = "Đã hủy cược!";
         }
 
-        // Tự động thay đổi thông báo người thắng trên 100K ngẫu nhiên cho sinh động
+        // Vòng lặp đếm ngược và quay xúc xắc tự động
+        setInterval(() => {
+            if (isBetting) {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft;
+
+                if (timeLeft <= 3 && timeLeft > 0) {
+                    document.getElementById('status-label').innerText = "Sắp khóa cược...";
+                }
+
+                if (timeLeft <= 0) {
+                    isBetting = false;
+                    document.getElementById('timer').innerText = "0";
+                    document.getElementById('status-label').innerText = "Đang lắc xúc xắc...";
+
+                    // Quay xúc xắc sau 1 giây
+                    setTimeout(() => {
+                        let d1 = Math.floor(Math.random() * 6);
+                        let d2 = Math.floor(Math.random() * 6);
+                        let d3 = Math.floor(Math.random() * 6);
+
+                        document.getElementById('d1').innerText = diceFaces[d1];
+                        document.getElementById('d2').innerText = diceFaces[d2];
+                        document.getElementById('d3').innerText = diceFaces[d3];
+
+                        let total = (d1 + 1) + (d2 + 1) + (d3 + 1);
+                        let ketQuaText = total >= 11 ? "TÀI" : "XỈU";
+                        document.getElementById('status-label').innerText = `Kết quả: ${total} (${ketQuaText})`;
+
+                        // Chờ 4 giây rồi reset sang ván mới
+                        setTimeout(() => {
+                            timeLeft = 20;
+                            cượcXiu = 0;
+                            cượcTai = 0;
+                            cửaChọn = null;
+                            isBetting = true;
+                            document.getElementById('money-xiu').innerText = '0';
+                            document.getElementById('money-tai').innerText = '0';
+                            document.querySelectorAll('.bet-box').forEach(b => {
+                                b.classList.remove('selected');
+                                b.classList.remove('disabled');
+                            });
+                            document.getElementById('d1').innerText = '🎲';
+                            document.getElementById('d2').innerText = '🎲';
+                            document.getElementById('d3').innerText = '🎲';
+                            document.getElementById('status-label').innerText = "(Đang chờ cược)";
+                        }, 4000);
+
+                    }, 1000);
+                }
+            }
+        }, 1000);
+
+        // Thông báo ngẫu nhiên người thắng > 100K
         const dsNames = ["HoangTuan", "GamerVip", "ThangLon68", "TaiXiuPro", "PhucGaming", "GodLuck", "SieuThan", "ManhCuong"];
         setInterval(() => {
             let randomName = dsNames[Math.floor(Math.random() * dsNames.length)];
-            // Random số tiền thắng từ 100,000 đến 15,000,000 (luôn trên 100+)
             let randomMoney = Math.floor(Math.random() * 15000000) + 100000;
             document.getElementById('marquee-text').innerHTML = 
                 `Chúc mừng <span class="highlight-win">${randomName}</span> thắng <span class="highlight-money">${randomMoney.toLocaleString()}</span>`;
-        }, 4000);
+        }, 5000);
     </script>
 </body>
 </html>
