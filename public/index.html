@@ -2,136 +2,455 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Arcade Lobby - Telegram</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mega Casino World - Lobby</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a;
-            color: #fff;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        .profile-card {
-            background: #1e293b;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+
+        body {
+            background-color: #121824;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .balance {
-            color: #facc15;
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 5px;
+
+        /* Khung hiển thị giả lập Mobile App */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 850px;
+            background: #121824;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
-        .lobby-title {
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #1a2232;
+            border-bottom: 1px solid #2a364f;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-icon {
             font-size: 20px;
-            margin-bottom: 15px;
-            color: #38bdf8;
+            cursor: pointer;
+            color: #d4af37;
+        }
+        .logo-text {
+            font-weight: bold;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            color: #f39c12;
+            text-transform: uppercase;
+        }
+        .cskh-btn {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid #d4af37;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #d4af37;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        /* BANNER SLIDER */
+        .banner-container {
+            width: 100%;
+            height: 130px;
+            position: relative;
+            background: #0d121c;
+            overflow: hidden;
+        }
+        .banner-slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .banner-item {
+            min-width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c0392b, #8e44ad);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .dots-row {
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+        }
+        .dot.active {
+            background: #f39c12;
+            width: 16px;
+            border-radius: 4px;
+        }
+
+        /* NOTICE BAR */
+        .notice-bar {
+            background: #232d42;
+            padding: 8px 12px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #2a364f;
+            color: #f1c40f;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* CATEGORY TABS (MENU NGANG) */
+        .nav-tabs {
+            display: flex;
+            background: #1a2232;
+            padding: 8px 5px;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 2px solid #2a364f;
+        }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+        
+        .tab-item {
+            min-width: 75px;
+            height: 60px;
+            background: #232d42;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .tab-item.active {
+            background: linear-gradient(to bottom, #34495e, #1f2a38);
+            border-color: #f39c12;
+        }
+        .tab-icon { font-size: 18px; }
+        .tab-name { font-size: 11px; font-weight: bold; color: #b0c4de; }
+        .tab-item.active .tab-name { color: #f39c12; }
+
+        /* GAME GRID CONTENT */
+        .game-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            background: #121824;
         }
         .game-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
         }
         .game-card {
-            background: linear-gradient(135deg, #334155, #1e293b);
-            border: 2px solid #475569;
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: left;
+            background: #1a2232;
+            border-radius: 12px;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            cursor: pointer;
+            border: 1px solid #2a364f;
+            transition: transform 0.1s;
         }
         .game-card:active {
-            transform: scale(0.98);
+            transform: scale(0.95);
         }
-        .game-info h3 { margin: 0 0 5px 0; color: #f8fafc; font-size: 18px; }
-        .game-info p { margin: 0; color: #94a3b8; font-size: 14px; }
-        .game-icon { font-size: 35px; }
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            position: relative;
+        }
+        .game-thumb::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            border-style: solid;
+            border-width: 0 18px 18px 0;
+            border-color: transparent #d4af37 transparent transparent;
+        }
+        .game-title {
+            padding: 6px 4px;
+            font-size: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #dcdde1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* FOOTER NAVBAR */
+        .footer-nav {
+            display: flex;
+            background: #1a2232;
+            padding: 8px 0;
+            border-top: 1px solid #2a364f;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .footer-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            font-size: 10px;
+            color: #8395a7;
+        }
+        .footer-btn.active { color: #f39c12; }
+        .footer-icon { font-size: 18px; }
+
+        /* PHẦN GAME TÀI XỈU (Ẩn mặc định, khi bấm vào game sẽ hiện lên) */
+        #taixiu-screen {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0b0704;
+            z-index: 100;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+        }
+        .back-lobby-btn {
+            align-self: flex-start;
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Thông tin tài khoản người chơi -->
-    <div class="profile-card">
-        <div id="username">Đang kết nối tài khoản...</div>
-        <div class="balance"><span id="userBalance">0</span> 🪙 Xu</div>
-    </div>
-
-    <!-- Khu vực Lobby chọn game -->
-    <div class="lobby-title">🎮 CHỌN TRÒ CHƠI GIẢI TRÍ 🎮</div>
-    
-    <div class="game-grid">
-        <!-- Game Tài Xỉu -->
-        <div class="game-card" onclick="openGame('taixiu')">
-            <div class="game-info">
-                <h3>🎲 Tài Xỉu Đổi Vận</h3>
-                <p>Dự đoán tổng điểm 3 viên xúc xắc</p>
+    <div class="app-container">
+        <!-- LOBBY CHÍNH -->
+        <div id="lobby-screen" style="display: flex; flex-direction: column; height: 100%;">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <span class="menu-icon">☰</span>
+                    <span class="logo-text">MEGA CASINO WORLD</span>
+                </div>
+                <div class="cskh-btn">💬 CSKH</div>
             </div>
-            <div class="game-icon">🎲</div>
+
+            <!-- Banner Slider -->
+            <div class="banner-container">
+                <div class="banner-slide" id="slider">
+                    <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
+                    <div class="banner-item" style="background: linear-gradient(135deg, #27ae60, #16a085);">🎲 BÀN TÀI XỈU VIP - HOÀN CƯỢC 1.5% 🎲</div>
+                    <div class="banner-item" style="background: linear-gradient(135deg, #2980b9, #8e44ad);">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
+                </div>
+                <div class="dots-row">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <!-- Notice Bar -->
+            <div class="notice-bar">
+                <span>📢</span>
+                <span>Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...</span>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="nav-tabs">
+                <div class="tab-item active" onclick="switchTab(this)">
+                    <span class="tab-icon">🔥</span>
+                    <span class="tab-name">HOT</span>
+                </div>
+                <div class="tab-item" onclick="switchTab(this)">
+                    <span class="tab-icon">🐓</span>
+                    <span class="tab-name">ĐÁ GÀ</span>
+                </div>
+                <div class="tab-item" onclick="switchTab(this)">
+                    <span class="tab-icon">🎰</span>
+                    <span class="tab-name">Slots</span>
+                </div>
+                <div class="tab-item" onclick="switchTab(this)">
+                    <span class="tab-icon">♠️</span>
+                    <span class="tab-name">Casino</span>
+                </div>
+                <div class="tab-item" onclick="switchTab(this)">
+                    <span class="tab-icon">🎮</span>
+                    <span class="tab-name">Game Bài</span>
+                </div>
+            </div>
+
+            <!-- Game Grid -->
+            <div class="game-content">
+                <div class="game-grid">
+                    <!-- GAME TÀI XỈU (Bấm vào sẽ mở bàn Tài Xỉu) -->
+                    <div class="game-card" onclick="moTaiXiu()">
+                        <div class="game-thumb" style="background: linear-gradient(135deg, #27ae60, #0e6251);">🎲</div>
+                        <div class="game-title">Tài Xỉu VIP</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🐉</div>
+                        <div class="game-title">Dragon Gems</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🍬</div>
+                        <div class="game-title">Mithai Madness</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🦅</div>
+                        <div class="game-title">Fortune Gods</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">👑</div>
+                        <div class="game-title">NCVIP Super</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🃏</div>
+                        <div class="game-title">Ultra Ace</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">⚡</div>
+                        <div class="game-title">NCVIP Gates</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🦜</div>
+                        <div class="game-title">NC Bountiful</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🀄</div>
+                        <div class="game-title">Mahjong Ways</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">💰</div>
+                        <div class="game-title">Pinata Wins</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🦈</div>
+                        <div class="game-title">Jackpot Fish</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🎡</div>
+                        <div class="game-title">Crazy Time</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Navigation -->
+            <div class="footer-nav">
+                <div class="footer-btn active">
+                    <span class="footer-icon">🏠</span>
+                    <span>Trang chủ</span>
+                </div>
+                <div class="footer-btn">
+                    <span class="footer-icon">🎁</span>
+                    <span>Khuyến mãi</span>
+                </div>
+                <div class="footer-btn">
+                    <span class="footer-icon">💳</span>
+                    <span>Nạp tiền</span>
+                </div>
+                <div class="footer-btn">
+                    <span class="footer-icon">👤</span>
+                    <span>Tài khoản</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Game Nổ Hũ -->
-        <div class="game-card" onclick="openGame('nohu')">
-            <div class="game-info">
-                <h3>🎰 Nổ Hũ May Mắn (Slot)</h3>
-                <p>Quay trúng biểu tượng - Săn hũ khủng</p>
-            </div>
-            <div class="game-icon">🎰</div>
-        </div>
-    </div>
+        <!-- MÀN HÌNH BÀN CHƠI TÀI XỈU (Được tích hợp sẵn ngay bên trong) -->
+        <div id="taixiu-screen">
+            <button class="back-lobby-btn" onclick="veLobby()">⬅ Quay lại Lobby</button>
+            
+            <!-- Phần giao diện bàn Tài Xỉu đã tối ưu chân thực -->
+            <div style="width:100%; max-width:400px; background: linear-gradient(135deg, #2b1d0c 0%, #110b04 100%); border: 3px solid #8c6732; border-radius: 20px; display: flex; flex-direction: column; align-items: center; padding: 10px; position: relative;">
+                
+                <div style="width:100%; background: rgba(0,0,0,0.7); padding: 4px; border-radius: 6px; font-size: 11px; text-align: center; border: 1px solid #c5a059; margin-bottom: 8px;">
+                    Chúc mừng <span style="color:#50e677; font-weight:bold;">ManhCuong</span> thắng <span style="color:#ffcc00; font-weight:bold;">1,467,283</span>
+                </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+                <div style="width:100%; height: 310px; background: radial-gradient(ellipse at center, #145a32 0%, #092e1b 100%); border: 6px solid #4a2e12; border-radius: 150px; position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 10px;">
+                    
+                    <!-- Cửa TÀI -->
+                    <div id="box-tai" onclick="chonCua('tai')" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; width:100px;">
+                        <div style="font-size:24px; font-weight:bold; color:#ffcc00; text-shadow:0 2px 4px rgba(0,0,0,0.8);">TÀI</div>
+                        <div id="money-tai" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:14px; font-weight:bold; width:85px; text-align:center;">0</div>
+                    </div>
 
-        const initDataUnsafe = tg.initDataUnsafe || {};
-        const user = initDataUnsafe.user || {
-            id: 123456789,
-            username: "TestUser_Demo"
-        };
+                    <!-- Bát úp & Xúc xắc -->
+                    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 5;">
+                        <div style="width: 75px; height: 75px; background: #2a180c; border: 3px solid #d4af37; border-radius: 50%; display: flex; justify-content: center; align-items: center; gap: 3px; position: relative;">
+                            <div id="bowl-cover" style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 70px; height: 60px; background: linear-gradient(135deg, #6d4629 0%, #30180a 100%); border: 2px solid #e6ca65; border-radius: 50% 50% 10px 10px; transition: transform 0.5s ease, opacity 0.5s ease; z-index: 20;"></div>
+                            <div class="dice" id="d1" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚀</div>
+                            <div class="dice" id="d2" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚁</div>
+                            <div class="dice" id="d3" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚂</div>
+                        </div>
+                        <div style="margin-top:4px; background:#111; border:1px solid #d4af37; border-radius:12px; padding:1px 8px; font-size:12px; color:#ffcc00; font-weight:bold;"><span id="timer">20</span>s</div>
+                        <div id="status-label" style="font-size:10px; color:#50e677; font-weight:bold; margin-top:2px;">Đang mở cược</div>
+                    </div>
 
-        async function initAuth() {
-            try {
-                let response = await fetch('/api/auth', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        telegramId: user.id,
-                        username: user.username || user.first_name
-                    })
-                });
+                    <!-- Cửa XỈU -->
+                    <div id="box-xiu" onclick="chonCua('xiu')" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; width:100px;">
+                        <div style="font-size:24px; font-weight:bold; color:#ff9f43; text-shadow:0 2px 4px rgba(0,0,0,0.8);">XỈU</div>
+                        <div id="money-xiu" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:14px; font-weight:bold; width:85px; text-align:center;">0</div>
+                    </div>
 
-                let data = await response.json();
-                if (data.success) {
-                    document.getElementById('username').innerText = `Xin chào, ${data.user.username}!`;
-                    document.getElementById('userBalance').innerText = data.user.balance.toLocaleString();
-                } else {
-                    alert('Lỗi đăng nhập hệ thống!');
-                }
-            } catch (error) {
-                console.error('Lỗi kết nối server:', error);
-                document.getElementById('username').innerText = `Xin chào, ${user.username || 'Người chơi'}`;
-                document.getElementById('userBalance').innerText = '1,000';
-            }
-        }
+                </div>
 
-        function openGame(gameType) {
-            if (gameType === 'taixiu') {
-                window.location.href = `/taixiu.html?id=${user.id}`;
-            } else if (gameType === 'nohu') {
-                window.location.href = `/nohu.html?id=${user.id}`;
-            }
-        }
-
-        initAuth();
-    </script>
-</body>
-</html>
+                <!-- Phỉnh chọn -->
+                <div style="display: flex; justify-content: center; gap: 6px; width: 100%; margin-bottom: 10px;">
+                    <div class="chip selected" onclick="chonChip(1000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">1K</div>
+                    <div class="chip" onclick="chonChip(5000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">5K</div>
+                    <div class="chip" onclick="chonChip(10000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">10K</div>
+                    <div class="chip" onclick="chonChip(15000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">15K</div>
+                    <div class="chip" onclick="chonChip(20000, this)" style="width:42px; height:42px; background:radial-gradient(circle, #f5e3a5 0%, #c5a059 100%); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:12px; font-weight:bold; color:#3b250a; cursor:pointer;">20
