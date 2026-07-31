@@ -344,10 +344,10 @@
                 </div>
                 <div class="wallet-row">
                     <div class="wallet-balance">
-                        <div class="balance-title">Ví chính 🔄</div>
-                        <div class="balance-val">đ0,37</div>
+                        <div class="balance-title">Ví chính chung 🔄</div>
+                        <div class="balance-val" id="sidebarBalance">đ1,500,000</div>
                     </div>
-                    <div style="background: rgba(197, 160, 89, 0.2); border: 1px solid #c5a059; border-radius: 6px; padding: 6px 10px; color: #c5a059; font-size: 14px; cursor: pointer;" onclick="alert('Đã làm mới số dư')">💳</div>
+                    <div style="background: rgba(197, 160, 89, 0.2); border: 1px solid #c5a059; border-radius: 6px; padding: 6px 10px; color: #c5a059; font-size: 14px; cursor: pointer;" onclick="refreshBalance()">💳</div>
                 </div>
             </div>
 
@@ -452,7 +452,24 @@
     </div>
 
     <script>
+        function updateBalanceDisplay() {
+            let currentBal = localStorage.getItem('user_balance');
+            if (currentBal === null) {
+                currentBal = 1500000; // Mặc định 1.5 triệu dùng chung
+                localStorage.setItem('user_balance', currentBal);
+            } else {
+                currentBal = parseInt(currentBal);
+            }
+            document.getElementById('sidebarBalance').innerText = 'đ' + currentBal.toLocaleString('vi-VN');
+        }
+
+        function refreshBalance() {
+            updateBalanceDisplay();
+            alert('Đã cập nhật số dư ví chính thành công!');
+        }
+
         function toggleSidebar() {
+            updateBalanceDisplay();
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
             sidebar.classList.toggle('show');
@@ -474,7 +491,10 @@
                 dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
             }
         }, 3500);
+
+        // Khởi chạy khi load trang
+        window.onload = updateBalanceDisplay;
     </script>
 </body>
-                                                                           </html>
-                                                                           
+                    </html>
+                    
