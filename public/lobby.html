@@ -44,6 +44,7 @@
             padding: 10px 12px;
             background: rgba(0, 0, 0, 0.6);
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            flex-shrink: 0;
         }
 
         .header-left {
@@ -116,11 +117,11 @@
             display: flex;
         }
 
-        /* BANNER & GRID (TRANG CHỦ) */
+        /* BANNER & THANH DANH MỤC GAME (TRANG CHỦ) */
         .lobby-banner {
             margin: 10px 12px;
             height: 110px;
-            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            background: linear-gradient(135deg, #4a154b, #1a252f);
             border-radius: 12px;
             border: 1px solid #ffd700;
             display: flex;
@@ -130,9 +131,12 @@
             text-align: center;
             padding: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            flex-shrink: 0;
         }
         .banner-title { font-size: 13px; font-weight: bold; color: #ffd700; margin-bottom: 6px; }
-        .banner-desc { font-size: 9px; color: #fff; background: rgba(0,0,0,0.6); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(255,215,0,0.3); }
+        .banner-dots { display: flex; gap: 5px; margin-top: 8px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+        .dot.active { background: #ffd700; width: 15px; border-radius: 3px; }
 
         .notice-bar {
             background: rgba(212, 175, 55, 0.1);
@@ -144,35 +148,73 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            flex-shrink: 0;
         }
 
-        .game-grid-section {
+        /* THANH DANH MỤC NGANG (SCROLLABLE CATEGORIES) */
+        .category-scroll {
+            display: flex;
+            gap: 8px;
             padding: 10px 12px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            scrollbar-width: none;
+        }
+        .category-scroll::-webkit-scrollbar { display: none; }
+        
+        .cat-chip {
+            background: #111d2e;
+            border: 1px solid #1f2c47;
+            border-radius: 8px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9.5px;
+            color: #bdc3c7;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .cat-chip.active {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            border-color: #ffd700;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* LƯỚI TRÒ CHƠI */
+        .game-grid-section {
+            padding: 0 12px 15px 12px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
         }
 
-        .game-item-card {
-            background: linear-gradient(135deg, #1b2a40, #0f1c2e);
-            border: 1px solid #1f2c47;
-            border-radius: 10px;
-            padding: 8px 4px;
+        .game-card-v2 {
+            background: linear-gradient(135deg, #f39c12, #d35400);
+            border-radius: 12px;
+            padding: 10px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
+            height: 85px;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        .game-item-card:active { transform: scale(0.95); border-color: #ffd700; }
-        .game-icon-box { width: 36px; height: 36px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 18px; }
-        .game-item-name { font-size: 8px; color: #fff; text-align: center; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .game-card-v2:active { transform: scale(0.95); }
+        .game-card-v2.green { background: linear-gradient(135deg, #27ae60, #1e8449); }
+        .game-card-v2.purple { background: linear-gradient(135deg, #8e44ad, #6c3483); }
+        
+        .game-icon-v2 { font-size: 26px; }
+        .game-name-v2 { font-size: 8px; color: #fff; text-align: center; font-weight: bold; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* GIAO DIỆN NẠP / RÚT TIỀN */
+        /* GIAO DIỆN NẠP / RÚT TIỀN (CHUẨN ẢNH GỐC) */
         .wallet-tabs {
             display: flex;
             padding: 10px 12px;
             gap: 10px;
+            flex-shrink: 0;
         }
         .w-tab-btn {
             flex: 1;
@@ -201,19 +243,20 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex-shrink: 0;
         }
         .wc-label { font-size: 9px; color: #f39c12; font-weight: bold; }
         .wc-methods { display: flex; gap: 5px; flex-wrap: wrap; }
         .wc-badge {
             background: #1b2a40;
-            border: 1px solid #ffd700;
+            border: 1px solid #1f2c47;
             color: #fff;
             padding: 6px 10px;
             font-size: 9px;
             border-radius: 6px;
             cursor: pointer;
         }
-        .wc-badge.active { background: #f39c12; color: #000; font-weight: bold; }
+        .wc-badge.active { background: #f39c12; color: #000; font-weight: bold; border-color: #ffd700; }
 
         .amount-grid {
             display: grid;
@@ -245,7 +288,7 @@
         }
 
         .submit-wallet-btn {
-            margin: 10px 12px;
+            margin: 5px 12px 15px 12px;
             background: linear-gradient(135deg, #f39c12, #d35400);
             border: none;
             color: #fff;
@@ -256,6 +299,7 @@
             cursor: pointer;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            flex-shrink: 0;
         }
 
         /* BOTTOM NAVIGATION */
@@ -324,7 +368,7 @@
                 <div class="user-avatar"></div>
                 <div class="user-details">
                     <span class="user-name" id="displayUsername">Tài khoản</span>
-                    <span class="user-balance" id="headerBalance">đ0,00</span>
+                    <span class="user-balance" id="headerBalance">đ0,37</span>
                 </div>
             </div>
         </div>
@@ -332,28 +376,82 @@
         <!-- MÀN HÌNH 1: TRANG CHỦ (HOME) -->
         <div class="screen-view active" id="screen-home">
             <div class="lobby-banner">
-                <div class="banner-title">VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN</div>
-                <div class="banner-desc">💎 TRẢI NGHIỆM ĐỈNH CAO MỖI NGÀY</div>
+                <div class="banner-title">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
+                <div style="font-size: 9px; color: #ccc;">💎 TRẢI NGHIỆM ĐỈNH CAO MỖI NGÀY</div>
+                <div class="banner-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
             </div>
+
             <div class="notice-bar">
                 📢 Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...
             </div>
+
+            <!-- THANH DANH MỤC TRÒ CHƠI -->
+            <div class="category-scroll">
+                <div class="cat-chip active" onclick="filterCategory(this)">🔥 HOT</div>
+                <div class="cat-chip" onclick="filterCategory(this)">🐓 ĐÁ GÀ</div>
+                <div class="cat-chip" onclick="filterCategory(this)">🎰 Slots</div>
+                <div class="cat-chip" onclick="filterCategory(this)">♠️ Casino</div>
+                <div class="cat-chip" onclick="filterCategory(this)">🀄 Game bài</div>
+                <div class="cat-chip" onclick="filterCategory(this)">🐟 Bắn cá</div>
+                <div class="cat-chip" onclick="filterCategory(this)">🎱 Xổ số</div>
+                <div class="cat-chip" onclick="filterCategory(this)">⚽ Thể thao</div>
+            </div>
+
+            <!-- DANH SÁCH TRÒ CHƠI (KHỚP ẢNH GỐC) -->
             <div class="game-grid-section">
-                <div class="game-item-card" onclick="alert('Đang vào bàn Tài Xỉu VIP...')">
-                    <div class="game-icon-box">🎲</div>
-                    <div class="game-item-name">Tài Xỉu VIP</div>
+                <div class="game-card-v2 green" onclick="alert('Đang vào bàn Tài Xỉu VIP...')">
+                    <div class="game-icon-v2">🎲</div>
+                    <div class="game-name-v2">Tài Xỉu VIP</div>
                 </div>
-                <div class="game-item-card" onclick="alert('Đang tải trò chơi...')">
-                    <div class="game-icon-box">🐉</div>
-                    <div class="game-item-name">Dragon Gems</div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🐉</div>
+                    <div class="game-name-v2">Dragon Gems</div>
                 </div>
-                <div class="game-item-card" onclick="alert('Đang tải trò chơi...')">
-                    <div class="game-icon-box">🍬</div>
-                    <div class="game-item-name">Mithai Madn</div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🍬</div>
+                    <div class="game-name-v2">Mithai Madn</div>
                 </div>
-                <div class="game-item-card" onclick="alert('Đang tải trò chơi...')">
-                    <div class="game-icon-box">🦅</div>
-                    <div class="game-item-name">Fortune Gods</div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🦅</div>
+                    <div class="game-name-v2">Fortune Gods</div>
+                </div>
+
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">👑</div>
+                    <div class="game-name-v2">NCVIP Super</div>
+                </div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🃏</div>
+                    <div class="game-name-v2">Ultra Ace</div>
+                </div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">⚡</div>
+                    <div class="game-name-v2">NCVIP Gates</div>
+                </div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🦜</div>
+                    <div class="game-name-v2">NC Bountiful</div>
+                </div>
+
+                <div class="game-card-v2 purple" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🀄</div>
+                    <div class="game-name-v2">Mahjong Ways</div>
+                </div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">💰</div>
+                    <div class="game-name-v2">Pinata Wins</div>
+                </div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🦈</div>
+                    <div class="game-name-v2">Jackpot Fish</div>
+                </div>
+                <div class="game-card-v2" onclick="alert('Đang tải trò chơi...')">
+                    <div class="game-icon-v2">🎡</div>
+                    <div class="game-name-v2">Crazy Time</div>
                 </div>
             </div>
         </div>
@@ -371,6 +469,9 @@
                     <div class="wc-badge active">Ngân hàng</div>
                     <div class="wc-badge">MOMOPAY</div>
                     <div class="wc-badge">ZaloPay</div>
+                    <div class="wc-badge">ViettelPay</div>
+                    <div class="wc-badge">USDT</div>
+                    <div class="wc-badge">Thẻ Cào</div>
                 </div>
             </div>
 
@@ -402,7 +503,7 @@
         <div class="screen-view" id="screen-account" style="padding: 15px;">
             <h3 style="color: #ffd700; margin-bottom: 10px;">HỒ SƠ CÁ NHÂN</h3>
             <p style="font-size: 11px; color: #fff;" id="accUsernameText">Tên tài khoản: </p>
-            <p style="font-size: 11px; color: #f1c40f; margin-top: 5px;" id="accBalanceText">Số dư ví: đ0,00</p>
+            <p style="font-size: 11px; color: #f1c40f; margin-top: 5px;" id="accBalanceText">Số dư ví: đ0,37</p>
         </div>
 
         <!-- BOTTOM NAVIGATION -->
@@ -430,92 +531,4 @@
         <div class="drawer-menu" id="drawerMenu">
             <div class="drawer-header">
                 <span>MEGA CASINO WORLD</span>
-                <span style="cursor: pointer;" onclick="toggleDrawer()">✕</span>
-            </div>
-            <div class="drawer-item" onclick="openWalletFromDrawer('deposit')">💳 Nạp tiền tài khoản</div>
-            <div class="drawer-item" onclick="openWalletFromDrawer('withdraw')">🏦 Rút tiền nhanh</div>
-            <div class="drawer-item" onclick="switchNav(document.querySelectorAll('.nav-item')[1], 'promo'); toggleDrawer();">🎁 Khuyến mãi thành viên</div>
-            <div class="drawer-item" onclick="alert('Đang kết nối CSKH trực tuyến...')">💬 CSKH 24/7</div>
-            <div class="drawer-item logout-btn" onclick="logout()">🚪 Đăng xuất tài khoản</div>
-        </div>
-    </div>
-
-    <script>
-        // Kiểm tra xem đã đăng nhập chưa, nếu chưa đá về auth.html
-        let currentUsername = localStorage.getItem('ab666_username');
-        if(!currentUsername) {
-            window.location.href = 'auth.html';
-        } else {
-            document.getElementById('displayUsername').innerText = currentUsername;
-            document.getElementById('accUsernameText').innerText = "Tên tài khoản: " + currentUsername;
-        }
-
-        // Đọc số dư từ bộ nhớ, nếu chưa có mặc định là 0.37
-        let userWalletBalance = parseFloat(localStorage.getItem('ab666_balance')) || 0.37;
-        let currentWalletMode = 'deposit'; 
-
-        function updateBalanceDisplay() {
-            const formatted = "đ" + userWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('headerBalance').innerText = formatted;
-            const accText = document.getElementById('accBalanceText');
-            if(accText) accText.innerText = "Số dư ví: " + formatted;
-            localStorage.setItem('ab666_balance', userWalletBalance);
-        }
-
-        function toggleDrawer() {
-            document.getElementById('drawerMenu').classList.toggle('active');
-            document.getElementById('drawerOverlay').classList.toggle('active');
-        }
-
-        function switchScreen(screenKey) {
-            document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-
-            if(screenKey === 'home') {
-                document.getElementById('screen-home').classList.add('active');
-                document.querySelectorAll('.nav-item')[0].classList.add('active');
-            } else if(screenKey === 'promo') {
-                document.getElementById('screen-promo').classList.add('active');
-                document.querySelectorAll('.nav-item')[1].classList.add('active');
-            } else if(screenKey === 'wallet' || screenKey === 'deposit' || screenKey === 'withdraw') {
-                document.getElementById('screen-wallet').classList.add('active');
-                document.querySelectorAll('.nav-item')[2].classList.add('active');
-                setWalletMode(screenKey === 'withdraw' ? 'withdraw' : 'deposit');
-            } else if(screenKey === 'account') {
-                document.getElementById('screen-account').classList.add('active');
-                document.querySelectorAll('.nav-item')[3].classList.add('active');
-            }
-        }
-
-        function switchNav(el, key) {
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            switchScreen(key);
-        }
-
-        function openWalletFromDrawer(mode) {
-            toggleDrawer();
-            switchScreen(mode);
-        }
-
-        function setWalletMode(mode) {
-            currentWalletMode = mode;
-            const depBtn = document.getElementById('tabDepBtn');
-            const wdBtn = document.getElementById('tabWdBtn');
-            const amtLabel = document.getElementById('amountLabel');
-            const submitBtn = document.getElementById('submitWalletBtn');
-
-            if(mode === 'deposit') {
-                depBtn.classList.add('active');
-                wdBtn.classList.remove('active');
-                amtLabel.innerText = "Số tiền Nạp (1 = 1K)";
-                submitBtn.innerText = "GỬI YÊU CẦU NẠP";
-            } else {
-                wdBtn.classList.add('active');
-                depBtn.classList.remove('active');
-                amtLabel.innerText = "Số tiền Rút (1 = 1K)";
-                submitBtn.innerText = "GỬI YÊU CẦU RÚT";
-            }
-        }
-
-  
+                <span style="cursor: pointer;" onclick="toggleDrawer(
