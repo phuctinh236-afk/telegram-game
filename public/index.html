@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ab666 - Sảnh Game Mega Casino World</title>
+    <title>Mega Casino World - Lobby</title>
     <style>
         * {
             box-sizing: border-box;
@@ -14,394 +14,486 @@
         }
 
         body {
-            background-color: #050b14;
+            background-color: #121824;
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
         }
 
-        .lobby-container {
+        .app-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 420px;
             height: 100vh;
             max-height: 850px;
-            background: linear-gradient(135deg, #0b1a2d 0%, #030811 100%);
+            background: #121824;
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 25px rgba(0,0,0,0.9);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
             overflow: hidden;
         }
 
-        /* HEADER LOBBY */
-        .lobby-header {
+        /* HEADER */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 12px;
-            background: rgba(0, 0, 0, 0.6);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 12px 15px;
+            background: #1a2232;
+            border-bottom: 1px solid #2a364f;
+            z-index: 10;
         }
-
         .header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
-
-        .menu-icon-btn {
-            font-size: 18px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .logo-area {
-            font-size: 16px;
-            font-weight: 900;
-            color: #ffd700;
-            letter-spacing: 0.5px;
-        }
-
-        .user-info-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #d4af37;
-            border-radius: 20px;
-            padding: 3px 10px 3px 3px;
-            cursor: pointer;
-        }
-
-        .user-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 1px solid #ffd700;
-            background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100') center/cover;
-        }
-
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-size: 7.5px;
-            color: #ccc;
-        }
-
-        .user-balance {
-            font-size: 9.5px;
-            color: #f1c40f;
-            font-weight: bold;
-        }
-
-        /* BANNER QUẢNG CÁO */
-        .lobby-banner {
-            margin: 10px 12px;
-            height: 110px;
-            background: linear-gradient(135deg, #2c3e50, #1a252f);
-            border-radius: 12px;
-            border: 1px solid #ffd700;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #ffd700;
-            margin-bottom: 6px;
-        }
-
-        .banner-desc {
-            font-size: 9px;
-            color: #fff;
-            background: rgba(0,0,0,0.6);
-            padding: 3px 10px;
-            border-radius: 4px;
-            border: 1px solid rgba(255,215,0,0.3);
-        }
-
-        /* THÔNG BÁO CHẠY NGANG */
-        .notice-bar {
+        .menu-icon { font-size: 20px; cursor: pointer; color: #d4af37; }
+        .logo-text { font-weight: bold; font-size: 15px; color: #f39c12; text-transform: uppercase; }
+        .cskh-btn {
             background: rgba(212, 175, 55, 0.1);
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 5px 12px;
-            font-size: 8.5px;
-            color: #f39c12;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            border: 1px solid #d4af37;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #d4af37;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        /* DANH SÁCH GAME GRID */
-        .game-grid-section {
-            flex: 1;
-            padding: 10px 12px;
+        /* SIDEBAR MENU (MENU 3 GẠCH TRƯỢT) */
+        .sidebar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        .sidebar {
+            position: absolute;
+            top: 0;
+            left: -85%;
+            width: 85%;
+            height: 100%;
+            background: #121824;
+            z-index: 101;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
             overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            border-right: 1px solid #2a364f;
+        }
+        .sidebar.show { left: 0; }
+
+        .sidebar-header {
+            background: #1a2232;
+            padding: 15px;
+            border-bottom: 1px solid #2a364f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-user-box {
+            background: #1d2636;
+            border: 1px solid #c5a059;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px;
+        }
+        .user-info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .user-avatar { width: 40px; height: 40px; background: #c5a059; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; }
+        .user-details .username { font-weight: bold; font-size: 14px; color: #fff; }
+        .user-details .sub-text { font-size: 11px; color: #c5a059; cursor: pointer; }
+        .wallet-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #2a364f; padding-top: 8px; }
+        .wallet-balance .balance-title { font-size: 10px; color: #8395a7; }
+        .wallet-balance .balance-val { font-size: 14px; font-weight: bold; color: #d4af37; }
+
+        .sidebar-search {
+            margin: 0 12px 12px 12px;
+            background: #1a2232;
+            border: 1px solid #2a364f;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
             gap: 8px;
-            align-content: start;
+        }
+        .sidebar-search input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 12px;
+            width: 100%;
         }
 
-        .game-item-card {
-            background: linear-gradient(135deg, #1b2a40, #0f1c2e);
-            border: 1px solid #1f2c47;
-            border-radius: 10px;
-            padding: 8px 4px;
+        .sidebar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 0 12px 12px 12px;
+        }
+        .sidebar-grid-item {
+            background: #1a2232;
+            border: 1px solid #2a364f;
+            border-radius: 8px;
+            padding: 12px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            cursor: pointer;
-            transition: 0.15s;
+            text-decoration: none;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .sidebar-grid-item span:first-child { font-size: 18px; }
+
+        /* SCREENS */
+        .screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: #121824;
         }
 
-        .game-item-card:active {
-            transform: scale(0.95);
-            border-color: #ffd700;
+        /* BANNER */
+        .banner-container {
+            width: 100%;
+            height: 130px;
+            position: relative;
+            background: #0d121c;
+            overflow: hidden;
         }
-
-        .game-icon-box {
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
+        .banner-slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .banner-item {
+            min-width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 0 15px;
+        }
+        .dots-row {
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 50%; }
+        .dot.active { background: #f39c12; width: 16px; border-radius: 4px; }
+
+        /* NOTICE BAR */
+        .notice-bar {
+            background: #232d42;
+            padding: 8px 12px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #2a364f;
+            color: #f1c40f;
         }
 
-        .game-item-name {
-            font-size: 8px;
-            color: #fff;
+        /* TABS */
+        .nav-tabs {
+            display: flex;
+            background: #1a2232;
+            padding: 8px 5px;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 2px solid #2a364f;
+        }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+        .tab-item {
+            min-width: 75px;
+            height: 60px;
+            background: #232d42;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            flex-shrink: 0;
+        }
+        .tab-item.active {
+            background: linear-gradient(to bottom, #34495e, #1f2a38);
+            border-color: #f39c12;
+        }
+        .tab-icon { font-size: 18px; }
+        .tab-name { font-size: 11px; font-weight: bold; color: #b0c4de; }
+        .tab-item.active .tab-name { color: #f39c12; }
+
+        /* GRID GAME */
+        .game-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            background: #121824;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .game-card {
+            background: #1a2232;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #2a364f;
+            text-decoration: none;
+        }
+        .game-card:active { transform: scale(0.95); }
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            position: relative;
+        }
+        .game-title {
+            padding: 6px 4px;
+            font-size: 10px;
             text-align: center;
-            font-weight: 500;
+            font-weight: bold;
+            color: #dcdde1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
         }
 
-        /* BOTTOM NAVIGATION */
-        .lobby-nav {
+        /* FOOTER */
+        .footer-nav {
             display: flex;
+            background: #1a2232;
+            padding: 8px 0;
+            border-top: 1px solid #2a364f;
             justify-content: space-around;
-            background: #09121d;
-            border-top: 1px solid #1f2c47;
-            padding: 6px 0;
-            flex-shrink: 0;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 2px;
-            font-size: 8px;
-            color: #7f8c8d;
-            cursor: pointer;
-            background: none;
-            border: none;
         }
-
-        .nav-item.active {
-            color: #ffd700;
-        }
-
-        .nav-icon {
-            font-size: 14px;
-        }
-
-        /* MENU DRAWER (KHI BẤM NÚT MENU 3 GẠCH) */
-        .drawer-menu {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 75%;
-            height: 100%;
-            background: #0f1c2e;
-            border-right: 2px solid #ffd700;
-            z-index: 100;
-            transition: 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            gap: 15px;
-        }
-        .drawer-menu.active { left: 0; }
-        .drawer-header { font-size: 12px; font-weight: bold; color: #ffd700; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2c47; padding-bottom: 8px; }
-        .drawer-item { font-size: 10px; color: #fff; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 6px; cursor: pointer; }
-        .drawer-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 90;
-            display: none;
-        }
-        .drawer-overlay.active { display: block; }
+        .footer-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #8395a7; text-decoration: none; }
+        .footer-btn.active { color: #f39c12; }
+        .footer-icon { font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <div class="lobby-container">
-        <!-- HEADER -->
-        <div class="lobby-header">
+    <div class="app-container">
+        <!-- HEADER CHUNG -->
+        <div class="header">
             <div class="header-left">
-                <span class="menu-icon-btn" onclick="toggleDrawer()">☰</span>
-                <span class="logo-area">Ab666</span>
+                <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+                <span class="logo-text">MEGA CASINO WORLD</span>
             </div>
-            <div class="user-info-box" onclick="goToScreen('Nạp tiền')">
-                <div class="user-avatar"></div>
-                <div class="user-details">
-                    <span class="user-name">Phun Cam Kiu</span>
-                    <span class="user-balance">đ0,37</span>
+            <a href="https://t.me/pphuc8386" target="_blank" class="cskh-btn">💬 CSKH</a>
+        </div>
+
+        <!-- SIDEBAR MENU TRƯỢT BÊN TRÁI -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar" id="sidebarMenu">
+            <div class="sidebar-header">
+                <span class="logo-text">MEGA CASINO WORLD</span>
+                <span style="font-size: 18px; cursor: pointer; color: #fff;" onclick="toggleSidebar()">✕</span>
+            </div>
+
+            <!-- Khung thông tin cá nhân -->
+            <div class="sidebar-user-box">
+                <div class="user-info-row">
+                    <div class="user-avatar">🪙</div>
+                    <div class="user-details">
+                        <div class="username">Phun Cam Kiu</div>
+                        <div class="sub-text" onclick="alert('Xem trang hồ sơ cá nhân')">Hồ sơ &gt;</div>
+                    </div>
+                </div>
+                <div class="wallet-row">
+                    <div class="wallet-balance">
+                        <div class="balance-title">Ví chính chung 🔄</div>
+                        <div class="balance-val" id="sidebarBalance">đ0</div>
+                    </div>
+                    <div style="background: rgba(197, 160, 89, 0.2); border: 1px solid #c5a059; border-radius: 6px; padding: 6px 10px; color: #c5a059; font-size: 14px; cursor: pointer;" onclick="refreshBalance()">💳</div>
+                </div>
+            </div>
+
+            <!-- Ô tìm kiếm trong menu -->
+            <div class="sidebar-search">
+                <span>🔍</span>
+                <input type="text" placeholder="Tìm kiếm trò chơi">
+            </div>
+
+            <!-- Các nút danh mục trong sidebar -->
+            <div class="sidebar-grid">
+                <a href="deposit.html" class="sidebar-grid-item"><span>💳</span><span>Nạp tiền</span></a>
+                <a href="#" onclick="alert('Chức năng Rút tiền đang bảo trì')" class="sidebar-grid-item"><span>🏧</span><span>Rút tiền</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🔥</span><span>HOT</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🐓</span><span>Đá Gà</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🎰</span><span>Slots</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>♠️</span><span>Casino</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🀄</span><span>Game bài</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🐟</span><span>Bắn Cá</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🎱</span><span>Xổ Số</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>⚽</span><span>Thể Thao</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🚀</span><span>Crash</span></a>
+                <a href="#" onclick="toggleSidebar()" class="sidebar-grid-item"><span>🕹️</span><span>Arcade</span></a>
+            </div>
+
+            <!-- Nút phụ bên dưới menu -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 12px 20px 12px;">
+                <div class="sidebar-grid-item" onclick="alert('Khuyến mãi đặc biệt')"><span>🎁</span><span>Khuyến mãi</span></div>
+                <div class="sidebar-grid-item" onclick="alert('Câu lạc bộ VIP')"><span>👑</span><span>VIP</span></div>
+                <a href="deposit.html" class="sidebar-grid-item"><span>📥</span><span>Tải xuống</span></a>
+            </div>
+        </div>
+
+        <!-- MÀN HÌNH TRANG CHỦ (LOBBY) -->
+        <div id="screen-home" class="screen">
+            <div class="banner-container">
+                <div class="banner-slide" id="slider">
+                    <div class="banner-item" style="background: linear-gradient(135deg, #d35400, #c0392b);">👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</div>
+                    <div class="banner-item" style="background: linear-gradient(135deg, #27ae60, #16a085);">🎲 BÀN TÀI XỈU VIP - HOÀN CƯỢC 1.5% 🎲</div>
+                    <div class="banner-item" style="background: linear-gradient(135deg, #2980b9, #8e44ad);">🔥 SIÊU KHUYẾN MÃI NẠP ĐẦU 100% 🔥</div>
+                </div>
+                <div class="dots-row">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <div class="notice-bar">
+                <span>📢</span>
+                <span>Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...</span>
+            </div>
+
+            <div class="nav-tabs">
+                <div class="tab-item active" onclick="switchTab(this)"><span class="tab-icon">🔥</span><span class="tab-name">HOT</span></div>
+                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🐓</span><span class="tab-name">ĐÁ GÀ</span></div>
+                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🎰</span><span class="tab-name">Slots</span></div>
+                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">♠️</span><span class="tab-name">Casino</span></div>
+                <div class="tab-item" onclick="switchTab(this)"><span class="tab-icon">🎮</span><span class="tab-name">Game Bài</span></div>
+            </div>
+
+            <div class="game-content">
+                <div class="game-grid">
+                    <a href="taixiu.html" class="game-card">
+                        <div class="game-thumb" style="background: linear-gradient(135deg, #27ae60, #0e6251);">🎲</div>
+                        <div class="game-title">Tài Xỉu VIP</div>
+                    </a>
+                    <div class="game-card"><div class="game-thumb">🐉</div><div class="game-title">Dragon Gems</div></div>
+                    <div class="game-card"><div class="game-thumb">🍬</div><div class="game-title">Mithai Madness</div></div>
+                    <div class="game-card"><div class="game-thumb">🦅</div><div class="game-title">Fortune Gods</div></div>
+                    <div class="game-card"><div class="game-thumb">👑</div><div class="game-title">NCVIP Super</div></div>
+                    <div class="game-card"><div class="game-thumb">🃏</div><div class="game-title">Ultra Ace</div></div>
+                    <div class="game-card"><div class="game-thumb">⚡</div><div class="game-title">NCVIP Gates</div></div>
+                    <div class="game-card"><div class="game-thumb">🦜</div><div class="game-title">NC Bountiful</div></div>
+                    <div class="game-card"><div class="game-thumb">🀄</div><div class="game-title">Mahjong Ways</div></div>
+                    <div class="game-card"><div class="game-thumb">💰</div><div class="game-title">Pinata Wins</div></div>
+                    <div class="game-card"><div class="game-thumb">🦈</div><div class="game-title">Jackpot Fish</div></div>
+                    <div class="game-card"><div class="game-thumb">🎡</div><div class="game-title">Crazy Time</div></div>
                 </div>
             </div>
         </div>
 
-        <!-- BANNER -->
-        <div class="lobby-banner">
-            <div class="banner-title">VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN</div>
-            <div class="banner-desc">💎 TRẢI NGHIỆM ĐỈNH CAO MỖI NGÀY</div>
-        </div>
-
-        <!-- THÔNG BÁO -->
-        <div class="notice-bar">
-            📢 Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...
-        </div>
-
-        <!-- LƯỚI TRÒ CHƠI -->
-        <div class="game-grid-section">
-            <div class="game-item-card" onclick="openGame('Tài Xỉu VIP')">
-                <div class="game-icon-box">🎲</div>
-                <div class="game-item-name">Tài Xỉu VIP</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Dragon Gems')">
-                <div class="game-icon-box">🐉</div>
-                <div class="game-item-name">Dragon Gems</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Mithai Madn...')">
-                <div class="game-icon-box">🍬</div>
-                <div class="game-item-name">Mithai Madn...</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Fortune Gods')">
-                <div class="game-icon-box">🦅</div>
-                <div class="game-item-name">Fortune Gods</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('NCVIP Super')">
-                <div class="game-icon-box">👑</div>
-                <div class="game-item-name">NCVIP Super</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Ultra Ace')">
-                <div class="game-icon-box">🃏</div>
-                <div class="game-item-name">Ultra Ace</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('NCVIP Gates')">
-                <div class="game-icon-box">⚡</div>
-                <div class="game-item-name">NCVIP Gates</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('NC Bountiful')">
-                <div class="game-icon-box">🦜</div>
-                <div class="game-item-name">NC Bountiful</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Mahjong Ways')">
-                <div class="game-icon-box">🀄</div>
-                <div class="game-item-name">Mahjong Ways</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Pinata Wins')">
-                <div class="game-icon-box">💰</div>
-                <div class="game-item-name">Pinata Wins</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Jackpot Fish')">
-                <div class="game-icon-box">🦈</div>
-                <div class="game-item-name">Jackpot Fish</div>
-            </div>
-            <div class="game-item-card" onclick="openGame('Crazy Time')">
-                <div class="game-icon-box">🎡</div>
-                <div class="game-item-name">Crazy Time</div>
-            </div>
-        </div>
-
-        <!-- BOTTOM NAVIGATION -->
-        <div class="lobby-nav">
-            <button class="nav-item active" onclick="switchNav(this, 'Trang chủ')">
-                <span class="nav-icon">🏠</span>
+        <!-- FOOTER NAVIGATION -->
+        <div class="footer-nav">
+            <a href="index.html" class="footer-btn active">
+                <span class="footer-icon">🏠</span>
                 <span>Trang chủ</span>
-            </button>
-            <button class="nav-item" onclick="switchNav(this, 'Khuyến mãi')">
-                <span class="nav-icon">🎁</span>
+            </a>
+            <div class="footer-btn" onclick="alert('Xem thông báo sự kiện khuyến mãi!')">
+                <span class="footer-icon">🎁</span>
                 <span>Khuyến mãi</span>
-            </button>
-            <button class="nav-item" onclick="switchNav(this, 'Nạp tiền')">
-                <span class="nav-icon">💳</span>
-                <span>Nạp tiền</span>
-            </button>
-            <button class="nav-item" onclick="switchNav(this, 'Tài khoản')">
-                <span class="nav-icon">👤</span>
-                <span>Tài khoản</span>
-            </button>
-        </div>
-
-        <!-- DRAWER MENU -->
-        <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
-        <div class="drawer-menu" id="drawerMenu">
-            <div class="drawer-header">
-                <span>MEGA CASINO WORLD</span>
-                <span style="cursor: pointer;" onclick="toggleDrawer()">✕</span>
             </div>
-            <div class="drawer-item" onclick="goToScreen('Nạp tiền')">💳 Nạp tiền tài khoản</div>
-            <div class="drawer-item" onclick="goToScreen('Rút tiền')">🏦 Rút tiền nhanh</div>
-            <div class="drawer-item" onclick="goToScreen('Khuyến mãi')">🎁 Khuyến mãi thành viên</div>
-            <div class="drawer-item" onclick="alert('Đang kết nối CSKH trực tuyến...')">💬 CSKH 24/7</div>
+            <a href="deposit.html" class="footer-btn">
+                <span class="footer-icon">💳</span>
+                <span>Nạp tiền</span>
+            </a>
+            <div class="footer-btn" onclick="toggleSidebar()">
+                <span class="footer-icon">👤</span>
+                <span>Tài khoản</span>
+            </div>
         </div>
     </div>
 
     <script>
-        function toggleDrawer() {
-            document.getElementById('drawerMenu').classList.toggle('active');
-            document.getElementById('drawerOverlay').classList.toggle('active');
-        }
-
-        function switchNav(el, tabName) {
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            if(tabName === 'Nạp tiền') {
-                alert("Chuyển sang trang Nạp Tiền (Khớp ảnh 1703)");
-            } else if(tabName === 'Khuyến mãi') {
-                alert("Mở danh mục Khuyến Mãi");
-            } else if(tabName === 'Tài khoản') {
-                alert("Mở thông tin tài khoản cá nhân");
-            }
-        }
-
-        function goToScreen(screenName) {
-            toggleDrawer();
-            alert("Chuyển đến màn hình: " + screenName);
-        }
-
-        function openGame(gameName) {
-            if(gameName.includes('Tài Xỉu')) {
-                alert("Đang vào bàn chơi Tài Xỉu trực tuyến...");
+        function updateBalanceDisplay() {
+            let currentBal = localStorage.getItem('user_balance');
+            // Chỉ gán 1.500.000đ khi hoàn toàn chưa tồn tại dữ liệu trong bộ nhớ
+            if (currentBal === null) {
+                currentBal = 1500000;
+                localStorage.setItem('user_balance', currentBal);
             } else {
-                alert("Đang tải trò chơi: " + gameName);
+                currentBal = parseInt(currentBal);
             }
+            document.getElementById('sidebarBalance').innerText = 'đ' + currentBal.toLocaleString('vi-VN');
         }
+
+        function refreshBalance() {
+            updateBalanceDisplay();
+            alert('Đã cập nhật số dư ví chính thành công!');
+        }
+
+        function toggleSidebar() {
+            updateBalanceDisplay();
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
+        function switchTab(el) {
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        let slideIndex = 0;
+        const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('.dot');
+        setInterval(() => {
+            if(slider) {
+                slideIndex = (slideIndex + 1) % 3;
+                slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
+            }
+        }, 3500);
+
+        // Khởi chạy khi load trang
+        window.onload = updateBalanceDisplay;
     </script>
-</body>
-</html>
+</b
