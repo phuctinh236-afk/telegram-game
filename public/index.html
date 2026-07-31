@@ -422,7 +422,6 @@
             </div>
 
             <div class="wallet-body">
-                <!-- Chọn khuyến mãi -->
                 <div class="section-box">
                     <div class="section-title">🎁 Khuyến mãi</div>
                     <select style="width:100%; background:#121824; border:1px solid #2a364f; color:#fff; padding:8px; border-radius:6px; outline:none;">
@@ -431,7 +430,6 @@
                     </select>
                 </div>
 
-                <!-- Phương thức thanh toán -->
                 <div class="section-box">
                     <div class="section-title">💳 Phương thức thanh toán</div>
                     <div class="pay-methods-grid">
@@ -446,7 +444,6 @@
                     </div>
                 </div>
 
-                <!-- Phương thức nạp tiền nhỏ -->
                 <div class="section-box">
                     <div class="section-title">⚙️ Cổng nạp / Kênh</div>
                     <div class="pay-sub-grid">
@@ -456,7 +453,6 @@
                     </div>
                 </div>
 
-                <!-- Số tiền nạp -->
                 <div class="section-box">
                     <div class="section-title">💵 Số tiền Nạp (₫ 100,00 - ₫ 100.000,00)</div>
                     <div class="amount-grid">
@@ -477,7 +473,6 @@
                     </div>
                 </div>
 
-                <!-- Nhắc nhở -->
                 <div class="section-box" style="font-size:11px; color:#a4b0be; line-height:1.4;">
                     <div class="section-title">⚠️ Nhắc nhở</div>
                     Lưu ý: Để đẩy nhanh quá trình gửi tiền, vui lòng 1) nhập chính xác NỘI DUNG CHUYỂN KHOẢN được hiển thị trên màn hình. 2) Xóa 3 số 0 cuối cùng khi nhập số tiền gửi. Ví dụ: Nạp 1.000.000 VND, chỉ cần nhập 1.000 điểm.
@@ -497,8 +492,8 @@
                 <span class="footer-icon">🎁</span>
                 <span>Khuyến mãi</span>
             </div>
-            <!-- Đã thêm sự kiện chuyển màn hình nạp tiền tại đây -->
-            <div class="footer-btn" onclick="switchScreen('deposit', this)">
+            <!-- ĐÃ SỬA: Nút Nạp tiền được gán sự kiện trực tiếp bằng cả HTML và JS bên dưới -->
+            <div class="footer-btn" id="btn-goto-deposit">
                 <span class="footer-icon">💳</span>
                 <span>Nạp tiền</span>
             </div>
@@ -515,4 +510,8 @@
             el.classList.add('active');
         }
 
-        function switchScreen(screenName,
+        function switchScreen(screenName, btnEl) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.footer-btn').forEach(b => b.classList.remove('active'));
+
+    
