@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Arcade Lobby - Telegram</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .profile-card {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .balance {
+            color: #facc15;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .lobby-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #38bdf8;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .game-card {
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border: 2px solid #475569;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .game-card:active {
+            transform: scale(0.98);
+        }
+        .game-info h3 { margin: 0 0 5px 0; color: #f8fafc; font-size: 18px; }
+        .game-info p { margin: 0; color: #94a3b8; font-size: 14px; }
+        .game-icon { font-size: 35px; }
+    </style>
+</head>
+<body>
 
+    <!-- Thông tin tài khoản người chơi -->
+    <div class="profile-card">
+        <div id="username">Đang kết nối tài khoản...</div>
+        <div class="balance"><span id="userBalance">0</span> 🪙 Xu</div>
+    </div>
+
+    <!-- Khu vực Lobby chọn game -->
+    <div class="lobby-title">🎮 CHỌN TRÒ CHƠI GIẢI TRÍ 🎮</div>
+    
+    <div class="game-grid">
+        <!-- Game Tài Xỉu -->
+        <div class="game-card" onclick="openGame('taixiu')">
+            <div class="game-info">
+                <h3>🎲 Tài Xỉu Đổi Vận</h3>
+                <p>Dự đoán tổng điểm 3 viên xúc xắc</p>
+            </div>
+            <div class="game-icon">🎲</div>
+        </div>
+
+        <!-- Game Nổ Hũ -->
+        <div class="game-card" onclick="openGame('nohu')">
+            <div class="game-info">
+                <h3>🎰 Nổ Hũ May Mắn (Slot)</h3>
+                <p>Quay trúng biểu tượng - Săn hũ khủng</p>
+            </div>
+            <div class="game-icon">🎰</div>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const initDataUnsafe = tg.initDataUnsafe || {};
+        const user = initDataUnsafe.user || {
+            id: 123456789,
+            username: "TestUser_Demo"
+        };
+
+        async function initAuth() {
+            try {
+                let response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        telegramId: user.id,
+                        username: user.username || user.first_name
+                    })
+                });
+
+                let data = await response.json();
+                if (data.success) {
+                    document.getElementById('username').innerText = `Xin chào, ${data.user.username}!`;
+                    document.getElementById('userBalance').innerText = data.user.balance.toLocaleString();
+                } else {
+                    alert('Lỗi đăng nhập hệ thống!');
+                }
+            } catch (error) {
+                console.error('Lỗi kết nối server:', error);
+                document.getElementById('username').innerText = `Xin chào, ${user.username || 'Người chơi'}`;
+                document.getElementById('userBalance').innerText = '1,000';
+            }
+        }
+
+        function openGame(gameType) {
+            if (gameType === 'taixiu') {
+                window.location.href = `/taixiu.html?id=${user.id}`;
+            } else if (gameType === 'nohu') {
+                window.location.href = `/nohu.html?id=${user.id}`;
+            }
+        }
+
+        initAuth();
+    </script>
+</body>
+</html>
