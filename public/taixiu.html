@@ -101,7 +101,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
-        /* Keyframes hiệu ứng bát lắc mạnh 1.5 giây */
         @keyframes shakingBowl {
             0% { transform: translateX(-50%) translate(0, 0) rotate(0deg); }
             15% { transform: translateX(-50%) translate(-8px, 4px) rotate(-6deg); }
@@ -138,6 +137,23 @@
             cursor: pointer;
             border: 2px solid transparent;
         }
+
+        .bet-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            width: 110px;
+            padding: 8px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .bet-box.selected {
+            border-color: #ffcc00;
+            background: rgba(212, 175, 55, 0.15);
+        }
     </style>
 </head>
 <body>
@@ -145,7 +161,6 @@
     <div class="taixiu-container">
         <button class="back-lobby-btn" onclick="window.location.href='index.html'">⬅ Quay lại Lobby</button>
         
-        <!-- Ô hiện tiền số dư -->
         <div class="user-balance-box">
             <span>💰</span> <span id="user-balance">1,500,000</span> ₫
         </div>
@@ -159,16 +174,14 @@
         <div style="width:100%; height: 310px; background: radial-gradient(ellipse at center, #145a32 0%, #092e1b 100%); border: 6px solid #4a2e12; border-radius: 150px; position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 15px;">
             
             <!-- Cửa TÀI -->
-            <div id="box-tai" onclick="chonCua('tai')" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; width:100px;">
+            <div id="box-tai" class="bet-box" onclick="chonCua('tai')">
                 <div style="font-size:24px; font-weight:bold; color:#ffcc00; text-shadow:0 2px 4px rgba(0,0,0,0.8);">TÀI</div>
-                <div id="money-tai" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:14px; font-weight:bold; width:85px; text-align:center;">0</div>
+                <div id="money-tai" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:13px; font-weight:bold; width:95px; text-align:center; color:#fff; margin-top:4px;">0</div>
             </div>
 
             <!-- Bát úp 3D & Xúc xắc -->
             <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 5;">
                 <div style="width: 75px; height: 75px; background: #2a180c; border: 3px solid #d4af37; border-radius: 50%; display: flex; justify-content: center; align-items: center; gap: 3px; position: relative;">
-                    
-                    <!-- Nắp 3D -->
                     <div class="bowl-3d" id="bowl-cover"></div>
 
                     <div class="dice" id="d1" style="width:20px; height:20px; background:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:bold;">⚀</div>
@@ -180,9 +193,9 @@
             </div>
 
             <!-- Cửa XỈU -->
-            <div id="box-xiu" onclick="chonCua('xiu')" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; width:100px;">
+            <div id="box-xiu" class="bet-box" onclick="chonCua('xiu')">
                 <div style="font-size:24px; font-weight:bold; color:#ff9f43; text-shadow:0 2px 4px rgba(0,0,0,0.8);">XỈU</div>
-                <div id="money-xiu" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:14px; font-weight:bold; width:85px; text-align:center;">0</div>
+                <div id="money-xiu" style="background:#6e4c1e; border:2px solid #d4af37; padding:4px 8px; border-radius:6px; font-size:13px; font-weight:bold; width:95px; text-align:center; color:#fff; margin-top:4px;">0</div>
             </div>
 
         </div>
@@ -233,8 +246,8 @@
                 return;
             }
             cửaChọn = cửa;
-            document.getElementById('box-tai').style.opacity = cửa === 'tai' ? '1' : '0.4';
-            document.getElementById('box-xiu').style.opacity = cửa === 'xiu' ? '1' : '0.4';
+            document.getElementById('box-tai').classList.toggle('selected', cửa === 'tai');
+            document.getElementById('box-xiu').classList.toggle('selected', cửa === 'xiu');
         }
 
         function xacNhan() {
@@ -266,8 +279,8 @@
             cửaChọn = null;
             document.getElementById('money-tai').innerText = '0';
             document.getElementById('money-xiu').innerText = '0';
-            document.getElementById('box-tai').style.opacity = '1';
-            document.getElementById('box-xiu').style.opacity = '1';
+            document.getElementById('box-tai').classList.remove('selected');
+            document.getElementById('box-xiu').classList.remove('selected');
             document.getElementById('status-label').innerText = "Đã hủy cược & hoàn tiền";
         }
 
@@ -284,11 +297,8 @@
                     document.getElementById('status-label').innerText = "Đang lắc bát...";
 
                     let bowl = document.getElementById('bowl-cover');
-                    
-                    // 1. Kích hoạt hiệu ứng lắc bát liên tục trong 1.5 giây
                     if(bowl) bowl.classList.add('shaking');
 
-                    // 2. Sau 1.5 giây lắc thì dừng lắc, mở bát và hiện kết quả
                     setTimeout(() => {
                         if(bowl) {
                             bowl.classList.remove('shaking');
@@ -308,16 +318,12 @@
                         let ketQuaLabel = total >= 11 ? "TÀI" : "XỈU";
                         document.getElementById('status-label').innerText = `${total} (${ketQuaLabel})`;
 
-                        // Tính tiền thắng thua
-                        let totalWon = 0;
                         if (cửaChọn === ketQuaText) {
                             let tienCuoc = cửaChọn === 'tai' ? cượcTai : cượcXiu;
-                            totalWon = tienCuoc * 2;
-                            userBalance += totalWon;
+                            userBalance += (tienCuoc * 2);
                             updateBalanceUI();
                         }
 
-                        // Sau 4 giây reset ván mới
                         setTimeout(() => {
                             if(bowl) bowl.classList.remove('open');
                             timeLeft = 20;
@@ -327,11 +333,11 @@
                             isBetting = true;
                             document.getElementById('money-tai').innerText = '0';
                             document.getElementById('money-xiu').innerText = '0';
-                            document.getElementById('box-tai').style.opacity = '1';
-                            document.getElementById('box-xiu').style.opacity = '1';
+                            document.getElementById('box-tai').classList.remove('selected');
+                            document.getElementById('box-xiu').classList.remove('selected');
                             document.getElementById('status-label').innerText = "Đang mở cược";
                         }, 4000);
-                    }, 1500); // Thời gian lắc 1.5 giây
+                    }, 1500);
                 }
             }
         }, 1000);
