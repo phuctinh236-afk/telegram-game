@@ -1,1 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nạp Tiền - Mega Casino World</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
+        body {
+            background-color: #121824;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 850px;
+            background: #121824;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #1a2232;
+            border-bottom: 1px solid #2a364f;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .logo-text { font-weight: bold; font-size: 14px; color: #f39c12; text-transform: uppercase; }
+
+        /* WALLET BODY */
+        .wallet-header {
+            display: flex;
+            background: #1a2232;
+            padding: 10px;
+            gap: 10px;
+            border-bottom: 1px solid #2a364f;
+        }
+        .wallet-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #121824;
+            border: 1px solid #c5a059;
+            color: #c5a059;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .wallet-tab.active {
+            background: linear-gradient(135deg, #c5a059, #8c6732);
+            color: #fff;
+        }
+        .wallet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .section-box {
+            background: #1a2232;
+            border: 1px solid #2a364f;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+        .section-title {
+            color: #d4af37;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .pay-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .pay-method-item {
+            background: #121824;
+            border: 1px solid #2a364f;
+            border-radius: 6px;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 10px;
+            color: #ccc;
+        }
+        .pay-method-item.active {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            color: #fff;
+        }
+        .pay-sub-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .pay-sub-item {
+            background: #121824;
+            border: 1px solid #2a364f;
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+            font-size: 11px;
+            cursor: pointer;
+            color: #d4af37;
+            font-weight: bold;
+        }
+        .pay-sub-item.active {
+            background: #d4af37;
+            color: #121824;
+        }
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .amount-btn {
+            background: #121824;
+            border: 1px solid #2a364f;
+            border-radius: 6px;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+        .amount-input-box {
+            background: #121824;
+            border: 1px solid #2a364f;
+            border-radius: 6px;
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .amount-input-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 14px;
+            width: 70%;
+        }
+        .submit-deposit-btn {
+            width: 100%;
+            background: linear-gradient(to right, #d4af37, #aa7c11);
+            color: #121824;
+            font-weight: bold;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* FOOTER */
+        .footer-nav {
+            display: flex;
+            background: #1a2232;
+            padding: 8px 0;
+            border-top: 1px solid #2a364f;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .footer-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #8395a7; text-decoration: none; }
+        .footer-btn.active { color: #f39c12; }
+        .footer-icon { font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="window.location.href='index.html'">⬅ Lại</button>
+                <span class="logo-text">MEGA CASINO WORLD</span>
+            </div>
+            <a href="https://t.me/pphuc8386" target="_blank" style="color: #d4af37; font-size: 12px; text-decoration: none; font-weight: bold;">💬 CSKH</a>
+        </div>
+
+        <div class="wallet-header">
+            <div class="wallet-tab active">Nạp tiền</div>
+            <div class="wallet-tab" onclick="alert('Chức năng Rút tiền đang bảo trì')">Rút tiền</div>
+        </div>
+
+        <div class="wallet-body">
+            <div class="section-box">
+                <div class="section-title">🎁 Khuyến mãi</div>
+                <select style="width:100%; background:#121824; border:1px solid #2a364f; color:#fff; padding:6px; border-radius:6px; outline:none; font-size:12px;">
+                    <option>Nạp Tiền Thông Thường</option>
+                    <option>Thưởng Nạp Đầu 100%</option>
+                </select>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">💳 Phương thức thanh toán</div>
+                <div class="pay-methods-grid">
+                    <div class="pay-method-item active" onclick="selectPayMethod(this)">🏦 Ngân hàng</div>
+                    <div class="pay-method-item" onclick="selectPayMethod(this)">📱 MOMOPAY</div>
+                    <div class="pay-method-item" onclick="selectPayMethod(this)">💛 ZaloPay</div>
+                    <div class="pay-method-item" onclick="selectPayMethod(this)">🔴 ViettelPay</div>
+                    <div class="pay-method-item" onclick="selectPayMethod(this)">💎 USDT</div>
+                    <div class="pay-method-item" onclick="selectPayMethod(this)">🎫 Thẻ Cào</div>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">⚙️ Cổng nạp</div>
+                <div class="pay-sub-grid">
+                    <div class="pay-sub-item active" onclick="selectSubPay(this)">HN-Pay1</div>
+                    <div class="pay-sub-item" onclick="selectSubPay(this)">O-Pay</div>
+                    <div class="pay-sub-item" onclick="selectSubPay(this)">D-Pay</div>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">💵 Số tiền Nạp (1 = 1K)</div>
+                <div class="amount-grid">
+                    <div class="amount-btn" onclick="setAmount(100)">100</div>
+                    <div class="amount-btn" onclick="setAmount(200)">200</div>
+                    <div class="amount-btn" onclick="setAmount(500)">500</div>
+                    <div class="amount-btn" onclick="setAmount(1000)">1.000</div>
+                    <div class="amount-btn" onclick="setAmount(2000)">2.000</div>
+                    <div class="amount-btn" onclick="setAmount(5000)">5.000</div>
+                    <div class="amount-btn" onclick="setAmount(10000)">10.000</div>
+                    <div class="amount-btn" onclick="setAmount(50000)">50.000</div>
+                </div>
+                <div class="amount-input-box">
+                    <input type="text" id="deposit-amount-input" placeholder="Nhập số tiền..." oninput="formatInputAmount(this)">
+                    <span style="color:#8395a7; font-size:11px;">Điểm</span>
+                </div>
+            </div>
+
+            <button class="submit-deposit-btn" onclick="submitDeposit()">Gửi</button>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-nav">
+            <a href="index.html" class="footer-btn">
+                <span class="footer-icon">🏠</span>
+                <span>Trang chủ</span>
+            </a>
+            <div class="footer-btn" onclick="alert('Xem thông báo sự kiện!')">
+                <span class="footer-icon">🎁</span>
+                <span>Khuyến mãi</span>
+            </div>
+            <a href="deposit.html" class="footer-btn active">
+                <span class="footer-icon">💳</span>
+                <span>Nạp tiền</span>
+            </a>
+            <div class="footer-btn" onclick="alert('Tài khoản VIP')">
+                <span class="footer-icon">👤</span>
+                <span>Tài khoản</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectPayMethod(el) {
+            document.querySelectorAll('.pay-method-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function selectSubPay(el) {
+            document.querySelectorAll('.pay-sub-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function setAmount(val) {
+            document.getElementById('deposit-amount-input').value = val.toLocaleString();
+        }
+        function formatInputAmount(input) {
+            let value = input.value.replace(/\D/g, '');
+            input.value = value ? Number(value).toLocaleString() : '';
+        }
+        function submitDeposit() {
+            let val = document.getElementById('deposit-amount-input').value;
+            if (!val) { alert('Vui lòng nhập số tiền!'); return; }
+            alert('Tạo lệnh nạp thành công: ' + val + ' điểm!');
+        }
+    </script>
+</body>
+  </html>
+  
