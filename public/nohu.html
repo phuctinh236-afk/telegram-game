@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nổ Hũ May Mắn</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle, #4c1d95 0%, #0f172a 100%);
+            color: #fff;
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e1b4b;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #a855f7;
+            margin-bottom: 15px;
+        }
+        .back-btn {
+            background: #a855f7;
+            color: #fff;
+            border: none;
+            padding: 5px 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .balance-box {
+            color: #facc15;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .slot-container {
+            background: linear-gradient(135deg, #311045, #1e1b4b);
+            border: 3px solid #a855f7;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+        }
+        .slot-title {
+            color: #f43f5e;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(244,63,94,0.5);
+        }
+        .jackpot-pool {
+            font-size: 24px;
+            color: #facc15;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(250,204,21,0.5);
+        }
+        .slot-machine-screen {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: #09090b;
+            border: 4px solid #d4af37;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .slot-reel {
+            width: 70px;
+            height: 80px;
+            background: #18181b;
+            border: 2px solid #52525b;
+            border-radius: 8px;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .bet-control {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .bet-control label { font-size: 14px; color: #cbd5e1; }
+        .bet-control input {
+            width: 100px;
+            padding: 8px;
+            font-size: 16px;
+            text-align: center;
+            background: #09090b;
+            color: #facc15;
+            border: 1px solid #a855f7;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .spin-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f43f5e, #be123c);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(244,63,94,0.4);
+            transition: 0.2s;
+        }
+        .spin-btn:active { transform: scale(0.98); }
+        .status-msg {
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Thanh tiêu đề & Số dư -->
+    <div class="header-bar">
+        <button class="back-btn" onclick="goLobby()">⬅ Lobby</button>
+        <div style="font-size: 14px; color: #a855f7;">SLOT MACHINE VIP</div>
+        <div class="balance-box"><span id="userBalance">0</span> 🪙</div>
+    </div>
+
+    <!-- Khung Nổ Hũ chính -->
+    <div class="slot-container">
+        <div class="slot-title">🎰 NỔ HŨ SĂN THƯỞNG 🎰</div>
+        <div class="jackpot-pool">Quỹ Hũ: <span id="jackpotAmount">50,000</span> 🪙</div>
+
+        <!-- Màn hình 3 ô quay biểu tượng -->
+        <div class="slot-machine-screen">
+            <div class="slot-reel" id="reel1">🍒</div>
+            <div class="slot-reel" id="reel2">🍋</div>
+            <div class="slot-reel" id="reel3">🔔</div>
+        </div>
+
+        <!-- Chọn mức cược -->
+        <div class="bet-control">
+            <label>Mức cược:</label>
+            <input type="number" id="betAmount" value="50" min="10">
+            <span style="color: #facc15;">Xu</span>
+        </div>
+
+        <!-- Nút quay -->
+        <button class="spin-btn" id="spinBtn" onclick="startSpin()">QUAY NGAY (SPIN)</button>
+
+        <div class="status-msg" id="statusMsg">Chúc bạn quay trúng hũ lớn!</div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const telegramId = urlParams.get('id') || '123456789';
+
+        let currentBalance = 1000;
+        let jackpot = 50000;
+        let isSpinning = false;
+
+        const symbols = ['🍒', '🍋', '🔔', '⭐', '💎', '7️⃣'];
+
+        async function fetchBalance() {
+            try {
+                let res = await fetch(`/api/balance/${telegramId}`);
+                let data = await res.json();
+                if (data.success) {
+                    currentBalance = data.balance;
+                    document.getElementById('userBalance').innerText = currentBalance.toLocaleString();
+                }
+            } catch (e) {
+                document.getElementById('userBalance').innerText = currentBalance.toLocaleString();
+            }
+        }
+
+        function goLobby() {
+            window.location.href = `/index.html?id=${telegramId}`;
+        }
+
+        function startSpin() {
+            if (isSpinning) return;
+
+            let bet = parseInt(document.getElementById('betAmount').value);
+            if (isNaN(bet) || bet <= 1) {
+                alert("Vui lòng nhập mức cược hợp lệ!");
+                return;
+            }
+            if (bet > currentBalance) {
+                alert("Số dư của bạn không đủ để quay mức này!");
+                return;
+            }
+
+            isSpinning = true;
+            currentBalance -= bet;
+            jackpot += Math.floor(bet * 0.5); // Tích lũy quỹ hũ
+            document.getElementById('userBalance').innerText = currentBalance.toLocaleString();
+            document.getElementById('jackpotAmount').innerText = jackpot.toLocaleString();
+            document.getElementById('statusMsg').innerText = "Đang quay thưởng...";
+            document.getElementById('statusMsg').style.color = '#38bdf8';
+
+            let counter = 0;
+            let spinInterval = setInterval(() => {
+                let s1 = symbols[Math.floor(Math.random() * symbols.length)];
+                let s2 = symbols[Math.floor(Math.random() * symbols.length)];
+                let s3 = symbols[Math.floor(Math.random() * symbols.length)];
+
+                document.getElementById('reel1').innerText = s1;
+                document.getElementById('reel2').innerText = s2;
+                document.getElementById('reel3').innerText = s3;
+
+                counter++;
+                if (counter > 15) {
+                    clearInterval(spinInterval);
+                    evaluateResult(bet);
+                }
+            }, 100);
+        }
+
+        function evaluateResult(bet) {
+            let r1 = document.getElementById('reel1').innerText;
+            let r2 = document.getElementById('reel2').innerText;
+            let r3 = document.getElementById('reel3').innerText;
+
+            if (r1 === '7️⃣' && r2 === '7️⃣' && r3 === '7️⃣') {
+                // NỔ HŨ ĐẶC BIỆT
+                currentBalance += jackpot;
+                document.getElementById('statusMsg').innerText = `🎉🎉 NỔ HŨ KHỦNG! Trúng ${jackpot.toLocaleString()} Xu! 🎉🎉`;
+                document.getElementById('statusMsg').style.color = '#facc15';
+                jackpot = 20000; // Reset hũ
+            } else if (r1 === r2 && r2 === r3) {
+                // Trúng 3 hình giống nhau bình thường
+                let win = bet * 10;
+                currentBalance += win;
+                document.getElementById('statusMsg').innerText = `✨ TRÚNG 3 HÌNH GIỐNG NHAU! Nhận ${win} Xu!`;
+                document.getElementById('statusMsg').style.color = '#22c55e';
+            } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+                // Trúng 2 hình giống nhau
+                let win = bet * 2;
+                currentBalance += win;
+                document.getElementById('statusMsg').innerText = `👍 Trúng 2 hình! Hoàn vốn và thưởng ${win} Xu.`;
+                document.getElementById('statusMsg').style.color = '#38bdf8';
+            } else {
+                document.getElementById('statusMsg').innerText = `😢 Chúc bạn may mắn lần sau! Thua ${bet} Xu.`;
+                document.getElementById('statusMsg').style.color = '#f43f5e';
+            }
+
+            document.getElementById('userBalance').innerText = currentBalance.toLocaleString();
+            document.getElementById('jackpotAmount').innerText = jackpot.toLocaleString();
+            isSpinning = false;
+        }
+
+        fetchBalance();
+    </script>
+</body>
+</html>
