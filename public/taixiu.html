@@ -53,7 +53,26 @@
             z-index: 100;
         }
 
-        /* NẮP 3D BÁT XÚC XẮC */
+        /* Ô HIỂN THỊ SỐ DƯ TIỀN */
+        .user-balance-box {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(20, 20, 20, 0.85);
+            border: 1.5px solid #d4af37;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #ffcc00;
+            font-weight: bold;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        /* NẮP 3D BÁT XÚC XẮC & HIỆU ỨNG LẮC */
         .bowl-3d {
             position: absolute;
             top: -38px;
@@ -81,10 +100,28 @@
             border: 1px solid #30180a;
             box-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
+
+        /* Keyframes hiệu ứng bát lắc mạnh 1.5 giây */
+        @keyframes shakingBowl {
+            0% { transform: translateX(-50%) translate(0, 0) rotate(0deg); }
+            15% { transform: translateX(-50%) translate(-8px, 4px) rotate(-6deg); }
+            30% { transform: translateX(-50%) translate(8px, -4px) rotate(6deg); }
+            45% { transform: translateX(-50%) translate(-6px, -3px) rotate(-4deg); }
+            60% { transform: translateX(-50%) translate(6px, 4px) rotate(5deg); }
+            75% { transform: translateX(-50%) translate(-4px, 2px) rotate(-3deg); }
+            90% { transform: translateX(-50%) translate(3px, -2px) rotate(2deg); }
+            100% { transform: translateX(-50%) translate(0, 0) rotate(0deg); }
+        }
+
+        .bowl-3d.shaking {
+            animation: shakingBowl 0.2s ease-in-out infinite;
+        }
+
         .bowl-3d.open {
             transform: translate(65px, -50px) rotate(25deg);
             opacity: 0;
             pointer-events: none;
+            animation: none;
         }
 
         .chip {
@@ -107,6 +144,11 @@
 
     <div class="taixiu-container">
         <button class="back-lobby-btn" onclick="window.location.href='index.html'">⬅ Quay lại Lobby</button>
+        
+        <!-- Ô hiện tiền số dư -->
+        <div class="user-balance-box">
+            <span>💰</span> <span id="user-balance">1,500,000</span> ₫
+        </div>
         
         <div style="width:100%; height: 35px;"></div>
 
@@ -164,6 +206,7 @@
     </div>
 
     <script>
+        let userBalance = 1500000;
         let phỉnhChọn = 1000;
         let cửaChọn = null;
         let cượcTai = 0;
@@ -171,6 +214,10 @@
         let timeLeft = 20;
         let isBetting = true;
         const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        function updateBalanceUI() {
+            document.getElementById('user-balance').innerText = userBalance.toLocaleString();
+        }
 
         function chonChip(val, el) {
             if (!isBetting) return;
@@ -193,6 +240,10 @@
         function xacNhan() {
             if (!isBetting) { alert("Đã hết thời gian cược!"); return; }
             if (!cửaChọn) { alert("Vui lòng chọn cửa Tài hoặc Xỉu trước!"); return; }
+            if (userBalance < phỉnhChọn) { alert("Số dư tài khoản không đủ để cược!"); return; }
+
+            userBalance -= phỉnhChọn;
+            updateBalanceUI();
 
             if (cửaChọn === 'tai') {
                 cượcTai += phỉnhChọn;
@@ -206,6 +257,10 @@
 
         function huyCuoc() {
             if (!isBetting) return;
+            let totalRefund = cượcTai + cượcXiu;
+            userBalance += totalRefund;
+            updateBalanceUI();
+
             cượcTai = 0;
             cượcXiu = 0;
             cửaChọn = null;
@@ -213,7 +268,7 @@
             document.getElementById('money-xiu').innerText = '0';
             document.getElementById('box-tai').style.opacity = '1';
             document.getElementById('box-xiu').style.opacity = '1';
-            document.getElementById('status-label').innerText = "Đã hủy cược";
+            document.getElementById('status-label').innerText = "Đã hủy cược & hoàn tiền";
         }
 
         setInterval(() => {
@@ -221,16 +276,24 @@
                 timeLeft--;
                 document.getElementById('timer').innerText = timeLeft;
                 if (timeLeft <= 3 && timeLeft > 0) {
-                    document.getElementById('status-label').innerText = "Sắp mở bát...";
+                    document.getElementById('status-label').innerText = "Sắp khóa cược...";
                 }
                 if (timeLeft <= 0) {
                     isBetting = false;
                     document.getElementById('timer').innerText = "0";
-                    document.getElementById('status-label').innerText = "Đang mở bát...";
+                    document.getElementById('status-label').innerText = "Đang lắc bát...";
 
+                    let bowl = document.getElementById('bowl-cover');
+                    
+                    // 1. Kích hoạt hiệu ứng lắc bát liên tục trong 1.5 giây
+                    if(bowl) bowl.classList.add('shaking');
+
+                    // 2. Sau 1.5 giây lắc thì dừng lắc, mở bát và hiện kết quả
                     setTimeout(() => {
-                        let bowl = document.getElementById('bowl-cover');
-                        if(bowl) bowl.classList.add('open');
+                        if(bowl) {
+                            bowl.classList.remove('shaking');
+                            bowl.classList.add('open');
+                        }
 
                         let d1 = Math.floor(Math.random() * 6);
                         let d2 = Math.floor(Math.random() * 6);
@@ -241,9 +304,20 @@
                         document.getElementById('d3').innerText = diceFaces[d3];
 
                         let total = (d1 + 1) + (d2 + 1) + (d3 + 1);
-                        let ketQuaText = total >= 11 ? "TÀI" : "XỈU";
-                        document.getElementById('status-label').innerText = `${total} (${ketQuaText})`;
+                        let ketQuaText = total >= 11 ? "tai" : "xiu";
+                        let ketQuaLabel = total >= 11 ? "TÀI" : "XỈU";
+                        document.getElementById('status-label').innerText = `${total} (${ketQuaLabel})`;
 
+                        // Tính tiền thắng thua
+                        let totalWon = 0;
+                        if (cửaChọn === ketQuaText) {
+                            let tienCuoc = cửaChọn === 'tai' ? cượcTai : cượcXiu;
+                            totalWon = tienCuoc * 2;
+                            userBalance += totalWon;
+                            updateBalanceUI();
+                        }
+
+                        // Sau 4 giây reset ván mới
                         setTimeout(() => {
                             if(bowl) bowl.classList.remove('open');
                             timeLeft = 20;
@@ -257,7 +331,7 @@
                             document.getElementById('box-xiu').style.opacity = '1';
                             document.getElementById('status-label').innerText = "Đang mở cược";
                         }, 4000);
-                    }, 1000);
+                    }, 1500); // Thời gian lắc 1.5 giây
                 }
             }
         }, 1000);
