@@ -9,7 +9,7 @@ BOT_TOKEN = "8576597700:AAG6p0YhWf1-QXMwR1vNtHxx6r7eAFxvRFU"
 ADMIN_CHAT_ID = "8655162823"
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
-# BỘ NHỚ TẠM
+# BỘ NHỚ TẠM QUẢN LÝ PHIÊN CHAT
 message_queue = {}   # { 'USER_1234': ['msg1', 'msg2'] }
 closed_sessions = {} # { 'USER_1234': True/False }
 reply_mapping = {}   # { message_id_telegram: 'USER_1234' }
@@ -37,7 +37,7 @@ def auth():
 
 # ==================== API CSKH TELEGRAM ====================
 
-# 1. Nhận tin nhắn từ Web -> Bắn lên Telegram có kèm ID KHÁCH
+# 1. Khách gửi tin nhắn từ Web -> Bắn lên Telegram kèm đầy đủ ID Khách
 @app.route('/api/send-message', methods=['POST'])
 def send_message():
     data = request.json or {}
@@ -68,7 +68,7 @@ def send_message():
         print(f"Lỗi gửi Telegram: {e}")
         return jsonify({'status': 'error'}), 500
 
-# 2. Web quét lấy tin nhắn phản hồi từ Admin
+# 2. Web quét lấy tin nhắn Admin phản hồi
 @app.route('/api/get-messages', methods=['GET'])
 def get_messages():
     user_id = str(request.args.get('userId', '')).strip()
@@ -77,11 +77,11 @@ def get_messages():
         return jsonify({'status': 'closed', 'messages': []})
 
     msgs = message_queue.get(user_id, [])
-    message_queue[user_id] = [] # Xóa sau khi đã gửi xuống web
+    message_queue[user_id] = [] # Xóa tin nhắn khỏi hàng chờ sau khi gửi xuống web
 
     return jsonify({'status': 'active', 'messages': msgs})
 
-# 3. Webhook nhận lệnh từ Telegram (/rep ID, /stop ID hoặc Reply)
+# 3. Webhook xử lý lệnh từ Telegram (/rep ID, /stop ID hoặc Reply trực tiếp)
 @app.route('/telegram-webhook', methods=['POST'])
 def telegram_webhook():
     update = request.json or {}
@@ -116,7 +116,7 @@ def telegram_webhook():
             else:
                 requests.post(f"{TELEGRAM_API}/sendMessage", json={
                     "chat_id": ADMIN_CHAT_ID,
-                    "text": "⚠️ *Cú pháp sai!* Gõ: `/rep ID NỘI_DUNG`\n*Ví dụ:* `/rep USER_1234 Chào bạn`",
+                    "text": "⚠️ *Sai cú pháp!* Gõ: `/rep ID NỘI_DUNG`\n*Ví dụ:* `/rep USER_1234 Chào bạn`",
                     "parse_mode": "Markdown"
                 })
             return jsonify({'status': 'ok'})
@@ -141,7 +141,7 @@ def telegram_webhook():
                 })
             return jsonify({'status': 'ok'})
 
-        # --- TÍNH NĂNG 3: REPLY TRỰC TIẾP TIN NHẮN ---
+        # --- TÍNH NĂNG 3: TRẢ LỜI BẰNG CÁCH REPLY TIN NHẮN BOT ---
         if 'reply_to_message' in msg:
             parent_msg_id = msg['reply_to_message']['message_id']
             target_user = reply_mapping.get(parent_msg_id)
@@ -160,7 +160,8 @@ def telegram_webhook():
 
     return jsonify({'status': 'ok'})
 
+# ==================== RUN SERVER ====================
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-                    
+                
