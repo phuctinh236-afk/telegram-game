@@ -1,4 +1,5 @@
 import os
+import random
 import requests
 from flask import Flask, send_from_directory, request, jsonify
 
@@ -6,14 +7,13 @@ app = Flask(__name__, static_folder='public', static_url_path='')
 
 # CẤU HÌNH BOT TELEGRAM
 BOT_TOKEN = "8576597700:AAG6p0YhWf1-QXMwR1vNtHxx6r7eAFxvRFU"
-# Đã đổi sang Chat ID nhóm của bạn
 ADMIN_CHAT_ID = "-1004444253619"
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 # BỘ NHỚ TẠM QUẢN LÝ PHIÊN CHAT
-message_queue = {}   # { 'USER_1234': ['msg1', 'msg2'] }
-closed_sessions = {} # { 'USER_1234': True/False }
-reply_mapping = {}   # { message_id_telegram: 'USER_1234' }
+message_queue = {}   # { '491': ['msg1', 'msg2'] }
+closed_sessions = {} # { '491': True/False }
+reply_mapping = {}   # { message_id_telegram: '491' }
 
 # ==================== ROUTE STATIC & GAME ====================
 
@@ -38,7 +38,7 @@ def auth():
 
 # ==================== API CSKH TELEGRAM ====================
 
-# 1. Khách gửi tin nhắn từ Web -> Bắn lên Nhóm Telegram kèm ID Khách
+# 1. Khách gửi tin nhắn từ Web -> Bắn lên Nhóm Telegram
 @app.route('/api/send-message', methods=['POST'])
 def send_message():
     data = request.json or {}
@@ -117,7 +117,7 @@ def telegram_webhook():
             else:
                 requests.post(f"{TELEGRAM_API}/sendMessage", json={
                     "chat_id": ADMIN_CHAT_ID,
-                    "text": "⚠️ *Sai cú pháp!* Gõ: `/rep ID NỘI_DUNG`\n*Ví dụ:* `/rep USER_1234 Chào bạn`",
+                    "text": "⚠️ *Sai cú pháp!* Gõ: `/rep ID NỘI_DUNG`\n*Ví dụ:* `/rep 491 Chào bạn`",
                     "parse_mode": "Markdown"
                 })
             return jsonify({'status': 'ok'})
@@ -165,4 +165,4 @@ def telegram_webhook():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-                
+            
