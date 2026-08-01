@@ -7,87 +7,115 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #141827;
-            --bg-surface: #1e253c;
-            --gold-primary: #eebf63;
+            --bg-main: #131726;
+            --bg-card: #20263b;
+            --gold: #dfb461;
             --text-light: #ffffff;
             --text-muted: #8b95b1;
-            --border-color: #2e3753;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #000; color: var(--text-light); display: flex; justify-content: center; height: 100vh; }
-        .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #000; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; position: relative; }
+
         .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
-        .back-btn { background: #e74c3c; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 12px; }
-        .logo-text { font-size: 14px; font-weight: bold; color: var(--gold-primary); }
+        .back-btn { background: #e74c3c; color: #fff; text-decoration: none; font-size: 12px; padding: 5px 12px; border-radius: 4px; font-weight: bold; }
+        .logo-text { font-size: 15px; color: var(--gold); font-weight: bold; }
+        .cskh-btn { color: var(--text-muted); font-size: 12px; display: flex; align-items: center; gap: 5px; }
 
-        .tabs { display: flex; margin: 10px 15px; background: var(--bg-surface); border-radius: 8px; padding: 3px; }
-        .tab-btn { flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: bold; color: var(--text-muted); border-radius: 6px; cursor: pointer; }
-        .tab-btn.active { background: linear-gradient(180deg, #dfb461, #b58d3c); color: #000; }
+        .content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 70px; }
 
-        .section { padding: 0 15px; margin-bottom: 15px; }
-        .sec-title { font-size: 12px; color: var(--gold-primary); margin-bottom: 8px; }
-        select, input { width: 100%; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 12px; text-align: center; font-size: 14px; font-weight: bold; border-radius: 8px; color: var(--text-muted); border: 1px solid var(--gold); }
+        .tab-btn.active { background: linear-gradient(180deg, #e3c077, #ba9241); color: #000; border: none; }
 
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .sec-box { border: 1px solid #2a314a; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .sec-title { font-size: 12px; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        select { width: 100%; background: var(--bg-card); border: none; padding: 12px; border-radius: 6px; color: #fff; font-size: 13px; outline: none; }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 
-        .box-btn { background: var(--bg-surface); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px; text-align: center; font-size: 12px; color: var(--text-muted); cursor: pointer; }
-        .box-btn.active { border-color: var(--gold-primary); color: var(--gold-primary); }
-        .gateway-btn.active { background: var(--gold-primary); color: #000; font-weight: bold; }
+        .box-btn { background: var(--bg-card); padding: 12px 5px; border-radius: 6px; text-align: center; font-size: 11px; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid transparent; cursor: pointer; }
+        .box-btn.active-outline { border-color: var(--gold); color: var(--gold); }
+        .box-btn.active-solid { background: var(--gold); color: #000; font-weight: bold; }
 
-        .submit-btn { background: linear-gradient(180deg, #dfb461, #b58d3c); color: #000; font-weight: bold; border: none; width: calc(100% - 30px); margin: 10px 15px; padding: 12px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+        .amount-input { display: flex; background: var(--bg-card); border-radius: 6px; padding: 12px; margin-top: 15px; }
+        .amount-input input { background: transparent; border: none; outline: none; color: #fff; flex: 1; font-size: 13px; }
+        .amount-input span { color: var(--text-muted); font-size: 13px; }
+
+        .submit-btn { width: 100%; background: linear-gradient(180deg, #e3c077, #ba9241); color: #000; padding: 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-top: 10px; cursor: pointer; }
+
+        /* Bottom Nav */
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: var(--bg-main); border-top: 1px solid #20263b; padding: 10px 0 15px; z-index: 10; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 10px; text-decoration: none; }
+        .nav-item.active { color: var(--gold); }
+        .nav-item i { font-size: 18px; }
     </style>
 </head>
 <body>
     <div class="app-container">
         <div class="header">
-            <a href="lobby.html" class="back-btn">← Lại</a>
-            <span class="logo-text">MEGA CASINO WORLD</span>
-            <span style="font-size: 11px; color: var(--text-muted);"><i class="fa-regular fa-comment-dots"></i> CSKH</span>
+            <a href="index.html" class="back-btn">← Lại</a>
+            <div class="logo-text">MEGA CASINO WORLD</div>
+            <div class="cskh-btn"><i class="fa-solid fa-comment-dots"></i> CSKH</div>
         </div>
 
-        <div class="tabs">
-            <div class="tab-btn active">Nạp tiền</div>
-            <div class="tab-btn">Rút tiền</div>
-        </div>
-
-        <div class="section">
-            <div class="sec-title">🎁 Khuyến mãi</div>
-            <select><option>Nạp Tiền Thông Thường</option></select>
-        </div>
-
-        <div class="section">
-            <div class="sec-title">💳 Phương thức thanh toán</div>
-            <div class="grid-2">
-                <div class="box-btn active"><i class="fa-solid fa-building-columns"></i> Ngân hàng</div>
-                <div class="box-btn"><i class="fa-solid fa-mobile-screen"></i> MOMOPAY</div>
-                <div class="box-btn"><i class="fa-solid fa-heart" style="color:yellow;"></i> ZaloPay</div>
-                <div class="box-btn"><i class="fa-solid fa-circle" style="color:red;"></i> ViettelPay</div>
+        <div class="content">
+            <div class="tabs">
+                <div class="tab-btn active">Nạp tiền</div>
+                <div class="tab-btn">Rút tiền</div>
             </div>
-        </div>
 
-        <div class="section">
-            <div class="sec-title">⚙️ Cổng nạp</div>
-            <div class="grid-3">
-                <div class="box-btn gateway-btn active">HN-Pay1</div>
-                <div class="box-btn gateway-btn">O-Pay</div>
-                <div class="box-btn gateway-btn">D-Pay</div>
+            <div class="sec-box">
+                <div class="sec-title"><i class="fa-solid fa-gift"></i> Khuyến mãi</div>
+                <select><option>Nạp Tiền Thông Thường</option></select>
             </div>
-        </div>
 
-        <div class="section">
-            <div class="sec-title">💵 Số tiền Nạp (1 = 1K)</div>
-            <div class="grid-4" style="margin-bottom: 10px;">
-                <div class="box-btn">100</div><div class="box-btn">200</div><div class="box-btn">500</div><div class="box-btn">1.000</div>
-                <div class="box-btn">2.000</div><div class="box-btn">5.000</div><div class="box-btn">10.000</div><div class="box-btn">50.000</div>
+            <div class="sec-box">
+                <div class="sec-title"><i class="fa-regular fa-credit-card"></i> Phương thức thanh toán</div>
+                <div class="grid-2">
+                    <div class="box-btn active-outline"><i class="fa-solid fa-building-columns" style="color:var(--text-muted)"></i> Ngân hàng</div>
+                    <div class="box-btn"><i class="fa-solid fa-mobile-screen"></i> MOMOPAY</div>
+                    <div class="box-btn"><i class="fa-solid fa-heart" style="color:gold;"></i> ZaloPay</div>
+                    <div class="box-btn"><i class="fa-solid fa-circle" style="color:red;"></i> ViettelPay</div>
+                    <div class="box-btn"><i class="fa-regular fa-gem" style="color:#3498db;"></i> USDT</div>
+                    <div class="box-btn"><i class="fa-solid fa-money-check"></i> Thẻ Cào</div>
+                </div>
             </div>
-            <input type="number" placeholder="Nhập số tiền..." value="10000000">
+
+            <div class="sec-box">
+                <div class="sec-title"><i class="fa-solid fa-gear"></i> Cổng nạp</div>
+                <div class="grid-3">
+                    <div class="box-btn active-solid">HN-Pay1</div>
+                    <div class="box-btn">O-Pay</div>
+                    <div class="box-btn">D-Pay</div>
+                </div>
+            </div>
+
+            <div class="sec-box">
+                <div class="sec-title"><i class="fa-solid fa-money-bill-wave"></i> Số tiền Nạp (1 = 1K)</div>
+                <div class="grid-4">
+                    <div class="box-btn">100</div><div class="box-btn">200</div><div class="box-btn">500</div><div class="box-btn">1.000</div>
+                    <div class="box-btn">2.000</div><div class="box-btn">5.000</div><div class="box-btn">10.000</div><div class="box-btn">50.000</div>
+                </div>
+                <div class="amount-input">
+                    <input type="number" placeholder="Nhập số tiền...">
+                    <span>Điểm</span>
+                </div>
+            </div>
+
+            <button class="submit-btn">Gửi</button>
         </div>
 
-        <button class="submit-btn" onclick="alert('Gửi yêu cầu thành công!')">Gửi</button>
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i>Trang chủ</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gift" style="color:red;"></i>Khuyến mãi</a>
+            <a href="deposit.html" class="nav-item active"><i class="fa-solid fa-credit-card" style="color:gold;"></i>Nạp tiền</a>
+            <a href="auth.html" class="nav-item"><i class="fa-solid fa-user" style="color:#3498db;"></i>Tài khoản</a>
+        </div>
     </div>
 </body>
 </html>
