@@ -226,9 +226,9 @@
     </div>
 
     <script>
-        // TOKEN BOT VÀ ID TELEGRAM ĐÃ ĐƯỢC ĐIỀN ĐẦY ĐỦ
         const BOT_TOKEN = "8576597700:AAG6p0YhWf1-QXMwR1vNtHxx6r7eAFxvRFU";
         const ADMIN_CHAT_ID = "8655162823"; 
+        let lastUpdateId = 0;
 
         function toggleDrawer() {
             document.getElementById('drawer').classList.toggle('active');
@@ -249,6 +249,7 @@
             }, 800);
         }
 
+        // 1. Gửi tin nhắn từ Web sang Telegram
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const msgText = input.value.trim();
@@ -256,7 +257,6 @@
 
             const chatBody = document.getElementById('chatBody');
 
-            // Hiển thị tin nhắn bên khách
             const userMsg = document.createElement('div');
             userMsg.className = 'msg-box msg-user';
             userMsg.innerText = msgText;
@@ -265,7 +265,6 @@
             input.value = '';
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // Gửi tin nhắn sang Telegram của bạn (pphuc8386)
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -274,14 +273,36 @@
                     text: `💬 *TIN NHẮN CSKH MỚI*\n\nKhách nhắn: "${msgText}"`,
                     parse_mode: 'Markdown'
                 })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(!data.ok) {
-                    console.error("Lỗi gửi Telegram:", data.description);
-                }
-            })
-            .catch(err => console.error("Lỗi mạng:", err));
+            });
+        }
+
+        // 2. Nhận tin nhắn phản hồi từ Telegram hiển thị lên Web
+        function checkAdminReply() {
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.ok && data.result.length > 0) {
+                        data.result.forEach(update => {
+                            lastUpdateId = update.update_id;
+                            
+                            // Kiểm tra tin nhắn do bạn (Admin) gửi cho bot
+                            if (update.message && update.message.chat.id.toString() === ADMIN_CHAT_ID) {
+                                const replyText = update.message.text;
+                                
+                                // Bỏ qua nếu tin nhắn bắt đầu bằng /start
+                                if (replyText.startsWith('/start')) return;
+
+                                const chatBody = document.getElementById('chatBody');
+                                const botMsg = document.createElement('div');
+                                botMsg.className = 'msg-box msg-bot';
+                                botMsg.innerText = replyText;
+                                chatBody.appendChild(botMsg);
+                                chatBody.scrollTop = chatBody.scrollHeight;
+                            }
+                        });
+                    }
+                })
+                .catch(err => console.log(err));
         }
 
         function handleKeyPress(e) {
@@ -290,8 +311,9 @@
 
         window.onload = function() {
             refreshBalance();
+            // Tự động kiểm tra phản hồi từ Admin mỗi 2 giây
+            setInterval(checkAdminReply, 2000);
         };
     </script>
 </body>
-                                                                                                      </html>
-                
+</html>
