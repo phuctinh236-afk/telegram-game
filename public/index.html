@@ -36,7 +36,7 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header CSKH -->
+        <!-- Header CSKH (Đã xóa ID hiển thị ở góc trên bên phải) -->
         <div class="chat-header">
             <div class="chat-user-info">
                 <div class="chat-avatar"><i class="fa-solid fa-headset"></i></div>
@@ -45,7 +45,6 @@
                     <div style="font-size: 10px; color: #2ecc71;">● Đang hoạt động</div>
                 </div>
             </div>
-            <div id="display-user-id" style="font-size: 11px; color: var(--gold); font-weight: bold;"></div>
         </div>
 
         <!-- Khung Chat Body -->
@@ -61,15 +60,15 @@
     </div>
 
     <script>
-        // 1. Khởi tạo & Lưu ID riêng cho khách hàng
+        // 1. Khởi tạo & Lưu ID ngẫu nhiên từ 001 đến 999 (Không còn chữ USER_)
         let currentUserId = localStorage.getItem('chat_user_id');
         if (!currentUserId) {
-            currentUserId = 'USER_' + Math.floor(1000 + Math.random() * 9000);
+            let randomNum = Math.floor(1 + Math.random() * 999);
+            currentUserId = String(randomNum).padStart(3, '0'); // Định dạng 001 -> 999
             localStorage.setItem('chat_user_id', currentUserId);
         }
-        document.getElementById('display-user-id').innerText = currentUserId;
 
-        // 2. Hàm gửi tin nhắn sang Server (Có chứa userId)
+        // 2. Hàm gửi tin nhắn sang Server
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const msgText = input.value.trim();
