@@ -3,520 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ab666 - Sảnh Mega Casino World</title>
+    <title>Sảnh Chính</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --bg-main: #131726;
+            --bg-card: #20263b;
+            --gold: #dfb461;
+            --text-light: #ffffff;
+            --text-muted: #8b95b1;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #000; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; position: relative; }
 
-        body {
-            background-color: #050b14;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
+        .menu-btn { color: var(--gold); font-size: 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .logo-text { font-size: 15px; color: var(--gold); }
+        .cskh-btn { background: #28304a; color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
 
-        .lobby-container {
-            width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            max-height: 850px;
-            background: linear-gradient(135deg, #0b1a2d 0%, #030811 100%);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 0 25px rgba(0,0,0,0.9);
-            overflow: hidden;
-        }
+        /* Content */
+        .content { flex: 1; overflow-y: auto; padding-bottom: 70px; }
 
-        /* HEADER LOBBY */
-        .lobby-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 12px;
-            background: rgba(0, 0, 0, 0.6);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
+        /* Banner */
+        .banner { margin: 0; background: linear-gradient(to right, #6b3fa0, #3979d5); padding: 30px 10px; text-align: center; }
+        .banner h2 { font-size: 16px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        .dots { display: flex; justify-content: center; gap: 5px; margin-top: 15px; }
+        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+        .dot.active { background: #f39c12; width: 12px; border-radius: 4px; }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        /* Notice */
+        .notice { background: var(--bg-card); padding: 8px 15px; font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
 
-        .menu-icon-btn {
-            font-size: 18px;
-            color: #fff;
-            cursor: pointer;
-        }
+        /* Categories */
+        .categories { display: flex; overflow-x: auto; gap: 8px; padding: 15px; scrollbar-width: none; }
+        .categories::-webkit-scrollbar { display: none; }
+        .cat-item { background: var(--bg-card); color: var(--text-muted); padding: 12px 15px; border-radius: 10px; font-size: 11px; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 70px; }
+        .cat-item.active { border: 1px solid var(--gold); color: var(--gold); }
+        .cat-item img { height: 20px; }
 
-        .logo-area {
-            font-size: 16px;
-            font-weight: 900;
-            color: #ffd700;
-            letter-spacing: 0.5px;
-        }
+        /* Game Grid */
+        .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 15px; }
+        .game-card { background: #f59622; border-radius: 12px; aspect-ratio: 3/4; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; color: #fff; text-align: center; cursor: pointer; }
+        .game-card.green { background: #149954; }
+        .game-icon { font-size: 32px; margin-bottom: 8px; }
+        .game-name { font-size: 10px; font-weight: bold; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .user-info-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #d4af37;
-            border-radius: 20px;
-            padding: 3px 10px 3px 3px;
-            cursor: pointer;
-        }
+        /* Bottom Nav */
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: var(--bg-main); border-top: 1px solid #20263b; padding: 10px 0 15px; z-index: 10; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 10px; text-decoration: none; }
+        .nav-item.active { color: var(--gold); }
+        .nav-item i { font-size: 18px; }
 
-        .user-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 1px solid #ffd700;
-            background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100') center/cover;
-        }
-
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-size: 7.5px;
-            color: #ccc;
-        }
-
-        .user-balance {
-            font-size: 9.5px;
-            color: #f1c40f;
-            font-weight: bold;
-        }
-
-        /* CÁC MÀN HÌNH CHÍNH (SPA) */
-        .screen-view {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            display: none;
-        }
-        .screen-view.active {
-            display: flex;
-        }
-
-        /* BANNER & GRID (TRANG CHỦ) */
-        .lobby-banner {
-            margin: 10px 12px;
-            height: 110px;
-            background: linear-gradient(135deg, #2c3e50, #1a252f);
-            border-radius: 12px;
-            border: 1px solid #ffd700;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .banner-title { font-size: 13px; font-weight: bold; color: #ffd700; margin-bottom: 6px; }
-        .banner-desc { font-size: 9px; color: #fff; background: rgba(0,0,0,0.6); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(255,215,0,0.3); }
-
-        .notice-bar {
-            background: rgba(212, 175, 55, 0.1);
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 5px 12px;
-            font-size: 8.5px;
-            color: #f39c12;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .game-grid-section {
-            padding: 10px 12px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .game-item-card {
-            background: linear-gradient(135deg, #1b2a40, #0f1c2e);
-            border: 1px solid #1f2c47;
-            border-radius: 10px;
-            padding: 8px 4px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-        .game-item-card:active { transform: scale(0.95); border-color: #ffd700; }
-        .game-icon-box { width: 36px; height: 36px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 18px; }
-        .game-item-name { font-size: 8px; color: #fff; text-align: center; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
-
-        /* GIAO DIỆN NẠP / RÚT TIỀN (CHUẨN ẢNH 1703 & 1715) */
-        .wallet-tabs {
-            display: flex;
-            padding: 10px 12px;
-            gap: 10px;
-        }
-        .w-tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: #111d2e;
-            border: 1px solid #1f2c47;
-            border-radius: 8px;
-            color: #bdc3c7;
-            font-weight: bold;
-            font-size: 11px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .w-tab-btn.active {
-            background: linear-gradient(135deg, #d35400, #e67e22);
-            border-color: #ffd700;
-            color: #fff;
-        }
-
-        .wallet-card-box {
-            margin: 0 12px 10px 12px;
-            background: #0f1c2e;
-            border: 1px solid #1f2c47;
-            border-radius: 10px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .wc-label { font-size: 9px; color: #f39c12; font-weight: bold; }
-        .wc-methods { display: flex; gap: 5px; flex-wrap: wrap; }
-        .wc-badge {
-            background: #1b2a40;
-            border: 1px solid #ffd700;
-            color: #fff;
-            padding: 6px 10px;
-            font-size: 9px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .wc-badge.active { background: #f39c12; color: #000; font-weight: bold; }
-
-        .amount-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-        }
-        .amt-btn {
-            background: #16243a;
-            border: 1px solid #1f2c47;
-            color: #fff;
-            padding: 8px 4px;
-            font-size: 10px;
-            font-weight: bold;
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .amt-btn:active { border-color: #ffd700; }
-
-        .custom-amt-input {
-            width: 100%;
-            background: #050b14;
-            border: 1px solid #1f2c47;
-            border-radius: 6px;
-            padding: 9px;
-            color: #fff;
-            font-size: 11px;
-            outline: none;
-        }
-
-        .submit-wallet-btn {
-            margin: 10px 12px;
-            background: linear-gradient(135deg, #f39c12, #d35400);
-            border: none;
-            color: #fff;
-            font-weight: bold;
-            padding: 11px;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        /* BOTTOM NAVIGATION */
-        .lobby-nav {
-            display: flex;
-            justify-content: space-around;
-            background: #09121d;
-            border-top: 1px solid #1f2c47;
-            padding: 6px 0;
-            flex-shrink: 0;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            font-size: 8px;
-            color: #7f8c8d;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        .nav-item.active { color: #ffd700; }
-        .nav-icon { font-size: 14px; }
-
-        /* DRAWER MENU */
-        .drawer-menu {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 75%;
-            height: 100%;
-            background: #0f1c2e;
-            border-right: 2px solid #ffd700;
-            z-index: 100;
-            transition: 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            gap: 15px;
-        }
-        .drawer-menu.active { left: 0; }
-        .drawer-header { font-size: 12px; font-weight: bold; color: #ffd700; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2c47; padding-bottom: 8px; }
-        .drawer-item { font-size: 10px; color: #fff; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 6px; cursor: pointer; }
-        .drawer-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 90;
-            display: none;
-        }
+        /* Sidebar / Drawer */
+        .drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 99; display: none; }
         .drawer-overlay.active { display: block; }
+        .drawer { position: absolute; top: 0; left: -100%; width: 85%; height: 100%; background: var(--bg-main); z-index: 100; transition: left 0.3s ease; display: flex; flex-direction: column; }
+        .drawer.active { left: 0; }
+        
+        .dr-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--bg-card); }
+        .dr-user-box { margin: 15px; border: 1px solid var(--gold); border-radius: 12px; padding: 15px; position: relative; }
+        .dr-user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .dr-avatar { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 20px; }
+        .dr-balance { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .search-box { margin: 0 15px 15px; background: var(--bg-card); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; color: var(--text-muted); }
+        .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; }
+
+        .dr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 15px 20px; overflow-y: auto; }
+        .dr-item { background: var(--bg-card); border-radius: 10px; padding: 15px 5px; text-align: center; font-size: 11px; color: var(--text-muted); text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .dr-item i, .dr-item img { font-size: 24px; height: 24px; }
     </style>
 </head>
 <body>
-
-    <div class="lobby-container">
-        <!-- HEADER CHUNG -->
-        <div class="lobby-header">
-            <div class="header-left">
-                <span class="menu-icon-btn" onclick="toggleDrawer()">☰</span>
-                <span class="logo-area">Ab666</span>
-            </div>
-            <div class="user-info-box" onclick="switchScreen('deposit')">
-                <div class="user-avatar"></div>
-                <div class="user-details">
-                    <span class="user-name">Phun Cam Kiu</span>
-                    <span class="user-balance" id="headerBalance">đ0,37</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- MÀN HÌNH 1: TRANG CHỦ (HOME) -->
-        <div class="screen-view active" id="screen-home">
-            <div class="lobby-banner">
-                <div class="banner-title">VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN</div>
-                <div class="banner-desc">💎 TRẢI NGHIỆM ĐỈNH CAO MỖI NGÀY</div>
-            </div>
-            <div class="notice-bar">
-                📢 Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...
-            </div>
-            <div class="game-grid-section">
-                <div class="game-item-card" onclick="alert('Đang vào bàn Tài Xỉu VIP...')">
-                    <div class="game-icon-box">🎲</div>
-                    <div class="game-item-name">Tài Xỉu VIP</div>
-                </div>
-                <div class="game-item-card" onclick="alert('Đang tải trò chơi...')">
-                    <div class="game-icon-box">🐉</div>
-                    <div class="game-item-name">Dragon Gems</div>
-                </div>
-                <div class="game-item-card" onclick="alert('Đang tải trò chơi...')">
-                    <div class="game-icon-box">🍬</div>
-                    <div class="game-item-name">Mithai Madn</div>
-                </div>
-                <div class="game-item-card" onclick="alert('Đang tải trò chơi...')">
-                    <div class="game-icon-box">🦅</div>
-                    <div class="game-item-name">Fortune Gods</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MÀN HÌNH 2: NẠP & RÚT TIỀN (WALLET) -->
-        <div class="screen-view" id="screen-wallet">
-            <div class="wallet-tabs">
-                <div class="w-tab-btn active" id="tabDepBtn" onclick="setWalletMode('deposit')">Nạp tiền</div>
-                <div class="w-tab-btn" id="tabWdBtn" onclick="setWalletMode('withdraw')">Rút tiền</div>
-            </div>
-
-            <div class="wallet-card-box">
-                <div class="wc-label">Phương thức thanh toán</div>
-                <div class="wc-methods">
-                    <div class="wc-badge active">Ngân hàng</div>
-                    <div class="wc-badge">MOMOPAY</div>
-                    <div class="wc-badge">ZaloPay</div>
-                </div>
-            </div>
-
-            <div class="wallet-card-box">
-                <div class="wc-label" id="amountLabel">Số tiền Nạp (1 = 1K)</div>
-                <div class="amount-grid">
-                    <div class="amt-btn" onclick="quickAmount(100)">100</div>
-                    <div class="amt-btn" onclick="quickAmount(200)">200</div>
-                    <div class="amt-btn" onclick="quickAmount(500)">500</div>
-                    <div class="amt-btn" onclick="quickAmount(1000)">1.000</div>
-                    <div class="amt-btn" onclick="quickAmount(2000)">2.000</div>
-                    <div class="amt-btn" onclick="quickAmount(5000)">5.000</div>
-                    <div class="amt-btn" onclick="quickAmount(10000)">10.000</div>
-                    <div class="amt-btn" onclick="quickAmount(50000)">50.000</div>
-                </div>
-                <input type="number" class="custom-amt-input" id="walletInput" placeholder="Nhập số tiền...">
-            </div>
-
-            <button class="submit-wallet-btn" id="submitWalletBtn" onclick="processWalletAction()">GỬI YÊU CẦU NẠP</button>
-        </div>
-
-        <!-- MÀN HÌNH 3: KHUYẾN MÃI -->
-        <div class="screen-view" id="screen-promo" style="padding: 15px; text-align: center;">
-            <h3 style="color: #ffd700; margin-bottom: 10px;">KHUYẾN MÃI THÀNH VIÊN</h3>
-            <p style="font-size: 11px; color: #bdc3c7;">Nạp đầu nhận ngay 250% giá trị thẻ nạp cho sảnh Tài Xỉu!</p>
-        </div>
-
-        <!-- MÀN HÌNH 4: TÀI KHOẢN -->
-        <div class="screen-view" id="screen-account" style="padding: 15px;">
-            <h3 style="color: #ffd700; margin-bottom: 10px;">HỒ SƠ CÁ NHÂN</h3>
-            <p style="font-size: 11px; color: #fff;">Tên tài khoản: Phun Cam Kiu</p>
-            <p style="font-size: 11px; color: #f1c40f; margin-top: 5px;" id="accBalanceText">Số dư ví: đ0,37</p>
-        </div>
-
-        <!-- BOTTOM NAVIGATION -->
-        <div class="lobby-nav">
-            <button class="nav-item active" onclick="switchNav(this, 'home')">
-                <span class="nav-icon">🏠</span>
-                <span>Trang chủ</span>
+    <div class="app-container">
+        <!-- Main Header -->
+        <div class="header">
+            <button class="menu-btn" onclick="toggleDrawer()">
+                <i class="fa-solid fa-bars"></i>
+                <span class="logo-text">MEGA CASINO WORLD</span>
             </button>
-            <button class="nav-item" onclick="switchNav(this, 'promo')">
-                <span class="nav-icon">🎁</span>
-                <span>Khuyến mãi</span>
-            </button>
-            <button class="nav-item" onclick="switchNav(this, 'wallet')">
-                <span class="nav-icon">💳</span>
-                <span>Nạp tiền</span>
-            </button>
-            <button class="nav-item" onclick="switchNav(this, 'account')">
-                <span class="nav-icon">👤</span>
-                <span>Tài khoản</span>
-            </button>
+            <div class="cskh-btn"><i class="fa-regular fa-comment-dots"></i> CSKH</div>
         </div>
 
-        <!-- DRAWER MENU -->
-        <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
-        <div class="drawer-menu" id="drawerMenu">
-            <div class="drawer-header">
-                <span>MEGA CASINO WORLD</span>
-                <span style="cursor: pointer;" onclick="toggleDrawer()">✕</span>
+        <div class="content">
+            <!-- Banner -->
+            <div class="banner">
+                <h2>👑 VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN 👑</h2>
+                <div class="dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
             </div>
-            <div class="drawer-item" onclick="openWalletFromDrawer('deposit')">💳 Nạp tiền tài khoản</div>
-            <div class="drawer-item" onclick="openWalletFromDrawer('withdraw')">🏦 Rút tiền nhanh</div>
-            <div class="drawer-item" onclick="switchNav(document.querySelectorAll('.nav-item')[1], 'promo'); toggleDrawer();">🎁 Khuyến mãi thành viên</div>
-            <div class="drawer-item" onclick="alert('Đang kết nối CSKH trực tuyến...')">💬 CSKH 24/7</div>
+
+            <!-- Notice -->
+            <div class="notice">
+                <i class="fa-solid fa-bullhorn" style="color: #e74c3c;"></i>
+                <span style="overflow: hidden; white-space: nowrap;">Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...</span>
+            </div>
+
+            <!-- Categories -->
+            <div class="categories">
+                <div class="cat-item active"><i class="fa-solid fa-fire" style="color: #e74c3c;"></i>HOT</div>
+                <div class="cat-item"><i class="fa-solid fa-drumstick-bite" style="color: #e67e22;"></i>ĐÁ GÀ</div>
+                <div class="cat-item"><i class="fa-solid fa-slot-machine"></i>🎰 Slots</div>
+                <div class="cat-item"><i class="fa-solid fa-spade" style="color: #95a5a6;"></i>Casino</div>
+                <div class="cat-item"><i class="fa-solid fa-gamepad"></i>Game Bài</div>
+            </div>
+
+            <!-- Game Grid (1:1 with 1704_4.jpg) -->
+            <div class="game-grid">
+                <div class="game-card green" onclick="window.location.href='taixiu.html'">
+                    <div class="game-icon">🎲</div><div class="game-name">Tài Xỉu VIP</div>
+                </div>
+                <div class="game-card"><div class="game-icon">🐉</div><div class="game-name">Dragon Gems</div></div>
+                <div class="game-card"><div class="game-icon">🍬</div><div class="game-name">Mithai Madn...</div></div>
+                <div class="game-card"><div class="game-icon">🦅</div><div class="game-name">Fortune Gods</div></div>
+                
+                <div class="game-card"><div class="game-icon">👑</div><div class="game-name">NCVIP Super</div></div>
+                <div class="game-card"><div class="game-icon">🃏</div><div class="game-name">Ultra Ace</div></div>
+                <div class="game-card"><div class="game-icon">⚡</div><div class="game-name">NCVIP Gates</div></div>
+                <div class="game-card"><div class="game-icon">🦜</div><div class="game-name">NC Bountiful</div></div>
+                
+                <div class="game-card" style="background:#e74c3c;"><div class="game-icon">🀄</div><div class="game-name">Mahjong Ways</div></div>
+                <div class="game-card"><div class="game-icon">💰</div><div class="game-name">Pinata Wins</div></div>
+                <div class="game-card"><div class="game-icon">🦈</div><div class="game-name">Jackpot Fish</div></div>
+                <div class="game-card"><div class="game-icon">🎡</div><div class="game-name">Crazy Time</div></div>
+            </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i>Trang chủ</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gift" style="color:red;"></i>Khuyến mãi</a>
+            <a href="deposit.html" class="nav-item"><i class="fa-solid fa-credit-card" style="color:gold;"></i>Nạp tiền</a>
+            <a href="auth.html" class="nav-item"><i class="fa-solid fa-user" style="color:#3498db;"></i>Tài khoản</a>
+        </div>
+
+        <!-- Sidebar Drawer (1:1 with 1716_4.jpg) -->
+        <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
+        <div class="drawer" id="drawer">
+            <div class="dr-header">
+                <div style="font-size: 18px; display:flex; align-items:center; gap:10px;">
+                    <i class="fa-solid fa-xmark" onclick="toggleDrawer()"></i> Ab666
+                </div>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            
+            <div style="padding: 15px; font-weight: bold; color: var(--gold);">MEGA CASINO WORLD</div>
+            
+            <!-- User Box -->
+            <div class="dr-user-box">
+                <div class="dr-user-info">
+                    <div class="dr-avatar"><i class="fa-solid fa-building-columns"></i></div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 14px; color: #fff;">Phun Cam Kiu</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Hồ sơ ></div>
+                    </div>
+                </div>
+                <div class="dr-balance">
+                    <div>
+                        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">Ví chính chung <i class="fa-solid fa-rotate-right"></i></div>
+                        <div style="font-size: 18px; color: var(--gold); font-weight: bold;">đ0</div>
+                    </div>
+                    <div style="background: rgba(223, 180, 97, 0.2); padding: 8px 12px; border-radius: 8px;">
+                        <i class="fa-solid fa-credit-card" style="color: var(--gold); font-size: 20px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Tìm kiếm trò chơi">
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="dr-grid">
+                <a href="deposit.html" class="dr-item"><i class="fa-solid fa-credit-card" style="color:gold;"></i>Nạp tiền</a>
+                <a href="#" class="dr-item"><i class="fa-solid fa-money-bill-transfer" style="color:#3498db;"></i>Rút tiền</a>
+                <div class="dr-item"><i class="fa-solid fa-fire" style="color:#e74c3c;"></i>HOT</div>
+                <div class="dr-item"><i class="fa-solid fa-drumstick-bite" style="color:#e67e22;"></i>Đá Gà</div>
+                <div class="dr-item"><i class="fa-solid fa-slot-machine" style="color:#bdc3c7;"></i>🎰 Slots</div>
+                <div class="dr-item"><i class="fa-solid fa-spade" style="color:#7f8c8d;"></i>Casino</div>
+                <div class="dr-item"><i class="fa-solid fa-gamepad" style="color:#e74c3c;"></i>🀄 Game bài</div>
+                <div class="dr-item"><i class="fa-solid fa-fish" style="color:#3498db;"></i>Bắn Cá</div>
+                <div class="dr-item"><i class="fa-solid fa-bowling-ball" style="color:#95a5a6;"></i>Xổ Số</div>
+                <div class="dr-item"><i class="fa-solid fa-futbol" style="color:#ecf0f1;"></i>Thể Thao</div>
+                <div class="dr-item"><i class="fa-solid fa-rocket" style="color:#e74c3c;"></i>Crash</div>
+                <div class="dr-item"><i class="fa-solid fa-gamepad" style="color:#e67e22;"></i>Arcade</div>
+                <div class="dr-item"><i class="fa-solid fa-gift" style="color:#e74c3c;"></i>Khuyến mãi</div>
+                <div class="dr-item"><i class="fa-solid fa-crown" style="color:gold;"></i>VIP</div>
+                <div class="dr-item"><i class="fa-solid fa-download" style="color:#e67e22;"></i>Tải xuống</div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Biến lưu trữ số dư toàn hệ thống (Bắt đầu với 0.37 như ảnh)
-        let userWalletBalance = 0.37;
-        let currentWalletMode = 'deposit'; // 'deposit' hoặc 'withdraw'
-
-        function updateBalanceDisplay() {
-            // Hiển thị định dạng tiền tệ
-            document.getElementById('headerBalance').innerText = "đ" + userWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2});
-            const accText = document.getElementById('accBalanceText');
-            if(accText) accText.innerText = "Số dư ví: đ" + userWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2});
-        }
-
         function toggleDrawer() {
-            document.getElementById('drawerMenu').classList.toggle('active');
-            document.getElementById('drawerOverlay').classList.toggle('active');
+            document.getElementById('drawer').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
         }
-
-        function switchScreen(screenKey) {
-            document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-
-            if(screenKey === 'home') {
-                document.getElementById('screen-home').classList.add('active');
-                document.querySelectorAll('.nav-item')[0].classList.add('active');
-            } else if(screenKey === 'promo') {
-                document.getElementById('screen-promo').classList.add('active');
-                document.querySelectorAll('.nav-item')[1].classList.add('active');
-            } else if(screenKey === 'wallet' || screenKey === 'deposit' || screenKey === 'withdraw') {
-                document.getElementById('screen-wallet').classList.add('active');
-                document.querySelectorAll('.nav-item')[2].classList.add('active');
-                setWalletMode(screenKey === 'withdraw' ? 'withdraw' : 'deposit');
-            } else if(screenKey === 'account') {
-                document.getElementById('screen-account').classList.add('active');
-                document.querySelectorAll('.nav-item')[3].classList.add('active');
-            }
-        }
-
-        function switchNav(el, key) {
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            switchScreen(key);
-        }
-
-        function openWalletFromDrawer(mode) {
-            toggleDrawer();
-            switchScreen(mode);
-        }
-
-        function setWalletMode(mode) {
-            currentWalletMode = mode;
-            const depBtn = document.getElementById('tabDepBtn');
-            const wdBtn = document.getElementById('tabWdBtn');
-            const amtLabel = document.getElementById('amountLabel');
-            const submitBtn = document.getElementById('submitWalletBtn');
-
-            if(mode === 'deposit') {
-                depBtn.classList.add('active');
-                wdBtn.classList.remove('active');
-                amtLabel.innerText = "Số tiền Nạp (1 = 1K)";
-                submitBtn.innerText = "GỬI YÊU CẦU NẠP";
-            } else {
-                wdBtn.classList.add('active');
-                depBtn.classList.remove('active');
-                amtLabel.innerText = "Số tiền Rút (1 = 1K)";
-                submitBtn.innerText = "GỬI YÊU CẦU RÚT";
-            }
-        }
-
-        function quickAmount(val) {
-            // Quy đổi đơn vị (1 = 1K nên nhân thêm 1000 vào ví hoặc tính theo điểm tùy ý, ở đây cộng thẳng số nhập)
-            document.getElementById('walletInput').value = val * 1000;
-        }
-
-        function processWalletAction() {
-            const inputVal = parseFloat(document.getElementById('walletInput').value);
-            if(isNaN(inputVal) || inputVal <= 0) {
-                alert("Vui lòng nhập số tiền hợp lệ!");
-                return;
-            }
-
-            if(currentWalletMode === 'deposit') {
-                // NẠP TIỀN: CỘNG VÀO VÍ (+)
-                userWalletBalance += inputVal;
-                alert("Nạp tiền thành công! Đã cộng " + inputVal.toLocaleString() + " vào ví.");
-            } else {
-                // RÚT TIỀN:
+    </script>
+</body>
+</html>
