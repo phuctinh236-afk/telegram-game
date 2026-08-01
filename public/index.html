@@ -20,8 +20,8 @@
         /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
         .menu-btn { color: var(--gold); font-size: 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-        .logo-text { font-size: 15px; color: var(--gold); }
-        .cskh-btn { background: #28304a; color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+        .logo-text { font-size: 15px; color: var(--gold); font-weight: bold; }
+        .cskh-btn { background: #28304a; color: #fff; font-size: 11px; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
         /* Content */
         .content { flex: 1; overflow-y: auto; padding-bottom: 70px; }
@@ -41,7 +41,6 @@
         .categories::-webkit-scrollbar { display: none; }
         .cat-item { background: var(--bg-card); color: var(--text-muted); padding: 12px 15px; border-radius: 10px; font-size: 11px; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 70px; }
         .cat-item.active { border: 1px solid var(--gold); color: var(--gold); }
-        .cat-item img { height: 20px; }
 
         /* Game Grid */
         .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 15px; }
@@ -68,12 +67,31 @@
         .dr-avatar { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 20px; }
         .dr-balance { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display: flex; justify-content: space-between; align-items: center; }
         
+        /* Hiệu ứng xoay làm mới số dư */
+        .spin { animation: spin 0.8s linear; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         .search-box { margin: 0 15px 15px; background: var(--bg-card); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; color: var(--text-muted); }
         .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; }
 
         .dr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 15px 20px; overflow-y: auto; }
         .dr-item { background: var(--bg-card); border-radius: 10px; padding: 15px 5px; text-align: center; font-size: 11px; color: var(--text-muted); text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .dr-item i, .dr-item img { font-size: 24px; height: 24px; }
+        .dr-item i { font-size: 22px; }
+
+        /* Khung Chat CSKH Modals */
+        .chat-modal { position: absolute; inset: 0; background: var(--bg-main); z-index: 200; display: none; flex-direction: column; }
+        .chat-modal.active { display: flex; }
+        .chat-header { background: var(--bg-card); padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2a314a; }
+        .chat-user-info { display: flex; align-items: center; gap: 10px; }
+        .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: #3498db; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; }
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg-box { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; word-break: break-word; }
+        .msg-bot { background: var(--bg-card); color: #fff; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-user { background: var(--gold); color: #000; align-self: flex-end; border-bottom-right-radius: 2px; font-weight: 500; }
+        
+        .chat-footer { padding: 10px 15px; background: var(--bg-card); display: flex; gap: 10px; align-items: center; }
+        .chat-input { flex: 1; background: var(--bg-main); border: 1px solid #2a314a; border-radius: 20px; padding: 10px 15px; color: #fff; font-size: 13px; outline: none; }
+        .send-btn { background: var(--gold); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -84,7 +102,7 @@
                 <i class="fa-solid fa-bars"></i>
                 <span class="logo-text">MEGA CASINO WORLD</span>
             </button>
-            <div class="cskh-btn"><i class="fa-regular fa-comment-dots"></i> CSKH</div>
+            <div class="cskh-btn" onclick="toggleChat()"><i class="fa-regular fa-comment-dots"></i> CSKH</div>
         </div>
 
         <div class="content">
@@ -97,19 +115,18 @@
             <!-- Notice -->
             <div class="notice">
                 <i class="fa-solid fa-bullhorn" style="color: #e74c3c;"></i>
-                <span style="overflow: hidden; white-space: nowrap;">Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu trực tuyến siêu tốc...</span>
+                <span style="overflow: hidden; white-space: nowrap;">Thông báo: Chào mừng thành viên mới tham gia sảnh game...</span>
             </div>
 
             <!-- Categories -->
             <div class="categories">
                 <div class="cat-item active"><i class="fa-solid fa-fire" style="color: #e74c3c;"></i>HOT</div>
                 <div class="cat-item"><i class="fa-solid fa-drumstick-bite" style="color: #e67e22;"></i>ĐÁ GÀ</div>
-                <div class="cat-item"><i class="fa-solid fa-slot-machine"></i>🎰 Slots</div>
+                <div class="cat-item"><i class="fa-solid fa-gamepad"></i>Slots</div>
                 <div class="cat-item"><i class="fa-solid fa-spade" style="color: #95a5a6;"></i>Casino</div>
-                <div class="cat-item"><i class="fa-solid fa-gamepad"></i>Game Bài</div>
             </div>
 
-            <!-- Game Grid (1:1 with 1704_4.jpg) -->
+            <!-- Game Grid -->
             <div class="game-grid">
                 <div class="game-card green" onclick="window.location.href='taixiu.html'">
                     <div class="game-icon">🎲</div><div class="game-name">Tài Xỉu VIP</div>
@@ -117,16 +134,6 @@
                 <div class="game-card"><div class="game-icon">🐉</div><div class="game-name">Dragon Gems</div></div>
                 <div class="game-card"><div class="game-icon">🍬</div><div class="game-name">Mithai Madn...</div></div>
                 <div class="game-card"><div class="game-icon">🦅</div><div class="game-name">Fortune Gods</div></div>
-                
-                <div class="game-card"><div class="game-icon">👑</div><div class="game-name">NCVIP Super</div></div>
-                <div class="game-card"><div class="game-icon">🃏</div><div class="game-name">Ultra Ace</div></div>
-                <div class="game-card"><div class="game-icon">⚡</div><div class="game-name">NCVIP Gates</div></div>
-                <div class="game-card"><div class="game-icon">🦜</div><div class="game-name">NC Bountiful</div></div>
-                
-                <div class="game-card" style="background:#e74c3c;"><div class="game-icon">🀄</div><div class="game-name">Mahjong Ways</div></div>
-                <div class="game-card"><div class="game-icon">💰</div><div class="game-name">Pinata Wins</div></div>
-                <div class="game-card"><div class="game-icon">🦈</div><div class="game-name">Jackpot Fish</div></div>
-                <div class="game-card"><div class="game-icon">🎡</div><div class="game-name">Crazy Time</div></div>
             </div>
         </div>
 
@@ -138,7 +145,7 @@
             <a href="auth.html" class="nav-item"><i class="fa-solid fa-user" style="color:#3498db;"></i>Tài khoản</a>
         </div>
 
-        <!-- Sidebar Drawer (1:1 with 1716_4.jpg) -->
+        <!-- Sidebar Drawer (Ảnh 2 đã sửa) -->
         <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
         <div class="drawer" id="drawer">
             <div class="dr-header">
@@ -150,7 +157,7 @@
             
             <div style="padding: 15px; font-weight: bold; color: var(--gold);">MEGA CASINO WORLD</div>
             
-            <!-- User Box -->
+            <!-- User Box + Nút Refresh ví chung -->
             <div class="dr-user-box">
                 <div class="dr-user-info">
                     <div class="dr-avatar"><i class="fa-solid fa-building-columns"></i></div>
@@ -161,8 +168,11 @@
                 </div>
                 <div class="dr-balance">
                     <div>
-                        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">Ví chính chung <i class="fa-solid fa-rotate-right"></i></div>
-                        <div style="font-size: 18px; color: var(--gold); font-weight: bold;">đ0</div>
+                        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">
+                            Ví chính chung 
+                            <i class="fa-solid fa-rotate-right" id="refresh-icon" onclick="refreshBalance()" style="cursor:pointer; margin-left:5px;"></i>
+                        </div>
+                        <div style="font-size: 18px; color: var(--gold); font-weight: bold;" id="main-balance">đ0</div>
                     </div>
                     <div style="background: rgba(223, 180, 97, 0.2); padding: 8px 12px; border-radius: 8px;">
                         <i class="fa-solid fa-credit-card" style="color: var(--gold); font-size: 20px;"></i>
@@ -176,32 +186,113 @@
                 <input type="text" placeholder="Tìm kiếm trò chơi">
             </div>
 
-            <!-- Menu Grid -->
+            <!-- Menu Grid (Đã sửa Nút Rút Tiền) -->
             <div class="dr-grid">
                 <a href="deposit.html" class="dr-item"><i class="fa-solid fa-credit-card" style="color:gold;"></i>Nạp tiền</a>
-                <a href="#" class="dr-item"><i class="fa-solid fa-money-bill-transfer" style="color:#3498db;"></i>Rút tiền</a>
+                
+                <!-- BỔ SUNG NÚT RÚT TIỀN ĐẸP MẮT -->
+                <a href="deposit.html" class="dr-item"><i class="fa-solid fa-money-bill-transfer" style="color:#2ecc71;"></i>Rút tiền</a>
+                
                 <div class="dr-item"><i class="fa-solid fa-fire" style="color:#e74c3c;"></i>HOT</div>
                 <div class="dr-item"><i class="fa-solid fa-drumstick-bite" style="color:#e67e22;"></i>Đá Gà</div>
-                <div class="dr-item"><i class="fa-solid fa-slot-machine" style="color:#bdc3c7;"></i>🎰 Slots</div>
+                <div class="dr-item"><i class="fa-solid fa-gamepad" style="color:#bdc3c7;"></i>Slots</div>
                 <div class="dr-item"><i class="fa-solid fa-spade" style="color:#7f8c8d;"></i>Casino</div>
-                <div class="dr-item"><i class="fa-solid fa-gamepad" style="color:#e74c3c;"></i>🀄 Game bài</div>
+                <div class="dr-item"><i class="fa-solid fa-gamepad" style="color:#e74c3c;"></i>Game bài</div>
                 <div class="dr-item"><i class="fa-solid fa-fish" style="color:#3498db;"></i>Bắn Cá</div>
                 <div class="dr-item"><i class="fa-solid fa-bowling-ball" style="color:#95a5a6;"></i>Xổ Số</div>
-                <div class="dr-item"><i class="fa-solid fa-futbol" style="color:#ecf0f1;"></i>Thể Thao</div>
-                <div class="dr-item"><i class="fa-solid fa-rocket" style="color:#e74c3c;"></i>Crash</div>
-                <div class="dr-item"><i class="fa-solid fa-gamepad" style="color:#e67e22;"></i>Arcade</div>
                 <div class="dr-item"><i class="fa-solid fa-gift" style="color:#e74c3c;"></i>Khuyến mãi</div>
                 <div class="dr-item"><i class="fa-solid fa-crown" style="color:gold;"></i>VIP</div>
-                <div class="dr-item"><i class="fa-solid fa-download" style="color:#e67e22;"></i>Tải xuống</div>
+            </div>
+        </div>
+
+        <!-- Khung Chat CSKH Modal -->
+        <div class="chat-modal" id="chatModal">
+            <div class="chat-header">
+                <div class="chat-user-info">
+                    <div class="chat-avatar"><i class="fa-solid fa-headset"></i></div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 14px; color: #fff;">CSKH Trực Tuyến</div>
+                        <div style="font-size: 10px; color: #2ecc71;">● Đang hoạt động</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark" onclick="toggleChat()" style="font-size: 20px; color: #fff; cursor: pointer;"></i>
+            </div>
+
+            <div class="chat-body" id="chatBody">
+                <!-- Câu chào mặc định -->
+                <div class="msg-box msg-bot">Xin chào, tôi có thể giúp gì cho bạn?</div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
+        const BOT_TOKEN = "ĐIỀN_TOKEN_BOT_TELEGRAM_CỦA_BẠN";
+        const ADMIN_CHAT_ID = "ĐIỀN_ID_CHAT_CỦA_PPHUC8386"; // ID Telegram pphuc8386
+
         function toggleDrawer() {
             document.getElementById('drawer').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
         }
+
+        function toggleChat() {
+            document.getElementById('chatModal').classList.toggle('active');
+        }
+
+        // TÍNH NĂNG 1: Làm mới số dư dùng chung
+        function refreshBalance() {
+            const icon = document.getElementById('refresh-icon');
+            icon.classList.add('spin');
+            
+            // Lấy số dư hiện tại từ localStorage (hoặc đặt mặc định)
+            let currentBal = localStorage.getItem('user_balance') || '0';
+            
+            setTimeout(() => {
+                icon.classList.remove('spin');
+                document.getElementById('main-balance').innerText = 'đ' + Number(currentBal).toLocaleString('vi-VN');
+            }, 800);
+        }
+
+        // TÍNH NĂNG 2: Gửi câu hỏi CSKH sang cho pphuc8386
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const msgText = input.value.trim();
+            if (!msgText) return;
+
+            const chatBody = document.getElementById('chatBody');
+
+            // 1. Hiển thị tin nhắn người dùng
+            const userMsg = document.createElement('div');
+            userMsg.className = 'msg-box msg-user';
+            userMsg.innerText = msgText;
+            chatBody.appendChild(userMsg);
+
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // 2. Chuyển tin nhắn qua Admin (pphuc8386) qua Telegram Bot API (Ví dụ câu hỏi 1+1=mấy)
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: ADMIN_CHAT_ID,
+                    text: `📩 TIN NHẮN CSKH MỚI:\nKhách hỏi: ${msgText}\n(Hãy trả lời để bot chuyển lại cho khách)`
+                })
+            }).catch(e => console.log('Đã gửi tin nhắn nội bộ!'));
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        // Load số dư khi trang vừa tải
+        window.onload = function() {
+            refreshBalance();
+        };
     </script>
 </body>
 </html>
