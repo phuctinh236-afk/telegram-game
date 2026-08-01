@@ -10,9 +10,9 @@ ADMIN_CHAT_ID = "8655162823"
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 # BỘ NHỚ TẠM QUẢN LÝ TIN NHẮN & PHIÊN CHAT CSKH
-message_queue = {}   # { 'USER_1234': ['msg1', 'msg2'] }
-closed_sessions = {} # { 'USER_1234': True/False }
-reply_mapping = {}   # { message_id_telegram: 'USER_1234' }
+message_queue = {}   # { '001': ['msg1', 'msg2'] }
+closed_sessions = {} # { '001': True/False }
+reply_mapping = {}   # { message_id_telegram: '001' }
 
 # ==================== ROUTE STATIC & GAME ====================
 
@@ -37,12 +37,12 @@ def auth():
 
 # ==================== API CSKH TELEGRAM ====================
 
-# 1. Khách gửi tin từ Web -> Bắn thông báo về Telegram Admin kèm đầy đủ ID
+# 1. Khách gửi tin từ Web -> Bắn thông báo về Telegram Admin kèm ID
 @app.route('/api/send-message', methods=['POST'])
 def send_message():
     data = request.json or {}
-    user_id = data.get('userId')
-    message = data.get('message')
+    user_id = str(data.get('userId', '')).strip()
+    message = data.get('message', '').strip()
 
     if not user_id or not message:
         return jsonify({'status': 'error', 'message': 'Thiếu dữ liệu'}), 400
@@ -50,7 +50,7 @@ def send_message():
     if closed_sessions.get(user_id):
         return jsonify({'status': 'closed', 'message': 'Phiên chat đã bị đóng.'})
 
-    text_content = f"💬 *TIN NHẮN CSKH MỚI*\n👤 *Khách:* `{user_id}`\n\nNội dung: \"{message}\""
+    text_content = f"💬 *TIN NHẮN CSKH MỚI*\n👤 *Khách ID:* `{user_id}`\n\nNội dung: \"{message}\""
     
     try:
         res = requests.post(f"{TELEGRAM_API}/sendMessage", json={
@@ -71,7 +71,7 @@ def send_message():
 # 2. Web gọi liên tục để nhận phản hồi từ Admin
 @app.route('/api/get-messages', methods=['GET'])
 def get_messages():
-    user_id = request.args.get('userId')
+    user_id = str(request.args.get('userId', '')).strip()
 
     if closed_sessions.get(user_id):
         return jsonify({'status': 'closed', 'messages': []})
@@ -81,20 +81,51 @@ def get_messages():
 
     return jsonify({'status': 'active', 'messages': msgs})
 
-# 3. Webhook nhận lệnh từ Telegram (Admin Reply hoặc gõ /stop ID)
+# 3. Webhook nhận lệnh từ Telegram (/rep, /stop hoặc Reply tin nhắn)
 @app.route('/telegram-webhook', methods=['POST'])
 def telegram_webhook():
     update = request.json or {}
 
     if 'message' in update:
         msg = update['message']
-        text = msg.get('text', '')
+        text = msg.get('text', '').strip()
 
-        # Lệnh đóng chat: /stop USER_1234
+        # --- LỆNH 1: TRẢ LỜI BẰNG LỆNH /rep ID NỘI_DUNG ---
+        if text.startswith('/rep'):
+            parts = text.split(' ', 2)
+            if len(parts) >= 3:
+                target_user = parts[1].replace('@', '').strip()
+                reply_content = parts[2].strip()
+
+                if closed_sessions.get(target_user):
+                    requests.post(f"{TELEGRAM_API}/sendMessage", json={
+                        "chat_id": ADMIN_CHAT_ID,
+                        "text": f"⚠️ Phiên chat của khách `{target_user}` đã bị đóng!",
+                        "parse_mode": "Markdown"
+                    })
+                else:
+                    if target_user not in message_queue:
+                        message_queue[target_user] = []
+                    message_queue[target_user].append(reply_content)
+
+                    requests.post(f"{TELEGRAM_API}/sendMessage", json={
+                        "chat_id": ADMIN_CHAT_ID,
+                        "text": f"✅ Đã gửi tới `{target_user}`: \"{reply_content}\"",
+                        "parse_mode": "Markdown"
+                    })
+            else:
+                requests.post(f"{TELEGRAM_API}/sendMessage", json={
+                    "chat_id": ADMIN_CHAT_ID,
+                    "text": "⚠️ *Cú pháp sai!* Hãy gõ: `/rep ID NỘI_DUNG`\n*Ví dụ:* `/rep 001 Chào bạn`",
+                    "parse_mode": "Markdown"
+                })
+            return jsonify({'status': 'ok'})
+
+        # --- LỆNH 2: ĐÓNG CHAT BẰNG LỆNH /stop ID ---
         if text.startswith('/stop'):
             parts = text.split(' ')
             if len(parts) >= 2:
-                target_user = parts[1].strip().replace('@', '')
+                target_user = parts[1].replace('@', '').strip()
                 closed_sessions[target_user] = True
                 
                 requests.post(f"{TELEGRAM_API}/sendMessage", json={
@@ -105,12 +136,12 @@ def telegram_webhook():
             else:
                 requests.post(f"{TELEGRAM_API}/sendMessage", json={
                     "chat_id": ADMIN_CHAT_ID,
-                    "text": "⚠️ Sai cú pháp! Gõ: `/stop ID_KHÁCH`",
+                    "text": "⚠️ Sai cú pháp! Gõ: `/stop ID_KHÁCH` (Ví dụ: `/stop 001`)",
                     "parse_mode": "Markdown"
                 })
             return jsonify({'status': 'ok'})
 
-        # Admin dùng tính năng Reply để trả lời khách
+        # --- TÍNH NĂNG 3: TRẢ LỜI BẰNG CÁCH REPLY TIN NHẮN TỰ ĐỘNG ---
         if 'reply_to_message' in msg:
             parent_msg_id = msg['reply_to_message']['message_id']
             target_user = reply_mapping.get(parent_msg_id)
