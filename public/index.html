@@ -17,18 +17,31 @@
         body { background-color: #000; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
         .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; position: relative; }
 
-        /* Header CSKH */
-        .chat-header { background: var(--bg-card); padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2a314a; }
-        .chat-user-info { display: flex; align-items: center; gap: 10px; }
-        .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: #3498db; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; }
+        /* MÀN HÌNH LOBBY (SẢNH CHÍNH) */
+        #lobbyScreen { flex: 1; display: flex; flex-direction: column; padding: 20px; justify-content: space-between; background: linear-gradient(135deg, #131726 0%, #1a2138 100%); }
+        .lobby-header { display: flex; justify-content: space-between; align-items: center; color: #fff; }
+        .user-balance { background: var(--bg-card); padding: 8px 15px; border-radius: 20px; border: 1px solid var(--gold); color: var(--gold); font-weight: bold; font-size: 14px; }
         
-        /* Body Chat */
+        .lobby-content { display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center; flex: 1; }
+        .game-banner { width: 100%; height: 180px; background: var(--bg-card); border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 1px solid #2a314a; color: var(--gold); font-size: 18px; font-weight: bold; text-align: center; background-size: cover; background-position: center; }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
+        .menu-btn { background: var(--bg-card); border: 1px solid #2a314a; padding: 20px; border-radius: 12px; color: #fff; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        .menu-btn i { font-size: 24px; color: var(--gold); }
+        .menu-btn:active { transform: scale(0.95); }
+
+        /* MÀN HÌNH CSKH (Ẩn mặc định) */
+        #cskhScreen { display: none; flex: 1; flex-direction: column; height: 100%; background-color: var(--bg-main); }
+        .chat-header { background: var(--bg-card); padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2a314a; }
+        .chat-user-info { display: flex; align-items: center; gap: 10px; color: #fff; }
+        .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: #3498db; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; }
+        .back-lobby-btn { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+        
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         .msg-box { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; word-break: break-word; }
         .msg-bot { background: var(--bg-card); color: #fff; align-self: flex-start; border-bottom-left-radius: 2px; }
         .msg-user { background: var(--gold); color: #000; align-self: flex-end; border-bottom-right-radius: 2px; font-weight: 500; }
         
-        /* Footer Input */
         .chat-footer { padding: 10px 15px; background: var(--bg-card); display: flex; gap: 10px; align-items: center; }
         .chat-input { flex: 1; background: var(--bg-main); border: 1px solid #2a314a; border-radius: 20px; padding: 10px 15px; color: #fff; font-size: 13px; outline: none; }
         .send-btn { background: var(--gold); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; cursor: pointer; }
@@ -36,39 +49,92 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header CSKH (Đã xóa ID hiển thị ở góc trên bên phải) -->
-        <div class="chat-header">
-            <div class="chat-user-info">
-                <div class="chat-avatar"><i class="fa-solid fa-headset"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 14px; color: #fff;">CSKH Trực Tuyến</div>
-                    <div style="font-size: 10px; color: #2ecc71;">● Đang hoạt động</div>
+        
+        <!-- 1. MÀN HÌNH SẢNH GAME (LOBBY) -->
+        <div id="lobbyScreen">
+            <div class="lobby-header">
+                <div style="font-weight: bold; font-size: 16px; color: #fff;"><i class="fa-solid fa-gamepad" style="color: var(--gold);"></i> AB66 LOBBY</div>
+                <div class="user-balance" id="userBalance">50,000 đ</div>
+            </div>
+
+            <div class="lobby-content">
+                <div class="game-banner">
+                    🌟 CHÀO MỪNG ĐẾN VỚI HỆ THỐNG 🌟
                 </div>
+                
+                <div class="menu-grid">
+                    <div class="menu-btn" onclick="alert('Tính năng đang phát triển!')">
+                        <i class="fa-solid fa-dice"></i>
+                        <span>Trò Chơi</span>
+                    </div>
+                    <div class="menu-btn" onclick="alert('Tính năng đang phát triển!')">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Nạp / Rút</span>
+                    </div>
+                    <div class="menu-btn" onclick="alert('Tính năng đang phát triển!')">
+                        <i class="fa-solid fa-gift"></i>
+                        <span>Khuyến Mãi</span>
+                    </div>
+                    <div class="menu-btn" onclick="openCSKH()">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Hỗ Trợ CSKH</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; font-size: 11px; color: var(--text-muted); padding-bottom: 5px;">
+                ID Của bạn: <span id="displayId" style="color: var(--gold); font-weight: bold;"></span>
             </div>
         </div>
 
-        <!-- Khung Chat Body -->
-        <div class="chat-body" id="chatBody">
-            <div class="msg-box msg-bot">Xin chào, tôi có thể giúp gì cho bạn?</div>
+        <!-- 2. MÀN HÌNH CSKH (CHỈ HIỆN KHI BẤM NÚT CSKH) -->
+        <div id="cskhScreen">
+            <div class="chat-header">
+                <div class="chat-user-info">
+                    <button class="back-lobby-btn" onclick="closeCSKH()"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="chat-avatar"><i class="fa-solid fa-headset"></i></div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 14px; color: #fff;">CSKH Trực Tuyến</div>
+                        <div style="font-size: 10px; color: #2ecc71;">● Đang hoạt động</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-body" id="chatBody">
+                <div class="msg-box msg-bot">Xin chào, tôi có thể giúp gì cho bạn?</div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
         </div>
 
-        <!-- Thanh nhập tin nhắn -->
-        <div class="chat-footer">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
-            <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
     </div>
 
     <script>
-        // 1. Khởi tạo & Lưu ID ngẫu nhiên từ 001 đến 999 (Không còn chữ USER_)
+        // Tạo ID ngẫu nhiên từ 001 đến 999
         let currentUserId = localStorage.getItem('chat_user_id');
         if (!currentUserId) {
             let randomNum = Math.floor(1 + Math.random() * 999);
-            currentUserId = String(randomNum).padStart(3, '0'); // Định dạng 001 -> 999
+            currentUserId = String(randomNum).padStart(3, '0');
             localStorage.setItem('chat_user_id', currentUserId);
         }
+        document.getElementById('displayId').innerText = currentUserId;
 
-        // 2. Hàm gửi tin nhắn sang Server
+        // Chuyển qua màn hình CSKH
+        function openCSKH() {
+            document.getElementById('lobbyScreen').style.display = 'none';
+            document.getElementById('cskhScreen').style.display = 'flex';
+        }
+
+        // Quay lại Sảnh Lobby
+        function closeCSKH() {
+            document.getElementById('cskhScreen').style.display = 'none';
+            document.getElementById('lobbyScreen').style.display = 'flex';
+        }
+
+        // Gửi tin nhắn CSKH
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const msgText = input.value.trim();
@@ -76,7 +142,6 @@
 
             const chatBody = document.getElementById('chatBody');
 
-            // Hiển thị tin nhắn người dùng lên khung chat
             const userMsg = document.createElement('div');
             userMsg.className = 'msg-box msg-user';
             userMsg.innerText = msgText;
@@ -85,7 +150,6 @@
             input.value = '';
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // Gọi API gửi tin kèm userId
             fetch('/api/send-message', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -96,7 +160,7 @@
             }).catch(err => console.error("Lỗi gửi tin:", err));
         }
 
-        // 3. Quét nhận tin nhắn phản hồi từ Admin định kỳ
+        // Nhận tin nhắn phản hồi từ Admin
         function pollAdminMessages() {
             fetch(`/api/get-messages?userId=${currentUserId}`)
                 .then(res => res.json())
@@ -129,7 +193,6 @@
             if (e.key === 'Enter') sendMessage();
         }
 
-        // Kiểm tra tin phản hồi mỗi 2 giây
         setInterval(pollAdminMessages, 2000);
     </script>
 </body>
