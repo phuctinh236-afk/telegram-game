@@ -8,45 +8,49 @@
     <style>
         :root {
             --bg-main: #131726;
-            --bg-card: #20263b;
+            --bg-card: #1f263d;
             --gold: #dfb461;
-            --text-light: #ffffff;
+            --gold-gradient: linear-gradient(180deg, #e3c077, #ba9241);
             --text-muted: #8b95b1;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #000; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
         .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; position: relative; }
 
+        /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
-        .back-btn { background: #e74c3c; color: #fff; text-decoration: none; font-size: 12px; padding: 5px 12px; border-radius: 4px; font-weight: bold; }
+        .back-btn { background: #e74c3c; color: #fff; text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 6px; font-weight: bold; }
         .logo-text { font-size: 15px; color: var(--gold); font-weight: bold; }
         .cskh-btn { color: var(--text-muted); font-size: 12px; display: flex; align-items: center; gap: 5px; }
 
+        /* Main Content */
         .content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 70px; }
 
-        /* Tabs */
+        /* Tabs Nạp / Rút */
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 12px; text-align: center; font-size: 14px; font-weight: bold; border-radius: 8px; color: var(--text-muted); border: 1px solid var(--gold); }
-        .tab-btn.active { background: linear-gradient(180deg, #e3c077, #ba9241); color: #000; border: none; }
+        .tab-btn { flex: 1; padding: 12px; text-align: center; font-size: 14px; font-weight: bold; border-radius: 8px; color: var(--text-muted); background: var(--bg-card); border: 1px solid transparent; cursor: pointer; }
+        .tab-btn.active { background: var(--gold-gradient); color: #000; }
 
-        .sec-box { border: 1px solid #2a314a; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-        .sec-title { font-size: 12px; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        /* Section Box */
+        .sec-box { margin-bottom: 18px; }
+        .sec-title { font-size: 13px; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
         
-        select { width: 100%; background: var(--bg-card); border: none; padding: 12px; border-radius: 6px; color: #fff; font-size: 13px; outline: none; }
+        select { width: 100%; background: var(--bg-card); border: 1px solid #2a314a; padding: 12px; border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
         
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 
-        .box-btn { background: var(--bg-card); padding: 12px 5px; border-radius: 6px; text-align: center; font-size: 11px; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid transparent; cursor: pointer; }
+        /* Buttons */
+        .box-btn { background: var(--bg-card); padding: 12px 5px; border-radius: 8px; text-align: center; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; cursor: pointer; user-select: none; }
         .box-btn.active-outline { border-color: var(--gold); color: var(--gold); }
-        .box-btn.active-solid { background: var(--gold); color: #000; font-weight: bold; }
+        .box-btn.active-solid { background: var(--gold-gradient); color: #000; font-weight: bold; }
 
-        .amount-input { display: flex; background: var(--bg-card); border-radius: 6px; padding: 12px; margin-top: 15px; }
-        .amount-input input { background: transparent; border: none; outline: none; color: #fff; flex: 1; font-size: 13px; }
-        .amount-input span { color: var(--text-muted); font-size: 13px; }
+        /* Amount Input Box (Sửa đúng theo hình 1727.jpg) */
+        .amount-input-box { background: var(--bg-card); border: 1px solid #2a314a; border-radius: 8px; padding: 12px 15px; margin-top: 10px; }
+        .amount-input-box input { background: transparent; border: none; outline: none; color: #fff; font-size: 14px; width: 100%; }
 
-        .submit-btn { width: 100%; background: linear-gradient(180deg, #e3c077, #ba9241); color: #000; padding: 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-top: 10px; cursor: pointer; }
+        .submit-btn { width: 100%; background: var(--gold-gradient); color: #000; padding: 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-top: 15px; cursor: pointer; }
 
         /* Bottom Nav */
         .bottom-nav { position: absolute; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: var(--bg-main); border-top: 1px solid #20263b; padding: 10px 0 15px; z-index: 10; }
@@ -57,37 +61,40 @@
 </head>
 <body>
     <div class="app-container">
+        <!-- Top Bar -->
         <div class="header">
             <a href="index.html" class="back-btn">← Lại</a>
             <div class="logo-text">MEGA CASINO WORLD</div>
-            <div class="cskh-btn"><i class="fa-solid fa-comment-dots"></i> CSKH</div>
+            <div class="cskh-btn"><i class="fa-regular fa-comment-dots"></i> CSKH</div>
         </div>
 
         <div class="content">
+            <!-- Tab Nạp / Rút -->
             <div class="tabs">
                 <div class="tab-btn active">Nạp tiền</div>
                 <div class="tab-btn">Rút tiền</div>
             </div>
 
+            <!-- Khuyến mãi -->
             <div class="sec-box">
-                <div class="sec-title"><i class="fa-solid fa-gift"></i> Khuyến mãi</div>
+                <div class="sec-title">🎁 Khuyến mãi</div>
                 <select><option>Nạp Tiền Thông Thường</option></select>
             </div>
 
+            <!-- Phương thức thanh toán -->
             <div class="sec-box">
-                <div class="sec-title"><i class="fa-regular fa-credit-card"></i> Phương thức thanh toán</div>
+                <div class="sec-title">💳 Phương thức thanh toán</div>
                 <div class="grid-2">
-                    <div class="box-btn active-outline"><i class="fa-solid fa-building-columns" style="color:var(--text-muted)"></i> Ngân hàng</div>
-                    <div class="box-btn"><i class="fa-solid fa-mobile-screen"></i> MOMOPAY</div>
-                    <div class="box-btn"><i class="fa-solid fa-heart" style="color:gold;"></i> ZaloPay</div>
-                    <div class="box-btn"><i class="fa-solid fa-circle" style="color:red;"></i> ViettelPay</div>
-                    <div class="box-btn"><i class="fa-regular fa-gem" style="color:#3498db;"></i> USDT</div>
-                    <div class="box-btn"><i class="fa-solid fa-money-check"></i> Thẻ Cào</div>
+                    <div class="box-btn active-outline"><i class="fa-solid fa-building-columns"></i> Ngân hàng</div>
+                    <div class="box-btn">MOMOPAY</div>
+                    <div class="box-btn"><span style="color:#f1c40f;">💛</span> ZaloPay</div>
+                    <div class="box-btn"><span style="color:#e74c3c;">🔴</span> ViettelPay</div>
                 </div>
             </div>
 
+            <!-- Cổng nạp -->
             <div class="sec-box">
-                <div class="sec-title"><i class="fa-solid fa-gear"></i> Cổng nạp</div>
+                <div class="sec-title">⚙️ Cổng nạp</div>
                 <div class="grid-3">
                     <div class="box-btn active-solid">HN-Pay1</div>
                     <div class="box-btn">O-Pay</div>
@@ -95,21 +102,30 @@
                 </div>
             </div>
 
+            <!-- Số tiền Nạp (Sửa chuẩn 1:1 theo ảnh 1727.jpg) -->
             <div class="sec-box">
-                <div class="sec-title"><i class="fa-solid fa-money-bill-wave"></i> Số tiền Nạp (1 = 1K)</div>
-                <div class="grid-4">
-                    <div class="box-btn">100</div><div class="box-btn">200</div><div class="box-btn">500</div><div class="box-btn">1.000</div>
-                    <div class="box-btn">2.000</div><div class="box-btn">5.000</div><div class="box-btn">10.000</div><div class="box-btn">50.000</div>
+                <div class="sec-title">💵 Số tiền Nạp (1 = 1K)</div>
+                <div class="grid-4" id="amount-grid">
+                    <div class="box-btn" onclick="selectAmount(this, 100)">100</div>
+                    <div class="box-btn" onclick="selectAmount(this, 200)">200</div>
+                    <div class="box-btn" onclick="selectAmount(this, 500)">500</div>
+                    <div class="box-btn" onclick="selectAmount(this, 1000)">1.000</div>
+                    <div class="box-btn" onclick="selectAmount(this, 2000)">2.000</div>
+                    <div class="box-btn" onclick="selectAmount(this, 5000)">5.000</div>
+                    <div class="box-btn" onclick="selectAmount(this, 10000)">10.000</div>
+                    <div class="box-btn" onclick="selectAmount(this, 50000)">50.000</div>
                 </div>
-                <div class="amount-input">
-                    <input type="number" placeholder="Nhập số tiền...">
-                    <span>Điểm</span>
+                
+                <!-- Ô nhập tiền (Đúng chuẩn không có chữ "Điểm") -->
+                <div class="amount-input-box">
+                    <input type="number" id="deposit-input" value="10000000" placeholder="Nhập số tiền...">
                 </div>
             </div>
 
             <button class="submit-btn">Gửi</button>
         </div>
 
+        <!-- Bottom Nav Bar -->
         <div class="bottom-nav">
             <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i>Trang chủ</a>
             <a href="#" class="nav-item"><i class="fa-solid fa-gift" style="color:red;"></i>Khuyến mãi</a>
@@ -117,5 +133,20 @@
             <a href="auth.html" class="nav-item"><i class="fa-solid fa-user" style="color:#3498db;"></i>Tài khoản</a>
         </div>
     </div>
+
+    <script>
+        // Hàm chọn nhanh số tiền nạp
+        function selectAmount(element, value) {
+            // Xóa active cũ của các nút số tiền
+            const buttons = document.querySelectorAll('#amount-grid .box-btn');
+            buttons.forEach(btn => btn.classList.remove('active-outline'));
+            
+            // Highlight nút vừa bấm
+            element.classList.add('active-outline');
+            
+            // Điền giá trị vào ô input
+            document.getElementById('deposit-input').value = value;
+        }
+    </script>
 </body>
 </html>
