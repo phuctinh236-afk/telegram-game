@@ -6,7 +6,8 @@ app = Flask(__name__, static_folder='public', static_url_path='')
 
 # CẤU HÌNH BOT TELEGRAM
 BOT_TOKEN = "8576597700:AAG6p0YhWf1-QXMwR1vNtHxx6r7eAFxvRFU"
-ADMIN_CHAT_ID = "8655162823"
+# Đã đổi sang Chat ID nhóm của bạn
+ADMIN_CHAT_ID = "-1004444253619"
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 # BỘ NHỚ TẠM QUẢN LÝ PHIÊN CHAT
@@ -37,7 +38,7 @@ def auth():
 
 # ==================== API CSKH TELEGRAM ====================
 
-# 1. Khách gửi tin nhắn từ Web -> Bắn lên Telegram kèm đầy đủ ID Khách
+# 1. Khách gửi tin nhắn từ Web -> Bắn lên Nhóm Telegram kèm ID Khách
 @app.route('/api/send-message', methods=['POST'])
 def send_message():
     data = request.json or {}
@@ -81,7 +82,7 @@ def get_messages():
 
     return jsonify({'status': 'active', 'messages': msgs})
 
-# 3. Webhook xử lý lệnh từ Telegram (/rep ID, /stop ID hoặc Reply trực tiếp)
+# 3. Webhook xử lý lệnh từ Nhóm Telegram (/rep ID, /stop ID hoặc Reply trực tiếp)
 @app.route('/telegram-webhook', methods=['POST'])
 def telegram_webhook():
     update = request.json or {}
@@ -141,7 +142,7 @@ def telegram_webhook():
                 })
             return jsonify({'status': 'ok'})
 
-        # --- TÍNH NĂNG 3: TRẢ LỜI BẰNG CÁCH REPLY TIN NHẮN BOT ---
+        # --- TÍNH NĂNG 3: TRẢ LỜI BẰNG CÁCH REPLY TRỰC TIẾP TIN NHẮN TRONG NHÓM ---
         if 'reply_to_message' in msg:
             parent_msg_id = msg['reply_to_message']['message_id']
             target_user = reply_mapping.get(parent_msg_id)
