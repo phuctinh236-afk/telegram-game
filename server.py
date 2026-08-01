@@ -16,17 +16,14 @@ reply_mapping = {}   # { message_id_telegram: 'USER_1234' }
 
 # ==================== ROUTE STATIC & GAME ====================
 
-# Route chính để mở file index.html
 @app.route('/')
 def index():
     return send_from_directory('public', 'index.html')
 
-# Route để phục vụ các file giao diện game khác (taixiu.html, nohu.html,...)
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory('public', path)
 
-# API mẫu nhận dữ liệu đăng nhập / số dư từ game
 @app.route('/api/auth', methods=['POST'])
 def auth():
     data = request.json or {}
@@ -40,7 +37,7 @@ def auth():
 
 # ==================== API CSKH TELEGRAM ====================
 
-# 1. API: Khách gửi tin nhắn từ Web -> Telegram của Admin
+# 1. Khách gửi tin từ Web -> Bắn thông báo về Telegram Admin kèm đầy đủ ID
 @app.route('/api/send-message', methods=['POST'])
 def send_message():
     data = request.json or {}
@@ -62,7 +59,6 @@ def send_message():
             "parse_mode": "Markdown"
         }).json()
 
-        # Lưu message_id telegram để biết Admin đang Reply tin nhắn nào của khách nào
         if res.get('ok'):
             msg_id = res['result']['message_id']
             reply_mapping[msg_id] = user_id
@@ -72,7 +68,7 @@ def send_message():
         print(f"Lỗi gửi Telegram: {e}")
         return jsonify({'status': 'error'}), 500
 
-# 2. API: Web quét liên tục (Polling) nhận tin trả lời từ Admin
+# 2. Web gọi liên tục để nhận phản hồi từ Admin
 @app.route('/api/get-messages', methods=['GET'])
 def get_messages():
     user_id = request.args.get('userId')
@@ -81,11 +77,11 @@ def get_messages():
         return jsonify({'status': 'closed', 'messages': []})
 
     msgs = message_queue.get(user_id, [])
-    message_queue[user_id] = [] # Xóa tin nhắn khỏi hàng chờ sau khi gửi xuống web
+    message_queue[user_id] = [] # Xóa sau khi đã gửi xuống web
 
     return jsonify({'status': 'active', 'messages': msgs})
 
-# 3. Webhook: Nhận dữ liệu trực tiếp từ Telegram khi Admin Reply hoặc gõ /stop
+# 3. Webhook nhận lệnh từ Telegram (Admin Reply hoặc gõ /stop ID)
 @app.route('/telegram-webhook', methods=['POST'])
 def telegram_webhook():
     update = request.json or {}
@@ -94,7 +90,7 @@ def telegram_webhook():
         msg = update['message']
         text = msg.get('text', '')
 
-        # Xử lý đóng chat bằng lệnh: /stop USER_1234
+        # Lệnh đóng chat: /stop USER_1234
         if text.startswith('/stop'):
             parts = text.split(' ')
             if len(parts) >= 2:
@@ -109,12 +105,12 @@ def telegram_webhook():
             else:
                 requests.post(f"{TELEGRAM_API}/sendMessage", json={
                     "chat_id": ADMIN_CHAT_ID,
-                    "text": "⚠️ Cú pháp sai! Hãy gõ: `/stop ID_KHÁCH` (Ví dụ: `/stop USER_1234`)",
+                    "text": "⚠️ Sai cú pháp! Gõ: `/stop ID_KHÁCH`",
                     "parse_mode": "Markdown"
                 })
             return jsonify({'status': 'ok'})
 
-        # Xử lý khi Admin dùng tính năng Reply (Trả lời) tin nhắn của Bot
+        # Admin dùng tính năng Reply để trả lời khách
         if 'reply_to_message' in msg:
             parent_msg_id = msg['reply_to_message']['message_id']
             target_user = reply_mapping.get(parent_msg_id)
@@ -123,7 +119,7 @@ def telegram_webhook():
                 if closed_sessions.get(target_user):
                     requests.post(f"{TELEGRAM_API}/sendMessage", json={
                         "chat_id": ADMIN_CHAT_ID,
-                        "text": f"⚠️ Phiên chat của khách `{target_user}` đã đóng trước đó!",
+                        "text": f"⚠️ Phiên chat của khách `{target_user}` đã bị đóng!",
                         "parse_mode": "Markdown"
                     })
                 else:
@@ -137,4 +133,4 @@ def telegram_webhook():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-            
+    
