@@ -3,66 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Đăng nhập / Đăng ký</title>
+    <title>Đăng nhập</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #141827;
-            --bg-surface: #1e253c;
-            --gold-primary: #eebf63;
-            --text-light: #ffffff;
-            --text-muted: #8b95b1;
+            --bg-main: #131726;
+            --bg-input: #20263b;
+            --gold: #dfb461;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #000; color: var(--text-light); display: flex; justify-content: center; height: 100vh; }
-        .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #000; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; position: relative; }
 
-        .auth-header { background-color: var(--gold-primary); color: #000; padding: 15px; text-align: center; font-weight: bold; position: relative; }
-        .auth-close { position: absolute; right: 15px; top: 15px; cursor: pointer; text-decoration: none; color: #000; }
+        .auth-header { background: var(--gold); padding: 15px; text-align: center; color: #000; font-weight: bold; position: relative; font-size: 16px; }
+        .close-btn { position: absolute; right: 15px; top: 15px; color: #000; text-decoration: none; font-size: 18px; }
 
-        .auth-logo { text-align: center; padding: 30px 0; color: var(--gold-primary); }
-        .auth-logo i { font-size: 40px; }
+        .logo-area { text-align: center; padding: 40px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .logo-area i { font-size: 45px; color: var(--gold); }
+        .logo-text { color: #fff; font-size: 14px; font-weight: normal; line-height: 1.4; text-align: left; }
 
-        .form { padding: 0 20px; flex: 1; }
-        .input-group { background: var(--bg-surface); padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid transparent; }
-        .input-group.active { border-color: var(--gold-primary); }
-        label { font-size: 12px; display: block; margin-bottom: 5px; }
-        input { width: 100%; background: transparent; border: none; color: #fff; font-size: 13px; outline: none; }
+        .form-area { padding: 0 20px; }
+        
+        .input-group { background: var(--bg-input); border-radius: 8px; padding: 10px 15px; margin-bottom: 2px; border: 1px solid transparent; }
+        .input-group.active { border-color: var(--gold); }
+        .input-label { font-size: 11px; color: #fff; font-weight: bold; margin-bottom: 5px; }
+        
+        .input-row { display: flex; justify-content: space-between; align-items: center; }
+        .input-row input { background: transparent; border: none; outline: none; color: #8b95b1; font-size: 13px; width: 100%; }
+        .input-row i { color: #8b95b1; font-size: 14px; margin-left: 10px; }
+        
+        .forgot-pw { border: 1px solid var(--gold); color: var(--gold); font-size: 10px; padding: 3px 8px; border-radius: 4px; white-space: nowrap; margin-left: 10px; cursor: pointer; }
 
-        .submit-btn { background: var(--gold-primary); color: #000; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-        .footer { text-align: center; margin-top: 20px; font-size: 12px; }
-        .footer a { color: var(--gold-primary); text-decoration: none; }
+        .submit-btn { background: #3b4259; color: #6b728b; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-top: 15px; margin-bottom: 15px; }
+
+        .footer-text { text-align: center; font-size: 12px; color: #fff; }
+        .footer-text span { color: var(--gold); cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="app-container">
         <div class="auth-header">
             Đăng nhập
-            <a href="lobby.html" class="auth-close"><i class="fa-solid fa-xmark"></i></a>
+            <a href="index.html" class="close-btn"><i class="fa-solid fa-xmark"></i></a>
         </div>
 
-        <div class="auth-logo">
-            <i class="fa-brands fa-monero"></i>
-            <h1 style="font-size:14px; font-weight:normal; margin-top:5px;">MEGA CASINO WORLD</h1>
-        </div>
-
-        <div class="form">
-            <div class="input-group active">
-                <label>Tên đăng nhập</label>
-                <input type="text" placeholder="gồm 4 ~ 16 ký tự, bao gồm chữ & số">
+        <div class="logo-area">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <i class="fa-brands fa-monero"></i>
+                <div class="logo-text">MEGA<br>CASINO<br>WORLD</div>
             </div>
-            <div class="input-group">
-                <label>Mật khẩu</label>
-                <div style="display:flex; justify-content:space-between;">
-                    <input type="password" placeholder="6–20 ký tự và số">
-                    <span style="color:var(--gold-primary); font-size:11px; cursor:pointer;">Quên mật khẩu</span>
+        </div>
+
+        <div class="form-area">
+            <!-- Active Input -->
+            <div class="input-group active">
+                <div class="input-label">Tên đăng nhập</div>
+                <div class="input-row">
+                    <input type="text" placeholder="gồm 4 ~ 16 ký tự, bao gồm chữ & số">
+                    <i class="fa-solid fa-circle-xmark"></i>
                 </div>
             </div>
 
-            <button class="submit-btn" onclick="window.location.href='lobby.html'">Đăng nhập</button>
+            <!-- Inactive Input -->
+            <div class="input-group">
+                <div class="input-label">Mật khẩu</div>
+                <div class="input-row">
+                    <input type="password" placeholder="6–20 ký tự và số">
+                    <div style="display:flex; align-items:center;">
+                        <i class="fa-solid fa-circle-xmark" style="margin-right:5px;"></i>
+                        <i class="fa-solid fa-eye-slash"></i>
+                        <div class="forgot-pw">Quên mật khẩu</div>
+                    </div>
+                </div>
+            </div>
 
-            <div class="footer">
-                Bạn chưa có tài khoản? <a href="#">Đăng ký</a>
+            <!-- Nút đăng nhập đang mờ (disabled) như trong ảnh -->
+            <button class="submit-btn">Đăng nhập</button>
+
+            <div class="footer-text">
+                Bạn chưa có tài khoản? <span>Đăng ký</span>
             </div>
         </div>
     </div>
