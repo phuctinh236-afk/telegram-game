@@ -1,523 +1,113 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ab666 Casino Lobby</title>
-    <!-- Thêm phông chữ clean sans-serif -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Thêm Font Awesome cho biểu tượng -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Định nghĩa biến màu sắc và phông chữ */
-        :root {
-            --bg-dark: #1e2a3a;
-            --bg-darker: #131d27;
-            --primary-gold: #dfb461;
-            --light-grey: #a0acba;
-            --header-dark: #0f181f;
-            --banner-gradient: linear-gradient(135deg, #7442eb 0%, #ac6ef1 100%);
-            --tile-green: #2ecc71;
-            --tile-orange: #f39c12;
-            --tile-red: #e74c3c;
-            --grey-tab-bg: #2d3b4b;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casio World</title>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--header-dark);
-            margin: 0;
-            padding: 0;
-            color: white;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Container chính cho ứng dụng di động */
-        .app-wrap {
-            max-width: 480px;
-            margin: 0 auto;
-            background-color: var(--bg-darker);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 70px; /* Chừa chỗ cho bottom nav */
-        }
-
-        /* --- Page Header (Ab666) --- */
-        .page-header {
-            background-color: var(--header-dark);
-            color: var(--light-grey);
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .header-title-main {
-            color: white;
-            font-weight: 600;
-        }
-
-        .header-icon {
-            cursor: pointer;
-        }
-
-        /* --- Header Bar (MEGA CASINO WORLD) --- */
-        .header-bar {
-            background-color: var(--bg-dark);
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .bar-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .menu-toggle {
-            color: var(--primary-gold);
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .bar-title {
-            color: var(--primary-gold);
-            font-weight: 600;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .cskh-pill {
-            background-color: rgba(223, 180, 97, 0.1);
-            border: 1px solid var(--primary-gold);
-            color: var(--primary-gold);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        /* --- Banner Area --- */
-        .banner-area {
-            background: var(--banner-gradient);
-            padding: 30px 15px 15px;
-            position: relative;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
-            margin-top: 10px;
-        }
-
-        .banner-crown {
-            color: var(--primary-gold);
-            font-size: 20px;
-            display: inline;
-        }
-
-        .banner-text-main {
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            margin: 10px 0 15px;
-            text-transform: uppercase;
-        }
-
-        .banner-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .pagi-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .pagi-dot.active {
-            background-color: #f39c12;
-            width: 14px;
-            border-radius: 5px;
-        }
-
-        /* --- Marquee/Notice --- */
-        .marquee-container {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            font-size: 11px;
-            color: #bdc3c7;
-            margin-top: 1px;
-        }
-
-        .marquee-icon {
-            color: var(--tile-red);
-            margin-right: 10px;
-            font-size: 12px;
-        }
-
-        .marquee-text-wrap {
-            display: flex;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .marquee-text {
-            display: inline-block;
-            white-space: nowrap;
-            padding-left: 100%;
-            animation: marquee 15s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
-
-        /* --- Game Category Tabs --- */
-        .category-tabs-wrap {
-            padding: 10px 15px;
-            background-color: var(--bg-darker);
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .tabs-flex {
-            display: flex;
-            gap: 10px;
-        }
-
-        .tab-btn {
-            background-color: var(--grey-tab-bg);
-            border: none;
-            color: var(--light-grey);
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            width: 70px;
-            font-weight: 500;
-        }
-
-        .tab-btn i {
-            font-size: 16px;
-            color: #bdc3c7;
-        }
-
-        .tab-btn.selected {
-            border: 1px solid rgba(223, 180, 97, 0.5);
-            color: var(--primary-gold);
-            background-color: rgba(223, 180, 97, 0.05);
-        }
-
-        .tab-btn.selected i {
-            color: var(--primary-gold);
-        }
-
-        /* --- Game Grid --- */
-        .game-grid-wrap {
-            padding: 15px;
-        }
-
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .game-tile {
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1 / 1;
-            cursor: pointer;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .game-tile i {
-            font-size: 35px;
-            margin-bottom: 10px;
-        }
-
-        .game-tile .icon-img-wrap {
-            height: 40px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .game-tile .game-icon-img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-
-        .game-text {
-            font-size: 11px;
-            font-weight: 500;
-            color: white;
-            text-align: center;
-            line-height: 1.2;
-            word-wrap: break-word;
-            width: 100%;
-            padding: 0 5px;
-        }
-
-        /* Specific tile styling to match 1:1 graphics with FA icons */
-        .tile-green { background-color: var(--tile-green); }
-        .tile-orange { background-color: var(--tile-orange); }
-        .tile-red { background-color: var(--tile-red); }
-
-        .game-tile.dice i { font-size: 40px; }
-        .game-tile.candy i { font-size: 40px; }
-        .game-tile.light-bolt i { font-size: 40px; }
-
-        /* --- Bottom Navigation --- */
-        .bottom-nav-fixed {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background-color: var(--header-dark);
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            text-decoration: none;
-            color: var(--light-grey);
-            font-size: 11px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            width: 70px;
-            text-align: center;
-        }
-
-        .nav-item i {
-            font-size: 18px;
-        }
-
-        .nav-item.active {
-            color: var(--primary-gold);
-        }
-
-        .nav-item.profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-direction: column;
-            color: var(--light-grey);
-            font-size: 11px;
-        }
-
-        .profile-img-frame {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            border: 2px solid #5a646d;
-            overflow: hidden;
-            background-color: #34495e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-img-placeholder {
-            width: 100%;
-            height: 100%;
-            background-color: #34495e;
-        }
-
-        /* Đảm bảo text không bị quấn cho bottom nav text */
-        .nav-item span {
-            white-space: nowrap;
-        }
-
-    </style>
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <div class="app-wrap">
-        <!-- --- Page Header (Ab666) --- -->
-        <header class="page-header">
-            <div class="header-left">
-                <i class="fas fa-times header-icon"></i>
-                <span class="header-title-main">Ab666</span>
-                <i class="fas fa-chevron-down header-icon" style="font-size: 13px;"></i>
-            </div>
-            <i class="fas fa-ellipsis-v header-icon"></i>
-        </header>
 
-        <!-- --- Header Bar (MEGA CASINO WORLD) --- -->
-        <div class="header-bar">
-            <div class="bar-left">
-                <i class="fas fa-bars menu-toggle"></i>
-                <span class="bar-title">MEGA CASINO WORLD</span>
-            </div>
-            <div class="cskh-pill">
-                <i class="fas fa-headset" style="font-size: 10px;"></i> CSKH
-            </div>
-        </div>
+<header>
 
-        <!-- --- Banner Area --- -->
-        <div class="banner-area">
-            <div class="banner-crown-wrap">
-                <i class="fas fa-crown banner-crown"></i>
-            </div>
-            <p class="banner-text-main">VIP CLUB - ĐẶC QUYỀN ĐỘC QUYỀN</p>
-            <div class="banner-pagination">
-                <div class="pagi-dot"></div>
-                <div class="pagi-dot"></div>
-                <div class="pagi-dot active"></div>
-            </div>
-        </div>
+<div class="menu">☰</div>
 
-        <!-- --- Marquee/Notice --- -->
-        <div class="marquee-container">
-            <i class="fas fa-volume-up marquee-icon"></i>
-            <div class="marquee-text-wrap">
-                <div class="marquee-text">Thông báo: Chào mừng thành viên mới tham gia sảnh game Tài Xỉu VIP</div>
-            </div>
-        </div>
+<div class="logo">
+<h2>CASIO</h2>
+<p>WORLD</p>
+</div>
 
-        <!-- --- Game Category Tabs --- -->
-        <div class="category-tabs-wrap">
-            <div class="tabs-flex">
-                <button class="tab-btn selected">
-                    <i class="fas fa-fire"></i> HOT
-                </button>
-                <button class="tab-btn">
-                    <i class="fas fa-piggy-bank"></i> ĐÁ GÀ
-                </button>
-                <button class="tab-btn">
-                    <i class="fas fa-gem"></i> Slots
-                </button>
-                <button class="tab-btn">
-                    <i class="fas fa-id-card"></i> Casino
-                </button>
-                <button class="tab-btn">
-                    <i class="fas fa-gamepad"></i> Game Bài
-                </button>
-            </div>
-        </div>
+<div class="support">
+💬
+</div>
 
-        <!-- --- Game Grid --- -->
-        <div class="game-grid-wrap">
-            <div class="game-grid">
-                <!-- Row 1 -->
-                <div class="game-tile tile-green dice">
-                    <i class="fas fa-dice"></i>
-                    <span class="game-text">Tài Xỉu VIP</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fab fa-dyalog" style="color: #2ecc71;"></i> <!-- simplified dragon -->
-                    <span class="game-text">Dragon Gems</span>
-                </div>
-                <div class="game-tile tile-orange candy">
-                    <i class="fas fa-candy-cane"></i>
-                    <span class="game-text">Mithai Madn...</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-eagle"></i>
-                    <span class="game-text">Fortune Gods</span>
-                </div>
+</header>
 
-                <!-- Row 2 -->
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-crown"></i>
-                    <span class="game-text">NCVIP Super</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-joker"></i>
-                    <span class="game-text">Ultra Ace</span>
-                </div>
-                <div class="game-tile tile-orange light-bolt">
-                    <i class="fas fa-bolt"></i>
-                    <span class="game-text">NCVIP Gates</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-dove"></i> <!-- simple parrot-like animal -->
-                    <span class="game-text">NC Bountiful</span>
-                </div>
+<div class="banner">
+<img id="banner" src="img/banner1.jpg">
+</div>
 
-                <!-- Row 3 -->
-                <div class="game-tile tile-red">
-                    <i class="fas fa-th-large" style="font-size: 30px;"></i> <!-- simple mahjong shape -->
-                    <span class="game-text">Mahjong Ways</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-sack-dollar"></i>
-                    <span class="game-text">Pinata Wins</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-shark"></i>
-                    <span class="game-text">Jackpot Fish</span>
-                </div>
-                <div class="game-tile tile-orange">
-                    <i class="fas fa-ferris-wheel"></i>
-                    <span class="game-text">Crazy Time</span>
-                </div>
-            </div>
-        </div>
+<div class="notice">
+<marquee>🎉 Chào mừng đến với Casio World | Nhận 10000 Casio miễn phí khi đăng ký</marquee>
+</div>
 
-        <!-- --- Fixed Bottom Navigation --- -->
-        <nav class="bottom-nav-fixed">
-            <a href="#" class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Trang chủ</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-gift"></i>
-                <span>Khuyến mãi</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-credit-card"></i>
-                <span>Nạp tiền</span>
-            </a>
-            <a href="#" class="nav-item profile">
-                <div class="profile-img-frame">
-                    <div class="profile-img-placeholder"></div>
-                </div>
-                <span>Tài khoản</span>
-            </a>
-        </nav>
+<div class="wallet">
 
-    </div>
+<div>
+<p>Số dư</p>
+<h2 id="money">10,000 CC</h2>
+</div>
+
+<button>Nạp</button>
+
+</div>
+
+<div class="category">
+
+<button class="active">HOT</button>
+<button>Slots</button>
+<button>Tài Xỉu</button>
+<button>Mini</button>
+<button>Event</button>
+
+</div>
+
+<div class="games">
+
+<div class="card">
+<img src="img/taixiu.png">
+<p>Tài Xỉu</p>
+</div>
+
+<div class="card">
+<img src="img/slot.png">
+<p>Slots</p>
+</div>
+
+<div class="card">
+<img src="img/spin.png">
+<p>Vòng Quay</p>
+</div>
+
+<div class="card">
+<img src="img/highlow.png">
+<p>Cao Thấp</p>
+</div>
+
+<div class="card">
+<img src="img/mines.png">
+<p>Mines</p>
+</div>
+
+<div class="card">
+<img src="img/dice.png">
+<p>Xúc Xắc</p>
+</div>
+
+<div class="card">
+<img src="img/lucky.png">
+<p>Lucky</p>
+</div>
+
+<div class="card">
+<img src="img/more.png">
+<p>Sắp ra mắt</p>
+</div>
+
+</div>
+
+<nav>
+
+<button>🏠</button>
+<button>🎁</button>
+<button>💰</button>
+<button>👤</button>
+
+</nav>
+
+<script src="js/main.js"></script>
+
 </body>
-                </html>
-                
+</html>
