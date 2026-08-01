@@ -3,226 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ab666 - Đăng nhập / Đăng ký</title>
+    <title>Đăng nhập / Đăng ký</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --bg-main: #141827;
+            --bg-surface: #1e253c;
+            --gold-primary: #eebf63;
+            --text-light: #ffffff;
+            --text-muted: #8b95b1;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #000; color: var(--text-light); display: flex; justify-content: center; height: 100vh; }
+        .app-container { width: 100%; max-width: 480px; height: 100%; background-color: var(--bg-main); display: flex; flex-direction: column; }
 
-        body {
-            background-color: #050b14;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+        .auth-header { background-color: var(--gold-primary); color: #000; padding: 15px; text-align: center; font-weight: bold; position: relative; }
+        .auth-close { position: absolute; right: 15px; top: 15px; cursor: pointer; text-decoration: none; color: #000; }
 
-        .auth-container {
-            width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            max-height: 850px;
-            background: linear-gradient(135deg, #0b1a2d 0%, #030811 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 24px;
-            position: relative;
-            box-shadow: 0 0 25px rgba(0,0,0,0.9);
-        }
+        .auth-logo { text-align: center; padding: 30px 0; color: var(--gold-primary); }
+        .auth-logo i { font-size: 40px; }
 
-        .auth-logo {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 900;
-            color: #ffd700;
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-        }
+        .form { padding: 0 20px; flex: 1; }
+        .input-group { background: var(--bg-surface); padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid transparent; }
+        .input-group.active { border-color: var(--gold-primary); }
+        label { font-size: 12px; display: block; margin-bottom: 5px; }
+        input { width: 100%; background: transparent; border: none; color: #fff; font-size: 13px; outline: none; }
 
-        .auth-subtitle {
-            text-align: center;
-            font-size: 11px;
-            color: #bdc3c7;
-            margin-bottom: 25px;
-        }
-
-        /* SWITCH TAB ĐĂNG NHẬP / ĐĂNG KÝ */
-        .auth-tabs {
-            display: flex;
-            background: #09121d;
-            border: 1px solid #1f2c47;
-            border-radius: 8px;
-            padding: 4px;
-            margin-bottom: 20px;
-        }
-
-        .auth-tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: none;
-            border: none;
-            color: #7f8c8d;
-            font-weight: bold;
-            font-size: 12px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: 0.2s;
-        }
-
-        .auth-tab-btn.active {
-            background: linear-gradient(135deg, #f39c12, #d35400);
-            color: #fff;
-        }
-
-        /* FORM NHẬP LIỆU */
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-label {
-            font-size: 10px;
-            color: #f39c12;
-            font-weight: bold;
-        }
-
-        .form-input {
-            width: 100%;
-            background: #0f1c2e;
-            border: 1px solid #1f2c47;
-            border-radius: 8px;
-            padding: 12px;
-            color: #fff;
-            font-size: 12px;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        .form-input:focus {
-            border-color: #ffd700;
-        }
-
-        .auth-submit-btn {
-            margin-top: 10px;
-            background: linear-gradient(135deg, #f39c12, #d35400);
-            border: none;
-            color: #fff;
-            font-weight: bold;
-            padding: 13px;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .auth-submit-btn:active {
-            transform: scale(0.98);
-        }
+        .submit-btn { background: var(--gold-primary); color: #000; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; }
+        .footer a { color: var(--gold-primary); text-decoration: none; }
     </style>
 </head>
 <body>
-
-    <div class="auth-container">
-        <div class="auth-logo">Ab666</div>
-        <div class="auth-subtitle">Hệ thống giải trí Mega Casino World</div>
-
-        <!-- Tab chuyển đổi -->
-        <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="tabLogin" onclick="switchMode('login')">ĐĂNG NHẬP</button>
-            <button class="auth-tab-btn" id="tabRegister" onclick="switchMode('register')">ĐĂNG KÝ</button>
+    <div class="app-container">
+        <div class="auth-header">
+            Đăng nhập
+            <a href="lobby.html" class="auth-close"><i class="fa-solid fa-xmark"></i></a>
         </div>
 
-        <!-- Form -->
-        <div class="auth-form">
-            <div class="form-group">
-                <span class="form-label">Tên tài khoản</span>
-                <input type="text" class="form-input" id="usernameInput" placeholder="Nhập tên tài khoản...">
+        <div class="auth-logo">
+            <i class="fa-brands fa-monero"></i>
+            <h1 style="font-size:14px; font-weight:normal; margin-top:5px;">MEGA CASINO WORLD</h1>
+        </div>
+
+        <div class="form">
+            <div class="input-group active">
+                <label>Tên đăng nhập</label>
+                <input type="text" placeholder="gồm 4 ~ 16 ký tự, bao gồm chữ & số">
+            </div>
+            <div class="input-group">
+                <label>Mật khẩu</label>
+                <div style="display:flex; justify-content:space-between;">
+                    <input type="password" placeholder="6–20 ký tự và số">
+                    <span style="color:var(--gold-primary); font-size:11px; cursor:pointer;">Quên mật khẩu</span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <span class="form-label">Mật khẩu</span>
-                <input type="password" class="form-input" id="passwordInput" placeholder="Nhập mật khẩu...">
-            </div>
+            <button class="submit-btn" onclick="window.location.href='lobby.html'">Đăng nhập</button>
 
-            <div class="form-group" id="confirmGroup" style="display: none;">
-                <span class="form-label">Xác nhận mật khẩu</span>
-                <input type="password" class="form-input" id="confirmInput" placeholder="Nhập lại mật khẩu...">
+            <div class="footer">
+                Bạn chưa có tài khoản? <a href="#">Đăng ký</a>
             </div>
-
-            <button class="auth-submit-btn" id="submitBtn" onclick="handleSubmit()">ĐĂNG NHẬP NGAY</button>
         </div>
     </div>
-
-    <script>
-        let currentMode = 'login'; // 'login' hoặc 'register'
-
-        function switchMode(mode) {
-            currentMode = mode;
-            const tabLogin = document.getElementById('tabLogin');
-            const tabRegister = document.getElementById('tabRegister');
-            const confirmGroup = document.getElementById('confirmGroup');
-            const submitBtn = document.getElementById('submitBtn');
-
-            if(mode === 'login') {
-                tabLogin.classList.add('active');
-                tabRegister.classList.remove('active');
-                confirmGroup.style.display = 'none';
-                submitBtn.innerText = "ĐĂNG NHẬP NGAY";
-            } else {
-                tabRegister.classList.add('active');
-                tabLogin.classList.remove('active');
-                confirmGroup.style.display = 'flex';
-                submitBtn.innerText = "ĐĂNG KÝ TÀI KHOẢN";
-            }
-        }
-
-        function handleSubmit() {
-            const user = document.getElementById('usernameInput').value.trim();
-            const pass = document.getElementById('passwordInput').value.trim();
-
-            if(!user || !pass) {
-                alert("Vui lòng nhập đầy đủ thông tin tài khoản và mật khẩu!");
-                return;
-            }
-
-            if(currentMode === 'register') {
-                const confirmPass = document.getElementById('confirmInput').value.trim();
-                if(pass !== confirmPass) {
-                    alert("Mật khẩu xác nhận không khớp!");
-                    return;
-                }
-                // Lưu tài khoản đăng ký tạm thời vào localStorage
-                localStorage.setItem('ab666_username', user);
-                localStorage.setItem('ab666_balance', '0.37'); // Mặc định tài khoản mới khởi tạo 0.37
-                alert("Đăng ký thành công! Đang chuyển vào sảnh game...");
-            } else {
-                // Đăng nhập
-                localStorage.setItem('ab666_username', user);
-                if(!localStorage.getItem('ab666_balance')) {
-                    localStorage.setItem('ab666_balance', '0.37');
-                }
-                alert("Đăng nhập thành công!");
-            }
-
-            // Chuyển hướng sang file sảnh game chính
-            window.location.href = 'lobby.html';
-        }
-    </script>
 </body>
 </html>
